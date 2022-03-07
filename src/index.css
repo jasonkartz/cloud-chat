@@ -1,13 +1,28 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  body {
+    @apply p-4 bg-blue-400;
+  }
+  [type="text"],
+  [type="password"],
+  [type="email"],
+  [type="number"],
+  [type="url"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="week"],
+  [type="time"],
+  [type="search"],
+  [type="tel"],
+  [type="checkbox"],
+  [type="radio"],
+  [multiple],
+  textarea,
+  select {
+    @apply focus:ring-blue-500 focus:border-blue-500;
+  }
 }
