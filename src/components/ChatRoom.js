@@ -3,22 +3,27 @@ import {
   collection,
   orderBy,
   query,
-  limit,
+  limitToLast,
   serverTimestamp,
   addDoc,
 } from "firebase/firestore";
 import { db, auth } from "../backend/firebase-config";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function ChatRoom() {
   const messagesRef = collection(db, "messages");
-  const q = query(messagesRef, orderBy("createdAt"), limit(25));
+  const q = query(messagesRef, orderBy("createdAt"), limitToLast(25));
   const [messages] = useCollectionData(q, { idField: "id" });
 
   const [formValue, setFormValue] = useState("");
 
-  const dummy = useRef()
+  const dummy = useRef();
+
+  useEffect(
+    () => dummy.current.scrollIntoView({ behavior: "smooth" }),
+    [messages]
+  );
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -33,17 +38,17 @@ export default function ChatRoom() {
     });
 
     setFormValue("");
-    dummy.current.scrollIntoView({behavior: 'smooth'})
+    dummy.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <>
       <main className="flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300 grow">
         {messages &&
-          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
-          <div ref={dummy}>
-
-          </div>
+          messages.map((msg, index) => (
+            <ChatMessage key={index} message={msg} />
+          ))}
+        <div ref={dummy}></div>
       </main>
       <form
         onSubmit={sendMessage}
@@ -60,7 +65,7 @@ export default function ChatRoom() {
           className="w-12 h-12 font-bold text-blue-100 bg-blue-500 rounded disabled:opacity-50 drop-shadow hover:text-blue-50 active:drop-shadow-sm"
           disabled={!formValue}
         >
-          <i class="ri-send-plane-fill"></i>
+          <i className="ri-send-plane-fill"></i>
         </button>
       </form>
     </>
