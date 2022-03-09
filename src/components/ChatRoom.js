@@ -38,7 +38,6 @@ export default function ChatRoom() {
     });
 
     setFormValue("");
-    dummy.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -62,7 +61,8 @@ export default function ChatRoom() {
         ></input>
         <button
           type="submit"
-          className="w-12 h-12 font-bold text-blue-100 bg-blue-500 rounded disabled:opacity-50 drop-shadow hover:text-blue-50 active:drop-shadow-sm"
+          className="w-12 h-12 font-bold text-blue-100 bg-blue-500 rounded 
+          disabled:opacity-50 drop-shadow hover:text-yellow-100 active:drop-shadow-sm"
           disabled={!formValue}
         >
           <i className="ri-send-plane-fill"></i>
