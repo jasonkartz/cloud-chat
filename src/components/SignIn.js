@@ -28,8 +28,7 @@ export default function SignIn() {
     <>
       <section className="bg-blue-300"></section>
       <button
-        className="px-2 py-1 font-bold text-blue-100 bg-blue-500 rounded-b 
-        drop-shadow hover:text-yellow-100 active:drop-shadow-sm"
+        className="signin-btn"
         onClick={signInWithGoogle}
       >
         Sign in with Google

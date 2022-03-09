@@ -5,15 +5,17 @@ import ChatRoom from "./components/ChatRoom";
 import SignIn from "./components/SignIn";
 import SignOut from "./components/SignOut";
 
-
 function App() {
   const [user] = useAuthState(auth);
+  console.log(user);
   return (
     <div className="main-container">
       <nav className="header">
         <h1 className="logo">
-          <i className="ri-cloud-fill"></i> Cloud Chat
+          <i className="ri-cloud-fill"></i>CloudChat
         </h1>
+
+        
         <SignOut user={user} />
       </nav>
       {user ? <ChatRoom /> : <SignIn />}

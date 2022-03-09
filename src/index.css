@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply p-4 bg-blue-400;
-  }
   [type="text"],
   [type="password"],
   [type="email"],
@@ -23,18 +20,52 @@
   [multiple],
   textarea,
   select {
-    @apply focus:ring-blue-500 focus:border-blue-500;
+    @apply border-blue-100 focus:ring-blue-500 focus:border-blue-500 focus:bg-white text-slate-800;
+  }
+  body {
+    @apply p-4 bg-blue-400;
   }
 }
 
 @layer components {
   .main-container {
-    @apply container mx-auto rounded drop-shadow-xl sm:w-5/6 md:w-4/6 lg:w-3/6 h-[95vh] flex flex-col;
+    @apply container mx-auto rounded drop-shadow-xl max-w-xl h-[95vh] flex flex-col;
   }
   .header {
-    @apply flex justify-between p-2 bg-blue-100 bg-opacity-25 rounded-t md:text-lg;
+    @apply flex justify-between p-2 bg-blue-100 bg-opacity-25 rounded-t;
   }
   .logo {
-    @apply flex gap-2 text-2xl italic font-black tracking-wide text-blue-100 hover:cursor-default md:text-3xl;
+    @apply flex gap-1 text-2xl italic font-black tracking-wide text-blue-100 hover:cursor-default;
+  }
+  .chat-box {
+    @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300 grow;
+  }
+  .message-input {
+    @apply h-12 p-1 rounded shadow-inner text-slate-800 grow bg-blue-50;
+  }
+  .message-form {
+    @apply flex items-center justify-between gap-2 p-2 bg-blue-100 bg-opacity-25 rounded-b md:text-lg;
+  }
+  .message-btn {
+    @apply w-12 h-12 font-bold text-blue-100 bg-blue-500 rounded disabled:opacity-50 disabled:drop-shadow-none drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
+  }
+  .signin-btn {
+    @apply px-2 py-1 font-bold text-blue-100 bg-blue-500 rounded-b bg-gradient-to-b from-[#4995f2] to-blue-500 active:bg-none drop-shadow hover:text-yellow-100 active:drop-shadow-sm
+  }
+  .signout-btn {
+    @apply px-1.5 py-0.5 font-bold text-blue-100 bg-blue-500 rounded drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
+  }
+}
+
+@layer components {
+  main::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  main::-webkit-scrollbar-track {
+    @apply bg-none;
+  }
+  
+  main::-webkit-scrollbar-thumb {
+    @apply bg-opacity-50 rounded-full bg-blue-50;
   }
 }
