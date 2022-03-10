@@ -32,7 +32,7 @@
     @apply container mx-auto rounded drop-shadow-xl max-w-xl h-[95vh] flex flex-col;
   }
   .header {
-    @apply flex justify-between p-2 bg-blue-100 bg-opacity-25 rounded-t;
+    @apply flex flex-col gap-1 p-2 bg-blue-100 bg-opacity-25 rounded-t z-10;
   }
   .logo {
     @apply flex gap-1 text-2xl italic font-black tracking-wide text-blue-100 hover:cursor-default;
@@ -55,9 +55,6 @@
   .signout-btn {
     @apply px-1.5 py-0.5 font-bold text-blue-100 bg-blue-500 rounded drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
   }
-}
-
-@layer components {
   main::-webkit-scrollbar {
     width: 0.5rem;
   }
