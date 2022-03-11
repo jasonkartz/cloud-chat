@@ -5,8 +5,8 @@ export default function SignOut({ user }) {
   return (
     user && (
       <>
-        <button className="signout-btn" onClick={() => signOut(auth)}>
-          Sign Out
+        <button className="settings-btn" onClick={() => signOut(auth)}>
+          <i className="align-bottom ri-logout-box-line"></i> Sign Out 
         </button>
       </>
     )
