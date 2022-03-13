@@ -43,13 +43,13 @@ export default function ChatRoom() {
 
   return (
     <>
-      <main className="chat-box">
+      <main className="main-box">
         {messages &&
           messages.map((msg, index) => (
             <ChatMessage key={index} message={msg} />
           ))}
         <div ref={dummy}></div>
-      </main>
+        </main>
       <form onSubmit={sendMessage} className="message-form">
         <input
           type="text"
