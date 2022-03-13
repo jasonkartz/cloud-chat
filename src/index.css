@@ -22,6 +22,13 @@
   select {
     @apply border-blue-100 focus:ring-blue-500 focus:border-blue-500 focus:bg-white text-slate-800;
   }
+  [type=file] {
+    @apply rounded focus:outline-blue-500/50 focus:outline-none;
+  }
+  [type=file]::file-selector-button {
+    @apply bg-blue-600 px-1.5 py-0.5 font-bold text-blue-100 rounded 
+    hover:text-yellow-100 shadow border-none cursor-pointer;
+  }
   body {
     @apply p-4 bg-blue-200;
   }
@@ -29,19 +36,25 @@
 
 @layer components {
   .main-container {
-    @apply container mx-auto rounded drop-shadow-xl max-w-xl h-[95vh] flex flex-col;
+    @apply container mx-auto drop-shadow-xl max-w-xl h-[95vh] flex flex-col;
   }
   .header {
-    @apply flex flex-col gap-1 p-2 bg-blue-400 rounded-t;
+    @apply flex flex-col gap-1 p-2 bg-blue-400 rounded-t-lg;
   }
   .logo {
     @apply flex gap-1 text-2xl italic font-black tracking-wide text-blue-100 select-none;
   }
-  .chat-box {
-    @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300 grow;
+  .blue-heading {
+    @apply text-xl font-black tracking-wide text-blue-600 select-none;
+  }
+  .main-box {
+    @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300 rounded-b-lg;
   }
   .message-input {
     @apply h-12 p-1 rounded shadow-inner text-slate-800 grow bg-blue-50;
+  }
+  .form-input {
+    @apply w-3/6 p-2 text-lg rounded shadow-inner text-slate-800 bg-blue-50;
   }
   .message-form {
     @apply flex items-center justify-between gap-2 p-2 bg-blue-400 rounded-b md:text-lg;
@@ -49,11 +62,23 @@
   .message-btn {
     @apply w-12 h-12 font-bold text-blue-100 bg-blue-600 rounded disabled:opacity-50 disabled:drop-shadow-none drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
   }
-  .signin-btn {
-    @apply px-2 py-1 font-bold text-blue-100 bg-blue-600 rounded-b bg-gradient-to-b from-[#4995f2] to-blue-600 active:bg-none drop-shadow hover:text-yellow-100 active:drop-shadow-sm
+  .settings-form {
+    @apply flex flex-col items-start gap-2 text-blue-700;
   }
-  .settings-btn {
-    @apply px-1.5 py-0.5 font-bold text-blue-100 rounded drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
+  .settings-section {
+    @apply flex flex-col gap-2 p-2;
+  }
+  .signin-btn {
+    @apply transition px-2 py-1 font-bold text-blue-100 bg-blue-600 rounded-b bg-gradient-to-b from-[#4995f2] to-blue-600 active:bg-none drop-shadow hover:text-yellow-100 active:drop-shadow-sm
+  }
+  .menu-btn {
+    @apply transition px-1.5 py-0.5 font-bold text-blue-100 rounded drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
+  }
+  .btn {
+    @apply transition bg-blue-600 px-1.5 py-0.5 font-bold text-blue-100 rounded drop-shadow hover:text-yellow-100 active:drop-shadow-sm cursor-pointer;
+  }
+  .drop-menu {
+    @apply fixed z-10 w-full p-2 text-right border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
   }
   main::-webkit-scrollbar {
     width: 0.5rem;
@@ -64,5 +89,18 @@
   
   main::-webkit-scrollbar-thumb {
     @apply bg-opacity-50 rounded-full bg-blue-50;
+  }
+}
+
+@layer utilities {
+  .m-fadeOut {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 200ms cubic-bezier(0.61, 1, 0.88, 1) 0ms, opacity 200ms;
+  }
+  .m-fadeIn {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 200ms cubic-bezier(0.61, 1, 0.88, 1) 0ms, opacity 200ms;
   }
 }

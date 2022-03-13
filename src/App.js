@@ -2,14 +2,21 @@ import "./index.css";
 import { auth } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ChatRoom from "./components/ChatRoom";
+import UserSettings from "./components/UserSettings";
 import SignIn from "./components/SignIn";
-import SignOut from "./components/SignOut";
+import MainMenu from "./components/MainMenu";
 import { useState } from "react";
 
 function App() {
   const [user] = useAuthState(auth);
   const [openMenu, setOpenMenu] = useState(false);
-  //console.log(user);
+  console.log(user);
+  const screenMap = {
+    chat: <ChatRoom />,
+    settings: <UserSettings user={user} />,
+  };
+  const [screen, setScreen] = useState(screenMap.chat);
+
   return (
     <div className="main-container">
       <header className={`header`}>
@@ -19,13 +26,14 @@ function App() {
           </h1>
           <div className="flex justify-end gap-2">
             {user && (
-              <p className="flex items-center gap-1 text-sm font-bold text-yellow-100 select-none">
-                <i className="text-green-300 ri-user-3-fill"></i> {user.displayName}
+              <p className="flex items-center gap-1 text-sm font-bold select-none text-blue-50">
+                <i className="text-green-300 ri-user-3-fill animate-pulse"></i>{" "}
+                {user.displayName}
               </p>
             )}
             <i
-              className={`ri-settings-4-fill text-3xl hover:cursor-pointer hover:text-yellow-50 
-          ${openMenu ? "text-yellow-100" : "text-blue-600"} ${
+              className={`text-blue-100 transition text-3xl hover:cursor-pointer hover:text-yellow-100 
+          ${openMenu ? "ri-close-line" : "ri-menu-5-line"} ${
                 !user && "hidden"
               }`}
               onClick={() => setOpenMenu(!openMenu)}
@@ -33,30 +41,14 @@ function App() {
           </div>
         </div>
       </header>
-      <nav
-        className={`flex flex-col items-end select-none`}
-      >
-        <ul className={`fixed w-full p-2 text-right bg-blue-400/90 drop-shadow-b border-t-blue-50/50 border-t-2 ${
-          !openMenu && "hidden"
-        }`}>
-          <li>
-            <button className="settings-btn"><i className="ri-user-settings-line"></i> User Settings</button>
-          </li>
-          <li>
-            <button className="settings-btn"><i className="ri-search-line"></i> Public Chats</button>
-          </li>
-          <li>
-            <button className="settings-btn"><i className="ri-chat-private-line"></i> Direct Chat</button>
-          </li>
-          <li>
-          <button className="settings-btn"><i className="ri-chat-new-line"></i> Create Chat</button>
-          </li>
-          <li>
-            <SignOut user={user} />
-          </li>
-        </ul>
-      </nav>
-      {user ? <ChatRoom /> : <SignIn />}
+      <MainMenu
+        user={user}
+        setOpenMenu={setOpenMenu}
+        setScreen={setScreen}
+        openMenu={openMenu}
+        screenMap={screenMap}
+      />
+      {user ? screen : <SignIn />}
     </div>
   );
 }
