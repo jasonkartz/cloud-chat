@@ -1,36 +1,35 @@
 import { useUpdateProfile } from "react-firebase-hooks/auth";
-import { ref, uploadBytes } from "firebase/storage";
-import { auth, storage } from "../backend/firebase-config";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../backend/firebase-config";
 import { useState } from "react";
 
 export default function UserSettings(props) {
   const types = ["image/jpeg", "image/png"];
-  const [image, setImage] = useState(null);
-  const [photoURL, setPhotoURL] = useState("");
 
-  const [displayName, setDisplayName] = useState("");
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
 
-  const [updateProfile, updating, error] = useUpdateProfile(auth);
+  const handleImage = (e) => {
+    let selected = e.target.files[0];
 
-
-
-  const imageUpload = () => {
-    const imageRef = ref(storage, image.name);
-    uploadBytes(imageRef, image).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-    });
+    if (selected && types.includes(selected.type)) {
+      setFile(selected);
+      setError(null);
+    } else {
+      setFile(null);
+      setError("Please select an image file (png or jpeg)");
+    }
   };
 
-  if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-      </div>
-    );
-  }
-  if (updating) {
-    return <p>Updating...</p>;
-  }
+  const imageSubmit = () => {
+    
+    let fileRef = ref(storage, "images/" + file.name);
+    const uploadTask = uploadBytesResumable(fileRef, file);
+    uploadTask.on("state_changed", (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done')
+    });
+  };
 
   return (
     <>
@@ -43,16 +42,18 @@ export default function UserSettings(props) {
             width="100"
             className="rounded"
           />
-          <form className="settings-form" onSubmit={imageUpload}>
-            <input
-              type="file"
-              value={photoURL}
-              onChange={(e) => e.target.files[0] && types.includes(e.target.type) && setImage(e.target.files[0])}
-            />
-            <button type="submit" className="btn">
-              Change Photo
+          <div className="settings-form">
+            <input type="file" onChange={handleImage} />
+            <button
+              type="submit"
+              className="btn"
+              onClick={imageSubmit}
+            >
+              Upload Image
             </button>
-          </form>
+            {error && <div className="text-red-500 error">{error}</div>}
+            {file && <div className="error">{file.name}</div>}
+          </div>
         </section>
         <section className="settings-section">
           <h2 className="blue-heading">Display Name</h2>
