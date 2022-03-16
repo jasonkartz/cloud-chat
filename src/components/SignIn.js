@@ -5,7 +5,8 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, provider } from "../backend/firebase-config";
+import { collection, setDoc, doc } from "firebase/firestore";
+import { auth, provider, db } from "../backend/firebase-config";
 import { useState } from "react";
 
 export default function SignIn() {
@@ -20,10 +21,10 @@ export default function SignIn() {
     password: "",
   });
 
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider);
-  };
 
+  const signInWithGoogle = async () => {
+    signInWithPopup(auth, provider)
+  }
   return (
     <>
       <section className="bg-blue-300"></section>
@@ -36,3 +37,17 @@ export default function SignIn() {
     </>
   );
 }
+
+/*
+const createAccount = async () => {
+    const { uid, displayName, email, photoURL } = auth.currentUser;
+    const accountRef = doc(db, "accounts", uid)
+    await setDoc(accountRef, {
+      uid: uid,
+      name:"",
+      displayName: displayName,
+      email: email,
+      photoURL: photoURL,
+    })
+  }
+*/
