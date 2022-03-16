@@ -28,14 +28,12 @@ export default function ChatRoom() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL, displayName } = auth.currentUser;
+    const { uid } = auth.currentUser;
 
     await addDoc(messagesRef, {
       text: formValue,
       createdAt: serverTimestamp(),
       uid,
-      photoURL,
-      displayName,
     });
 
     setFormValue("");

@@ -17,9 +17,9 @@ export default function ChatMessage(props) {
           className="rounded"
         />
         <div className={`flex flex-col p-1 gap-1 ${uid === auth.currentUser.uid ? "items-end":"items-start"}`}>
-          <p className="text-blue-900 text-xs">{displayName || ""}</p>
+          <p className="text-xs text-blue-900">{displayName || ""}</p>
 
-          <p className="text-slate-900 bg-blue-100 p-1 rounded-lg">{text}</p>
+          <p className="p-1 bg-blue-100 rounded-lg text-slate-900">{text}</p>
         </div>
       </div>
     </>

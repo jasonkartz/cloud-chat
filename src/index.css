@@ -23,11 +23,11 @@
     @apply border-blue-100 focus:ring-blue-500 focus:border-blue-500 focus:bg-white text-slate-800;
   }
   [type=file] {
-    @apply rounded focus:outline-blue-500/50 focus:outline-none;
+    @apply invisible;
   }
   [type=file]::file-selector-button {
     @apply bg-blue-600 px-1.5 py-0.5 font-bold text-blue-100 rounded 
-    hover:text-yellow-100 shadow border-none cursor-pointer;
+    hover:text-yellow-100 shadow border-none cursor-pointer visible;
   }
   body {
     @apply p-4 bg-blue-200;
@@ -60,22 +60,24 @@
     @apply flex items-center justify-between gap-2 p-2 bg-blue-400 rounded-b md:text-lg;
   }
   .message-btn {
-    @apply w-12 h-12 font-bold text-blue-100 bg-blue-600 rounded disabled:opacity-50 disabled:drop-shadow-none drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
-  }
-  .settings-form {
-    @apply flex flex-col items-start gap-2 text-blue-700;
+    @apply w-12 h-12 font-bold text-blue-100 bg-blue-600 rounded disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
   }
   .settings-section {
-    @apply flex flex-col gap-2 p-2;
+    @apply flex flex-col items-start gap-2 p-2 text-blue-700;
   }
   .signin-btn {
-    @apply transition px-2 py-1 font-bold text-blue-100 bg-blue-600 rounded-b bg-gradient-to-b from-[#4995f2] to-blue-600 active:bg-none drop-shadow hover:text-yellow-100 active:drop-shadow-sm
+    @apply transition px-2 py-1 font-bold text-blue-100 bg-blue-600 rounded-b 
+    bg-gradient-to-b from-[#4995f2] to-blue-600 active:bg-none drop-shadow 
+    hover:text-yellow-100 active:drop-shadow-sm
   }
   .menu-btn {
-    @apply transition px-1.5 py-0.5 font-bold text-blue-100 rounded drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
+    @apply transition px-1.5 py-0.5 font-bold text-blue-100 rounded drop-shadow 
+    hover:text-yellow-100 active:drop-shadow-sm;
   }
   .btn {
-    @apply transition bg-blue-600 px-1.5 py-0.5 font-bold text-blue-100 rounded drop-shadow hover:text-yellow-100 active:drop-shadow-sm cursor-pointer;
+    @apply transition bg-blue-600 px-1.5 py-0.5 font-bold text-blue-100 rounded drop-shadow 
+    hover:text-yellow-100 active:drop-shadow-sm cursor-pointer 
+    disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 disabled:cursor-default;
   }
   .drop-menu {
     @apply fixed z-10 w-full p-2 text-right border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
