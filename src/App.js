@@ -1,20 +1,22 @@
 import "./index.css";
-import { auth } from "./backend/firebase-config";
+import { auth, db } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { collection, addDoc, doc } from "firebase/firestore";
 import ChatRoom from "./components/ChatRoom";
 import UserSettings from "./components/UserSettings";
 import SignIn from "./components/SignIn";
 import MainMenu from "./components/MainMenu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [user] = useAuthState(auth);
   const [openMenu, setOpenMenu] = useState(false);
-  console.log(user);
+  
   const screenMap = {
     chat: <ChatRoom />,
     settings: <UserSettings user={user} />,
   };
+  
   const [screen, setScreen] = useState(screenMap.chat);
 
   return (
