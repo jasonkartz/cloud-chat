@@ -6,6 +6,10 @@ import {
   limitToLast,
   serverTimestamp,
   addDoc,
+  doc,
+  getDoc,
+  getDocs,
+  where
 } from "firebase/firestore";
 import { db, auth } from "../backend/firebase-config";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -13,8 +17,8 @@ import { useState, useRef, useEffect } from "react";
 
 export default function ChatRoom() {
   const messagesRef = collection(db, "messages");
-  const q = query(messagesRef, orderBy("createdAt"), limitToLast(25));
-  const [messages] = useCollectionData(q, { idField: "id" });
+  const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
+  const [messages] = useCollectionData(messagesQ, { idField: "id" });
 
   const [formValue, setFormValue] = useState("");
 
@@ -43,11 +47,13 @@ export default function ChatRoom() {
     <>
       <main className="main-box">
         {messages &&
-          messages.map((msg, index) => (
-            <ChatMessage key={index} message={msg} />
-          ))}
+          messages.map((message, index) => {
+            return <ChatMessage key={index} message={message} />
+          }
+            
+          )}
         <div ref={dummy}></div>
-        </main>
+      </main>
       <form onSubmit={sendMessage} className="message-form">
         <input
           type="text"

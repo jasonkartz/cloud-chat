@@ -1,12 +1,18 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-import { storage, auth } from "../backend/firebase-config";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { storage, auth, db } from "../backend/firebase-config";
 import { useState } from "react";
 
 export default function UserSettings(props) {
   const types = ["image/jpeg", "image/png"];
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
+
+  const { uid, displayName, email, photoURL } = auth.currentUser;
+  const accountRef = doc(db, "accounts", auth.currentUser.uid);
+
+  let progress;
 
   const handleImage = (e) => {
     let selected = e.target.files[0];
@@ -29,9 +35,8 @@ export default function UserSettings(props) {
     uploadRef.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setUploadStatus("Uploading... " + progress + "%");
+        progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadStatus("uploading");
       },
       () => (error) => {
         setUploadStatus("upload error");
@@ -41,11 +46,12 @@ export default function UserSettings(props) {
 
         await updateProfile(auth.currentUser, { photoURL: url })
           .then(() => {
-            setUploadStatus("Image updated!");
+            setUploadStatus("complete");
+            updateDoc(accountRef, { name: displayName });
             setFile(null);
           })
           .catch((error) => {
-            setUploadStatus("An error occured");
+            setUploadStatus("error");
             setFile(null);
           });
       }
@@ -69,11 +75,18 @@ export default function UserSettings(props) {
           {file && (
             <div className="text-blue-50">File selected: {file.name}</div>
           )}
-          <button type="submit" className="btn" disabled={!file} onClick={imageSubmit}>
-            Upload Image
+          <button
+            type="submit"
+            className={`btn`}
+            disabled={!file || uploadStatus === "uploading"}
+            onClick={imageSubmit}
+          >
+           {uploadStatus === "uploading" ? <div className="flex gap-1">Uploading <div className="animate-spin"><i className="ri-loader-5-line"></i></div></div> : "Upload Image"}
           </button>
-
-          {uploadStatus && <div>{uploadStatus}</div>}
+          
+          {uploadStatus === "uploading" ? "Uploading..." + progress + "%" :
+          uploadStatus === "complete" ? "Image updated!" :
+          uploadStatus === "error" ? "An error occured" : ""}
         </section>
 
         {/* DISPLAY NAME */}
