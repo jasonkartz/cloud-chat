@@ -9,7 +9,7 @@ import {
   doc,
   getDoc,
   getDocs,
-  where
+  where,
 } from "firebase/firestore";
 import { db, auth } from "../backend/firebase-config";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -18,7 +18,9 @@ import { useState, useRef, useEffect } from "react";
 export default function ChatRoom() {
   const messagesRef = collection(db, "messages");
   const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
-  const [messages] = useCollectionData(messagesQ, { idField: "id" });
+  const [messages, loading, error] = useCollectionData(messagesQ, {
+    idField: "id",
+  });
 
   const [formValue, setFormValue] = useState("");
 
@@ -46,12 +48,23 @@ export default function ChatRoom() {
   return (
     <>
       <main className="main-box">
+        {loading && (
+          <main className="main-box">
+            <h2 className="flex gap-1 blue-heading">
+              Loading
+              <div className="animate-spin">
+                <i className="ri-loader-5-line"></i>
+              </div>
+            </h2>
+          </main>
+        )}
+        {error && (
+          <main className="main-box">{`Error Loading Content :(`}</main>
+        )}
         {messages &&
           messages.map((message, index) => {
-            return <ChatMessage key={index} message={message} />
-          }
-            
-          )}
+            return <ChatMessage key={index} message={message} />;
+          })}
         <div ref={dummy}></div>
       </main>
       <form onSubmit={sendMessage} className="message-form">

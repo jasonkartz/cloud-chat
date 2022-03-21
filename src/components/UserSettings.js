@@ -1,18 +1,23 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { storage, auth, db } from "../backend/firebase-config";
 import { useState } from "react";
 
 export default function UserSettings(props) {
+  const { uid, displayName, email, photoURL } = auth.currentUser;
+  const accountRef = doc(db, "accounts", uid);
+  const [account, loading, error] = useDocumentData(accountRef);
+
+  
+
   const types = ["image/jpeg", "image/png"];
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  const { uid, displayName, email, photoURL } = auth.currentUser;
-  const accountRef = doc(db, "accounts", auth.currentUser.uid);
-
-  let progress;
+  const [userNameForm, setUserNameForm] = useState("");
 
   const handleImage = (e) => {
     let selected = e.target.files[0];
@@ -35,7 +40,9 @@ export default function UserSettings(props) {
     uploadRef.on(
       "state_changed",
       (snapshot) => {
-        progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
         setUploadStatus("uploading");
       },
       () => (error) => {
@@ -47,7 +54,7 @@ export default function UserSettings(props) {
         await updateProfile(auth.currentUser, { photoURL: url })
           .then(() => {
             setUploadStatus("complete");
-            updateDoc(accountRef, { name: displayName });
+            updateDoc(accountRef, { photoURL: url });
             setFile(null);
           })
           .catch((error) => {
@@ -58,98 +65,138 @@ export default function UserSettings(props) {
     );
   };
 
-  return (
-    <>
+  if (loading) {
+    return (
       <main className="main-box">
-        {/* USER IMAGE */}
-        <section className="settings-section">
-          <h2 className="blue-heading">Profile Image</h2>
-          <img
-            src={auth.currentUser.photoURL}
-            alt="user"
-            width="100"
-            className="rounded"
-          />
-
-          <input type="file" onChange={handleImage} />
-          {file && (
-            <div className="text-blue-50">File selected: {file.name}</div>
-          )}
-          <button
-            type="submit"
-            className={`btn`}
-            disabled={!file || uploadStatus === "uploading"}
-            onClick={imageSubmit}
-          >
-           {uploadStatus === "uploading" ? <div className="flex gap-1">Uploading <div className="animate-spin"><i className="ri-loader-5-line"></i></div></div> : "Upload Image"}
-          </button>
-          
-          {uploadStatus === "uploading" ? "Uploading..." + progress + "%" :
-          uploadStatus === "complete" ? "Image updated!" :
-          uploadStatus === "error" ? "An error occured" : ""}
-        </section>
-
-        {/* DISPLAY NAME */}
-        <section className="settings-section">
-          <h2 className="blue-heading">Display Name</h2>
-
-          <input
-            type="text"
-            placeholder={auth.currentUser.displayName}
-            className="form-input"
-          />
-          <button type="submit" className="btn">
-            Change Display Name
-          </button>
-        </section>
-
-        {/* EMAIL */}
-        <section className="settings-section">
-          <h2 className="blue-heading">Email</h2>
-
-          <input
-            type="text"
-            placeholder={auth.currentUser.email}
-            className="form-input"
-          />
-          <button type="submit" className="btn">
-            Change Email
-          </button>
-        </section>
-
-        {/* PASSWORD */}
-        <section className="settings-section">
-          <h2 className="blue-heading">Password</h2>
-
-          <input
-            type="text"
-            placeholder="Enter Your Current Password"
-            className="form-input"
-          />
-          <input
-            type="text"
-            placeholder="Enter Your New Password"
-            className="form-input"
-          />
-          <button type="submit" className="btn">
-            Change Password
-          </button>
-        </section>
-
-        {/* DELETE ACCOUNT */}
-        <section className="settings-section">
-          <h2 className="blue-heading">Delete Account</h2>
-
-          <input
-            type="text"
-            placeholder="Type DELETE in all caps"
-            className="form-input"
-          />
-          <button type="submit" className="btn">
-            Delete Account
-          </button>
-        </section>
+        <h2 className="flex gap-1 blue-heading">
+          Loading
+          <div className="animate-spin">
+            <i className="ri-loader-5-line"></i>
+          </div>
+        </h2>
       </main>
-    </>
-  );
+    );
+  } else if (account) {
+    console.log(account);
+    return (
+      <>
+        <main className="main-box">
+          {/* USER IMAGE */}
+          <section className="settings-section">
+            <h2 className="blue-heading">Profile Image</h2>
+            <img src={photoURL} alt="user" width="100" className="rounded" />
+
+            <input type="file" onChange={handleImage} />
+            {file && (
+              <div className="text-blue-50">File selected: {file.name}</div>
+            )}
+            <button
+              type="submit"
+              className={`btn`}
+              disabled={!file || uploadStatus === "uploading"}
+              onClick={imageSubmit}
+            >
+              {uploadStatus === "uploading" ? (
+                <div className="flex gap-1">
+                  Uploading
+                  <div className="animate-spin">
+                    <i className="ri-loader-5-line"></i>
+                  </div>
+                </div>
+              ) : (
+                "Upload Image"
+              )}
+            </button>
+
+            {uploadStatus === "uploading"
+              ? "Uploading... " + uploadProgress + "%"
+              : uploadStatus === "complete"
+              ? "Image updated!"
+              : uploadStatus === "error"
+              ? "An error occured"
+              : ""}
+          </section>
+
+          {/* USER NAME */}
+          <section className="settings-section">
+            <h2 className="blue-heading">User Name</h2>
+
+            <input
+              type="text"
+              placeholder={account.userName || "Create User Name"}
+              className="form-input"
+              value={userNameForm}
+              onChange={(e) => setUserNameForm(e.target.value)}
+            />
+            <button type="submit" className="btn">
+              {account.userName ? "Update User Name" : "Create User Name"}
+            </button>
+          </section>
+
+          {/* NAME */}
+          <section className="settings-section">
+            <h2 className="blue-heading">Name</h2>
+
+            <input
+              type="text"
+              placeholder={displayName}
+              className="form-input"
+            />
+            <button type="submit" className="btn">
+              Change Display Name
+            </button>
+          </section>
+
+          {/* EMAIL */}
+          <section className="settings-section">
+            <h2 className="blue-heading">Email</h2>
+
+            <input type="text" placeholder={email} className="form-input" />
+            <button type="submit" className="btn">
+              Change Email
+            </button>
+          </section>
+
+          {/* PASSWORD */}
+          <section className="settings-section">
+            <h2 className="blue-heading">Password</h2>
+
+            <input
+              type="text"
+              placeholder="Enter Your Current Password"
+              className="form-input"
+            />
+            <input
+              type="text"
+              placeholder="Enter Your New Password"
+              className="form-input"
+            />
+            <button type="submit" className="btn">
+              Change Password
+            </button>
+          </section>
+
+          {/* DELETE ACCOUNT */}
+          <section className="settings-section">
+            <h2 className="blue-heading">Delete Account</h2>
+
+            <input
+              type="text"
+              placeholder="Type DELETE in all caps"
+              className="form-input"
+            />
+            <button type="submit" className="btn">
+              Delete Account
+            </button>
+          </section>
+        </main>
+      </>
+    );
+  } else if (error) {
+    return (
+      <main className="main-box">
+        {`Error Loading Content :(`}
+      </main>
+    );
+  }
 }
