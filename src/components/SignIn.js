@@ -34,7 +34,7 @@ export default function SignIn() {
       setDoc(accountRef, {
         uid: uid,
         name: displayName,
-        displayName: null,
+        userName: "",
         email: email,
         photoURL: photoURL,
         lastLogin: serverTimestamp(),
