@@ -5,8 +5,8 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, provider, db } from "../backend/firebase-config";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { auth, googleAuth, db } from "../backend/firebase-config";
+import { doc, setDoc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 
 export default function SignIn() {
@@ -27,7 +27,7 @@ export default function SignIn() {
     const docSnap = getDoc(accountRef)
 
     if (docSnap.exists) {
-      setDoc(accountRef, {
+      updateDoc(accountRef, {
         lastLogin: serverTimestamp(),
       });
     } else {
@@ -43,7 +43,7 @@ export default function SignIn() {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, provider).then(() => syncAccount());
+    await signInWithPopup(auth, googleAuth).then(() => syncAccount());
   };
   return (
     <>

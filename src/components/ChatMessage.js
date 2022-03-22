@@ -57,7 +57,13 @@ export default function ChatMessage(props) {
         </div>
       </>
     );
-  } else if (account) {
+  } else if (error) {
+    return (
+      <p className="text-red-800">
+        <i className="ri-error-warning-line"></i> Error Loading Message
+      </p>
+    );
+  } else {
     return (
       <>
         <div className={`flex items-center gap-1 ${messageClass}`}>
@@ -79,7 +85,5 @@ export default function ChatMessage(props) {
         </div>
       </>
     );
-  } else if (error) {
-    return <main className="main-box">{`Error Loading Content :(`}</main>;
   }
 }
