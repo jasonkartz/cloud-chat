@@ -56,6 +56,7 @@ export default function UserSettings(props) {
             setUploadStatus("complete");
             updateDoc(accountRef, { photoURL: url });
             setFile(null);
+            setTimeout(() => setUploadStatus(""), 5000)
           })
           .catch((error) => {
             setUploadStatus("error");
@@ -88,7 +89,7 @@ export default function UserSettings(props) {
 
             <input type="file" onChange={handleImage} />
             {file && (
-              <div className="text-blue-50">File selected: {file.name}</div>
+              <div>File selected: {file.name}</div>
             )}
             <button
               type="submit"
