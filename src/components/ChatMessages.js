@@ -1,5 +1,5 @@
 import ChatMessage from "./ChatMessage";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 export default function ChatMessages(props) {
     const dummy = useRef();

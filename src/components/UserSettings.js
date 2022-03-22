@@ -6,18 +6,16 @@ import { storage, auth, db } from "../backend/firebase-config";
 import { useState } from "react";
 
 export default function UserSettings(props) {
-  const { uid, displayName, email, photoURL } = auth.currentUser;
+  const { uid, displayName, email } = auth.currentUser;
   const accountRef = doc(db, "accounts", uid);
   const [account, loading, error] = useDocumentData(accountRef);
 
-  
+  /* USER IMAGE */
 
   const types = ["image/jpeg", "image/png"];
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
-
-  const [userNameForm, setUserNameForm] = useState("");
 
   const handleImage = (e) => {
     let selected = e.target.files[0];
@@ -56,7 +54,7 @@ export default function UserSettings(props) {
             setUploadStatus("complete");
             updateDoc(accountRef, { photoURL: url });
             setFile(null);
-            setTimeout(() => setUploadStatus(""), 5000)
+            setTimeout(() => setUploadStatus(""), 5000);
           })
           .catch((error) => {
             setUploadStatus("error");
@@ -64,6 +62,19 @@ export default function UserSettings(props) {
           });
       }
     );
+  };
+
+  /* USER NAME */
+
+  const [userNameForm, setUserNameForm] = useState("");
+  const [userNameStatus, setUserNameStatus] = useState("");
+
+  const userNameSubmit = () => {
+    updateDoc(accountRef, { userName: userNameForm }).then(() => {
+      setUserNameStatus("Username Updated: " + userNameForm);
+      setUserNameForm("");
+      setTimeout(() => setUserNameStatus(""), 5000);
+    });
   };
 
   if (loading) {
@@ -78,19 +89,22 @@ export default function UserSettings(props) {
       </main>
     );
   } else if (account) {
-    console.log(account);
+    console.log(userNameForm);
     return (
       <>
         <main className="main-box">
           {/* USER IMAGE */}
           <section className="settings-section">
             <h2 className="blue-heading">Profile Image</h2>
-            <img src={photoURL} alt="user" width="100" className="rounded" />
+            <img
+              src={account.photoURL}
+              alt="user"
+              width="100"
+              className="rounded"
+            />
 
             <input type="file" onChange={handleImage} />
-            {file && (
-              <div>File selected: {file.name}</div>
-            )}
+            {file && <div>File selected: {file.name}</div>}
             <button
               type="submit"
               className={`btn`}
@@ -129,9 +143,10 @@ export default function UserSettings(props) {
               value={userNameForm}
               onChange={(e) => setUserNameForm(e.target.value)}
             />
-            <button type="submit" className="btn">
+            <button type="submit" className="btn" onClick={userNameSubmit}>
               {account.userName ? "Update User Name" : "Create User Name"}
             </button>
+            <p>{userNameStatus}</p>
           </section>
 
           {/* NAME */}
@@ -194,10 +209,6 @@ export default function UserSettings(props) {
       </>
     );
   } else if (error) {
-    return (
-      <main className="main-box">
-        {`Error Loading Content :(`}
-      </main>
-    );
+    return <main className="main-box">{`Error Loading Content :(`}</main>;
   }
 }

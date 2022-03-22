@@ -1,4 +1,6 @@
 import ChatMessages from "./ChatMessages";
+import Error from "./Error";
+import Loading from "./Loading";
 import {
   collection,
   orderBy,
@@ -39,23 +41,14 @@ export default function ChatRoom() {
   };
 
   if (loading) {
-    return (
-      <h2 className="flex gap-1 blue-heading">
-        Loading
-        <div className="animate-spin">
-          <i className="ri-loader-5-line"></i>
-        </div>
-      </h2>
-    );
+    return <Loading />;
   } else if (error) {
-    return (
-      <h2 className="flex gap-1 blue-heading">{`Error Loading Content :(`}</h2>
-    );
+    return <Error />;
   } else {
     return (
       <>
-        <ChatMessages messages={messages}/>
-        
+        <ChatMessages messages={messages} />
+
         <form onSubmit={sendMessage} className="message-form">
           <input
             type="text"
