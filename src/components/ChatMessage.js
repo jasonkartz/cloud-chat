@@ -29,12 +29,16 @@ export default function ChatMessage(props) {
   const messageClass =
     uid === auth.currentUser.uid ? "flex-row-reverse self-end" : "";
 
-    
   if (loading) {
     return (
       <>
         <div className={`flex items-center gap-1 ${messageClass}`}>
-          <img src={defaultPic} alt="user" width="45" className={`rounded`} />
+          <img
+            src={defaultPic}
+            alt="user"
+            width="45"
+            className={`rounded animate-pulse`}
+          />
           <div
             className={`flex flex-col p-1 gap-1 ${
               uid === auth.currentUser.uid ? "items-end" : "items-start"
@@ -46,7 +50,9 @@ export default function ChatMessage(props) {
               </span>
             </p>
 
-            <p className="p-1 bg-blue-100 rounded-lg text-slate-900">{text}</p>
+            <p className="p-1 bg-blue-100 rounded-lg text-slate-900 animate-pulse">
+              Loading...
+            </p>
           </div>
         </div>
       </>

@@ -1,4 +1,4 @@
-import ChatMessage from "./ChatMessage";
+import ChatMessages from "./ChatMessages";
 import {
   collection,
   orderBy,
@@ -24,13 +24,6 @@ export default function ChatRoom() {
 
   const [formValue, setFormValue] = useState("");
 
-  const dummy = useRef();
-
-  useEffect(
-    () => dummy.current.scrollIntoView({ behavior: "smooth" }),
-    [messages]
-  );
-
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -45,40 +38,37 @@ export default function ChatRoom() {
     setFormValue("");
   };
 
-  return (
-    <>
-      <main className="main-box">
-        {loading && (
-          <main className="main-box">
-            <h2 className="flex gap-1 blue-heading">
-              Loading
-              <div className="animate-spin">
-                <i className="ri-loader-5-line"></i>
-              </div>
-            </h2>
-          </main>
-        )}
-        {error && (
-          <main className="main-box">{`Error Loading Content :(`}</main>
-        )}
-        {messages &&
-          messages.map((message, index) => {
-            return <ChatMessage key={index} message={message} />;
-          })}
-        <div ref={dummy}></div>
-      </main>
-      <form onSubmit={sendMessage} className="message-form">
-        <input
-          type="text"
-          className="message-input"
-          placeholder="Say something nice"
-          value={formValue}
-          onChange={(e) => setFormValue(e.target.value)}
-        ></input>
-        <button type="submit" className="message-btn" disabled={!formValue}>
-          <i className="ri-send-plane-fill"></i>
-        </button>
-      </form>
-    </>
-  );
+  if (loading) {
+    return (
+      <h2 className="flex gap-1 blue-heading">
+        Loading
+        <div className="animate-spin">
+          <i className="ri-loader-5-line"></i>
+        </div>
+      </h2>
+    );
+  } else if (error) {
+    return (
+      <h2 className="flex gap-1 blue-heading">{`Error Loading Content :(`}</h2>
+    );
+  } else {
+    return (
+      <>
+        <ChatMessages messages={messages}/>
+        
+        <form onSubmit={sendMessage} className="message-form">
+          <input
+            type="text"
+            className="message-input"
+            placeholder="Say something nice"
+            value={formValue}
+            onChange={(e) => setFormValue(e.target.value)}
+          ></input>
+          <button type="submit" className="message-btn" disabled={!formValue}>
+            <i className="ri-send-plane-fill"></i>
+          </button>
+        </form>
+      </>
+    );
+  }
 }
