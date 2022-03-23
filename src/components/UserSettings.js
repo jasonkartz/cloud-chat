@@ -1,5 +1,5 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
+import { updateProfile, updateEmail } from "firebase/auth";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { storage, auth, db } from "../backend/firebase-config";
@@ -69,12 +69,47 @@ export default function UserSettings(props) {
   const [userNameForm, setUserNameForm] = useState("");
   const [userNameStatus, setUserNameStatus] = useState("");
 
-  const userNameSubmit = () => {
-    updateDoc(accountRef, { userName: userNameForm }).then(() => {
+  const userNameSubmit = async () => {
+    await updateDoc(accountRef, { userName: userNameForm }).then(() => {
       setUserNameStatus("Username Updated: " + userNameForm);
       setUserNameForm("");
       setTimeout(() => setUserNameStatus(""), 5000);
     });
+  };
+
+  /* NAME */
+
+  const [nameForm, setNameForm] = useState("");
+  const [nameStatus, setNameStatus] = useState("");
+
+  const nameSubmit = async () => {
+    await updateProfile(auth.currentUser, { displayName: nameForm }).then(() =>
+      updateDoc(accountRef, { name: nameForm }).then(() => {
+        setNameStatus("Name updated: " + nameForm);
+        setNameForm("");
+        setTimeout(() => setNameStatus(""), 5000);
+      })
+    );
+  };
+
+  /* EMAIL */
+  const [emailForm, setEmailForm] = useState("");
+  const [emailStatus, setEmailStatus] = useState("");
+
+  const emailSubmit = async () => {
+    await updateEmail(auth.currentUser, emailForm)
+      .then(() => {
+        updateDoc(accountRef, { email: emailForm }).then(() => {
+          setEmailStatus("Email updated: " + emailForm);
+          setEmailForm("");
+          setTimeout(() => setEmailStatus(""), 5000);
+        });
+      })
+      .catch((error) => {
+        setEmailStatus("Error updating email. Please try again.");
+        setEmailForm("");
+        setTimeout(() => setEmailStatus(""), 5000);
+      });
   };
 
   if (loading) {
@@ -143,7 +178,12 @@ export default function UserSettings(props) {
               value={userNameForm}
               onChange={(e) => setUserNameForm(e.target.value)}
             />
-            <button type="submit" className="btn" onClick={userNameSubmit}>
+            <button
+              type="submit"
+              className="btn"
+              onClick={userNameSubmit}
+              disabled={!userNameForm}
+            >
               {account.userName ? "Update User Name" : "Create User Name"}
             </button>
             <p>{userNameStatus}</p>
@@ -155,22 +195,44 @@ export default function UserSettings(props) {
 
             <input
               type="text"
-              placeholder={displayName}
+              placeholder={account.name}
               className="form-input"
+              value={nameForm}
+              onChange={(e) => setNameForm(e.target.value)}
             />
-            <button type="submit" className="btn">
+            <button
+              type="submit"
+              className="btn"
+              disabled={!nameForm}
+              onClick={nameSubmit}
+            >
               Change Display Name
             </button>
+            <p>{nameStatus}</p>
           </section>
 
           {/* EMAIL */}
           <section className="settings-section">
             <h2 className="blue-heading">Email</h2>
 
-            <input type="text" placeholder={email} className="form-input" />
-            <button type="submit" className="btn">
+            <input
+              type="email"
+              placeholder={email}
+              className="form-input"
+              value={emailForm}
+              onChange={(e) => {
+                setEmailForm(e.target.value);
+              }}
+            />
+            <button
+              type="submit"
+              className="btn"
+              disabled={!emailForm}
+              onClick={emailSubmit}
+            >
               Change Email
             </button>
+            <p>{emailStatus}</p>
           </section>
 
           {/* PASSWORD */}
