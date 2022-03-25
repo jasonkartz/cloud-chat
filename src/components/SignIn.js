@@ -1,10 +1,14 @@
 import {
   signInWithPopup,
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import { auth, googleAuth, db } from "../backend/firebase-config";
 import {
   doc,
@@ -18,16 +22,28 @@ import { useState } from "react";
 export default function SignIn() {
   const [signUpView, setSignUpView] = useState(false);
 
-  const [register, setRegister] = useState({
+  const [registerData, setRegisterData] = useState({
+    name: "",
     email: "",
     username: "",
     password: "",
+    passwordCheck: "",
   });
-  const [SignIn, setSignIn] = useState({
+
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+
+  console.log(registerEmail + " " + registerPassword);
+
+  const [registerMessage, setRegisterMessage] = useState("");
+
+  const [SignInData, setSignInData] = useState({
     email: "",
-    username: "",
     password: "",
   });
+
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   const syncAccount = () => {
     const { uid, displayName, email, photoURL } = auth.currentUser;
@@ -47,6 +63,40 @@ export default function SignIn() {
         photoURL: photoURL,
         lastLogin: serverTimestamp(),
       });
+    }
+  };
+
+  const register = async () => {
+    if (registerPassword === registerData.passwordCheck) {
+      await createUserWithEmailAndPassword(
+        auth,
+        registerEmail,
+        registerPassword
+      ).then((userCredential) => {
+        if (userCredential.user) {
+          const { uid } = auth.currentUser;
+          const accountRef = doc(db, "accounts", auth.currentUser.uid);
+          setDoc(accountRef, {
+            uid: uid,
+            name: registerData.name,
+            userName: registerData.username,
+            email: registerEmail,
+            photoURL: "",
+            lastLogin: serverTimestamp(),
+          });
+        }
+      }).catch(error => {
+        setRegisterMessage(error.code + " " + error.message)
+        setTimeout(() => setRegisterMessage(""), 5000);
+      })
+    } else {
+      setRegisterMessage("Passwords did not match! Try again.");
+      setRegisterData({
+        ...registerData,
+        password: "",
+        passwordCheck: "",
+      });
+      setTimeout(() => setRegisterMessage(""), 5000);
     }
   };
 
@@ -72,7 +122,9 @@ export default function SignIn() {
           />
           <div className="flex flex-col gap-2">
             <button className="btn">Sign in</button>
-            <button className="btn" onClick={() => setSignUpView(true)}>Create an account</button>
+            <button className="btn" onClick={() => setSignUpView(true)}>
+              Create an account
+            </button>
           </div>
         </section>
 
@@ -85,30 +137,54 @@ export default function SignIn() {
             type="text"
             placeholder="Your full name"
             className="form-input"
+            value={registerData.name}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, name: e.target.value })
+            }
           />
           <input
             type="email"
             placeholder="Your email"
             className="form-input"
+            value={registerEmail}
+            onChange={(e) => setRegisterEmail(e.target.value)}
           />
           <input
             type="text"
             placeholder="Create a username"
             className="form-input"
+            value={registerData.username}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, username: e.target.value })
+            }
           />
           <input
             type="password"
             placeholder="Create a password"
             className="form-input"
+            value={registerPassword}
+            onChange={(e) => setRegisterPassword(e.target.value)}
           />
           <input
             type="password"
             placeholder="Re-enter password"
             className="form-input"
+            value={registerData.passwordCheck}
+            onChange={(e) =>
+              setRegisterData({
+                ...registerData,
+                passwordCheck: e.target.value,
+              })
+            }
           />
           <div className="flex flex-col gap-2">
-            <button className="btn">Sign Up</button>
-            <button className="btn" onClick={() => setSignUpView(false)}>Have an account?</button>
+            <button className="btn" onClick={register}>
+              Sign Up
+            </button>
+            <p>{registerMessage}</p>
+            <button className="btn" onClick={() => setSignUpView(false)}>
+              Have an account?
+            </button>
           </div>
         </section>
 
