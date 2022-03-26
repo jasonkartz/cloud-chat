@@ -6,10 +6,19 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { storage, auth, db } from "../backend/firebase-config";
 import { useState } from "react";
 
-export default function UserSettings(props) {
+export default function UserSettings() {
   const { uid, displayName, email } = auth.currentUser;
   const accountRef = doc(db, "accounts", uid);
   const [account, loading, error] = useDocumentData(accountRef);
+
+  /* collect all sign-in poviders linked to user */
+  const providerIdList = []
+
+  if (auth.currentUser !== null) {
+    auth.currentUser.providerData.forEach((profile) => {
+      providerIdList.push(profile.providerId)
+    });
+  }
 
   /* USER IMAGE */
 
@@ -32,7 +41,7 @@ export default function UserSettings(props) {
 
   const imageSubmit = () => {
     const imagePath =
-      "users/" + props.user.uid + "/user-image." + file.name.split(".").pop();
+      "users/" + uid + "/user-image." + file.name.split(".").pop();
     let fileRef = ref(storage, imagePath);
     const uploadRef = uploadBytesResumable(fileRef, file);
 
@@ -112,6 +121,10 @@ export default function UserSettings(props) {
         setTimeout(() => setEmailStatus(""), 5000);
       });
   };
+
+  /* PASSWORD */
+  const [passwordForm, setPasswordForm] = useState({ current: "", new: "" });
+  const [passwordStatus, setPasswordStatus] = useState("");
 
   if (loading) {
     return (
@@ -237,23 +250,36 @@ export default function UserSettings(props) {
           </section>
 
           {/* PASSWORD */}
-          <section className="settings-section">
+          
+          {providerIdList.includes("password") && <section className="settings-section">
             <h2 className="blue-heading">Password</h2>
 
             <input
-              type="text"
-              placeholder="Enter Your Current Password"
+              type="password"
+              placeholder="Enter your current password"
               className="form-input"
+              value={passwordForm.current}
+              onChange={(e) =>
+                setPasswordForm({ ...passwordForm, current: e.target.value })
+              }
             />
             <input
-              type="text"
-              placeholder="Enter Your New Password"
+              type="password"
+              placeholder="Enter your new password"
               className="form-input"
+              value={passwordForm.new}
+              onChange={(e) =>
+                setPasswordForm({ ...passwordForm, new: e.target.value })
+              }
             />
-            <button type="submit" className="btn">
+            <button
+              type="submit"
+              disabled={!passwordForm.current || !passwordForm.new}
+              className={`btn`}
+            >
               Change Password
             </button>
-          </section>
+          </section>}
 
           {/* DELETE ACCOUNT */}
           <section className="settings-section">
