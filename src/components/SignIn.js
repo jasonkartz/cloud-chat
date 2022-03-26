@@ -4,6 +4,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth, googleAuth, db } from "../backend/firebase-config";
 import {
@@ -69,6 +70,7 @@ export default function SignIn() {
           if (userCredential.user) {
             const { uid } = auth.currentUser;
             const accountRef = doc(db, "accounts", uid);
+            updateProfile(auth.currentUser, {displayName: name})
             setDoc(accountRef, {
               uid: uid,
               name: name,
