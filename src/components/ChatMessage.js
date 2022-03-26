@@ -8,6 +8,20 @@ export default function ChatMessage(props) {
   const accountRef = doc(db, "accounts", uid);
   const [account, loading, error] = useDocumentData(accountRef);
 
+  const photoStatus = () => {
+    if (loading) {
+      return (
+        <span className="animate-spin">
+          <i className="ri-loader-5-line"></i>
+        </span>
+      );
+    } else if (account) {
+      return account.photoURL || defaultPic;
+    } else {
+      return defaultPic
+    }
+  };
+  
   const nameStatus = () => {
     if (loading) {
       return (
@@ -20,7 +34,7 @@ export default function ChatMessage(props) {
     } else {
       return (
         <>
-          <i className="ri-error-warning-line"></i> Error loading username
+          <i className="ri-close-circle-line"></i> Deleted User
         </>
       );
     }
@@ -68,7 +82,7 @@ export default function ChatMessage(props) {
       <>
         <div className={`flex items-center gap-1 ${messageClass}`}>
           <img
-            src={account.photoURL || defaultPic}
+            src={photoStatus()}
             alt="user"
             width="45"
             className={`rounded`}

@@ -10,7 +10,7 @@ export default function ChatMessages(props) {
   );
   return (
     <>
-      <main className="main-box">
+      <main className="chat-box">
         {props.messages.map((message, index) => {
           return <ChatMessage key={index} message={message} />;
         })}

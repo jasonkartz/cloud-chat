@@ -50,6 +50,9 @@
   .main-box {
     @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300 rounded-b-lg;
   }
+  .chat-box {
+    @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300;
+  }
   .message-input {
     @apply h-12 p-1 rounded shadow-inner text-slate-800 grow bg-blue-50;
   }
