@@ -1,3 +1,4 @@
+import defaultPic from "../images/cloud-fill.png";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { updateProfile, updateEmail } from "firebase/auth";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
@@ -132,7 +133,7 @@ export default function UserSettings(props) {
           <section className="settings-section">
             <h2 className="blue-heading">Profile Image</h2>
             <img
-              src={account.photoURL}
+              src={account.photoURL || defaultPic}
               alt="user"
               width="100"
               className="rounded"
@@ -206,7 +207,7 @@ export default function UserSettings(props) {
               disabled={!nameForm}
               onClick={nameSubmit}
             >
-              Change Display Name
+              Change Name
             </button>
             <p>{nameStatus}</p>
           </section>
