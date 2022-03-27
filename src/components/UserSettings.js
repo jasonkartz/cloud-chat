@@ -1,7 +1,18 @@
 import defaultPic from "../images/cloud-fill.png";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { updateProfile, updateEmail } from "firebase/auth";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+  listAll,
+} from "firebase/storage";
+import {
+  updateProfile,
+  updateEmail,
+  updatePassword,
+  deleteUser,
+} from "firebase/auth";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { storage, auth, db } from "../backend/firebase-config";
 import { useState } from "react";
@@ -12,11 +23,11 @@ export default function UserSettings() {
   const [account, loading, error] = useDocumentData(accountRef);
 
   /* collect all sign-in poviders linked to user */
-  const providerIdList = []
+  const providerIdList = [];
 
   if (auth.currentUser !== null) {
     auth.currentUser.providerData.forEach((profile) => {
-      providerIdList.push(profile.providerId)
+      providerIdList.push(profile.providerId);
     });
   }
 
@@ -40,6 +51,7 @@ export default function UserSettings() {
   };
 
   const imageSubmit = () => {
+    setUploadStatus("Updating image...");
     const imagePath =
       "users/" + uid + "/user-image." + file.name.split(".").pop();
     let fileRef = ref(storage, imagePath);
@@ -80,6 +92,7 @@ export default function UserSettings() {
   const [userNameStatus, setUserNameStatus] = useState("");
 
   const userNameSubmit = async () => {
+    setUserNameStatus("Updating Username...");
     await updateDoc(accountRef, { userName: userNameForm }).then(() => {
       setUserNameStatus("Username Updated: " + userNameForm);
       setUserNameForm("");
@@ -93,6 +106,7 @@ export default function UserSettings() {
   const [nameStatus, setNameStatus] = useState("");
 
   const nameSubmit = async () => {
+    setNameStatus("Updating name...");
     await updateProfile(auth.currentUser, { displayName: nameForm }).then(() =>
       updateDoc(accountRef, { name: nameForm }).then(() => {
         setNameStatus("Name updated: " + nameForm);
@@ -107,6 +121,7 @@ export default function UserSettings() {
   const [emailStatus, setEmailStatus] = useState("");
 
   const emailSubmit = async () => {
+    setEmailStatus("Updating email...");
     await updateEmail(auth.currentUser, emailForm)
       .then(() => {
         updateDoc(accountRef, { email: emailForm }).then(() => {
@@ -123,8 +138,78 @@ export default function UserSettings() {
   };
 
   /* PASSWORD */
-  const [passwordForm, setPasswordForm] = useState({ current: "", new: "" });
+  const [passwordForm, setPasswordForm] = useState("");
   const [passwordStatus, setPasswordStatus] = useState("");
+
+  const passwordSubmit = async () => {
+    setPasswordStatus("Updating password...");
+    await updatePassword(auth.currentUser, passwordForm)
+      .then(() => {
+        setPasswordStatus("Password updated");
+        setPasswordForm("");
+        setTimeout(() => setPasswordStatus(""), 5000);
+      })
+      .catch((error) => {
+        setPasswordStatus("Error updating password. Please try again.");
+        setPasswordForm("");
+        setTimeout(() => setPasswordStatus(""), 5000);
+      });
+  };
+
+  /* Delete Account */
+
+  const [deleteForm, setDeleteForm] = useState("");
+  const [deleteStatus, setDeleteStatus] = useState("");
+  const [deleteView, setDeleteView] = useState(false);
+
+  const deleteConfirm = () => {
+    if (deleteForm === "DELETE") {
+      setDeleteView(true);
+      setDeleteStatus(
+        "Are you sure you want to delete your account? This will be permanent and cannot be recovered."
+      );
+    } else {
+      setDeleteStatus(
+        "Please type 'DELETE' in the box above before submitting."
+      );
+      setDeleteForm("");
+      setTimeout(() => setDeleteStatus(""), 5000);
+    }
+  };
+
+  const deleteCancel = () => {
+    setDeleteView(false);
+    setDeleteForm("");
+    setDeleteStatus("Whew... that was a close one!");
+    setTimeout(() => setDeleteStatus(""), 5000);
+  };
+
+  const deleteAccount = async () => {
+    setDeleteStatus("Deleting account...");
+    const userStorage = ref(storage, "users/" + uid);
+    if (userStorage) {
+      await listAll(userStorage)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            deleteObject(itemRef);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    await deleteUser(auth.currentUser)
+      .then(() => {
+        deleteDoc(accountRef);
+      })
+      .catch((error) => {
+        console.log(error.code + " " + error.message);
+        setDeleteStatus("Error deleting account. Please try again.");
+        setDeleteForm("");
+        setDeleteView(false);
+        setTimeout(() => setDeleteStatus(""), 5000);
+      });
+  };
 
   if (loading) {
     return (
@@ -138,7 +223,6 @@ export default function UserSettings() {
       </main>
     );
   } else if (account) {
-    console.log(userNameForm);
     return (
       <>
         <main className="main-box">
@@ -250,49 +334,64 @@ export default function UserSettings() {
           </section>
 
           {/* PASSWORD */}
-          
-          {providerIdList.includes("password") && <section className="settings-section">
-            <h2 className="blue-heading">Password</h2>
 
-            <input
-              type="password"
-              placeholder="Enter your current password"
-              className="form-input"
-              value={passwordForm.current}
-              onChange={(e) =>
-                setPasswordForm({ ...passwordForm, current: e.target.value })
-              }
-            />
-            <input
-              type="password"
-              placeholder="Enter your new password"
-              className="form-input"
-              value={passwordForm.new}
-              onChange={(e) =>
-                setPasswordForm({ ...passwordForm, new: e.target.value })
-              }
-            />
-            <button
-              type="submit"
-              disabled={!passwordForm.current || !passwordForm.new}
-              className={`btn`}
-            >
-              Change Password
-            </button>
-          </section>}
+          {providerIdList.includes("password") && (
+            <section className="settings-section">
+              <h2 className="blue-heading">Password</h2>
+
+              <input
+                type="password"
+                placeholder="Enter your new password"
+                className="form-input"
+                value={passwordForm}
+                onChange={(e) => setPasswordForm(e.target.value)}
+              />
+              <button
+                type="submit"
+                disabled={!passwordForm}
+                className={`btn`}
+                onClick={passwordSubmit}
+              >
+                Change Password
+              </button>
+              <p>{passwordStatus}</p>
+            </section>
+          )}
 
           {/* DELETE ACCOUNT */}
-          <section className="settings-section">
+          <section className="pb-8 settings-section">
             <h2 className="blue-heading">Delete Account</h2>
 
-            <input
-              type="text"
-              placeholder="Type DELETE in all caps"
-              className="form-input"
-            />
-            <button type="submit" className="btn">
-              Delete Account
-            </button>
+            {!deleteView && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Type DELETE in all caps"
+                  className="form-input"
+                  value={deleteForm}
+                  onChange={(e) => setDeleteForm(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="btn"
+                  disabled={!deleteForm}
+                  onClick={deleteConfirm}
+                >
+                  Delete Account
+                </button>
+              </>
+            )}
+            <p>{deleteStatus}</p>
+            {deleteView && (
+              <div className="flex gap-2">
+                <button className="btn" onClick={deleteAccount}>
+                  Yes
+                </button>
+                <button className="btn" onClick={deleteCancel}>
+                  No
+                </button>
+              </div>
+            )}
           </section>
         </main>
       </>

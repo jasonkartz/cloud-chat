@@ -58,27 +58,26 @@ export default function SignIn() {
   };
 
   const register = async () => {
-    const {name, email, username, password, passwordCheck} = registerData
-    setRegisterMessage("Signing up...")
+    const { name, email, username, password, passwordCheck } = registerData;
+    setRegisterMessage("Signing up...");
     if (password === passwordCheck) {
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      )
-        .then((userCredential) => {
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
           if (userCredential.user) {
             const { uid } = auth.currentUser;
             const accountRef = doc(db, "accounts", uid);
-            updateProfile(auth.currentUser, {displayName: name})
-            setDoc(accountRef, {
-              uid: uid,
-              name: name,
-              userName: username,
-              email: email,
-              photoURL: "",
-              lastLogin: serverTimestamp(),
-            });
+            await updateProfile(auth.currentUser, { displayName: name }).then(
+              () => {
+                setDoc(accountRef, {
+                  uid: uid,
+                  name: name,
+                  userName: username,
+                  email: email,
+                  photoURL: "",
+                  lastLogin: serverTimestamp(),
+                });
+              }
+            );
           }
         })
         .catch((error) => {
@@ -97,14 +96,10 @@ export default function SignIn() {
   };
 
   const signin = async () => {
-    const {email, password} = signInData
+    const { email, password } = signInData;
 
     setSigninMessage("Signing in...");
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    )
+    await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         if (userCredential.user) {
           const accountRef = doc(db, "accounts", auth.currentUser.uid);
