@@ -120,102 +120,119 @@ export default function SignIn() {
   return (
     <>
       <main className="main-box-signin">
-        {/* Sign In */}
-        <section className={`signin-section ${signUpView && "hidden"}`}>
-          <h2 className="blue-heading">Sign In</h2>
+        {
+          /* Sign In */
+          !signUpView && (
+            <>
+              <section className={`signin-section`}>
+                <h2 className="blue-heading">Sign In</h2>
 
-          <input
-            type="email"
-            placeholder="Enter Your Email"
-            className="form-input"
-            value={signInData.email}
-            onChange={(e) =>
-              setSignInData({ ...signInData, email: e.target.value })
-            }
-          />
-          <input
-            type="password"
-            placeholder="Enter Your Password"
-            className="form-input"
-            value={signInData.password}
-            onChange={(e) =>
-              setSignInData({ ...signInData, password: e.target.value })
-            }
-          />
-          <div className="flex flex-col gap-2">
-            <button className="btn" onClick={signin}>
-              Sign in
-            </button>
-            <button className="btn" onClick={() => setSignUpView(true)}>
-              Create an account
-            </button>
-            <p>{signinMessage}</p>
-          </div>
-        </section>
+                <input
+                  type="email"
+                  placeholder="Enter Your Email"
+                  className="form-input"
+                  value={signInData.email}
+                  onChange={(e) =>
+                    setSignInData({ ...signInData, email: e.target.value })
+                  }
+                />
+                <input
+                  type="password"
+                  placeholder="Enter Your Password"
+                  className="form-input"
+                  value={signInData.password}
+                  onChange={(e) =>
+                    setSignInData({ ...signInData, password: e.target.value })
+                  }
+                />
+                <div className="flex flex-col gap-2">
+                  <button className="btn" onClick={signin}>
+                    Sign in
+                  </button>
+                  <button className="btn" onClick={() => setSignUpView(true)}>
+                    Create an account
+                  </button>
+                  <p>{signinMessage}</p>
+                </div>
+              </section>
+            </>
+          )
+        }
 
-        {/* Sign Up */}
+        {
+          /* Sign Up */
+          signUpView && (
+            <>
+              <section className={`signin-section`}>
+                <h2 className="blue-heading">Sign Up</h2>
 
-        <section className={`signin-section ${!signUpView && "hidden"}`}>
-          <h2 className="blue-heading">Sign Up</h2>
-
-          <input
-            type="text"
-            placeholder="Your full name"
-            className="form-input"
-            value={registerData.name}
-            onChange={(e) =>
-              setRegisterData({ ...registerData, name: e.target.value })
-            }
-          />
-          <input
-            type="email"
-            placeholder="Your email"
-            className="form-input"
-            value={registerData.email}
-            onChange={(e) =>
-              setRegisterData({ ...registerData, email: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="Create a username"
-            className="form-input"
-            value={registerData.username}
-            onChange={(e) =>
-              setRegisterData({ ...registerData, username: e.target.value })
-            }
-          />
-          <input
-            type="password"
-            placeholder="Create a password"
-            className="form-input"
-            value={registerData.password}
-            onChange={(e) =>
-              setRegisterData({ ...registerData, password: e.target.value })
-            }
-          />
-          <input
-            type="password"
-            placeholder="Re-enter password"
-            className="form-input"
-            value={registerData.passwordCheck}
-            onChange={(e) =>
-              setRegisterData({
-                ...registerData,
-                passwordCheck: e.target.value,
-              })
-            }
-          />
-          <div className="flex flex-col gap-2">
-            <button className="btn" onClick={register}>
-              Sign Up
-            </button>
-            <p>{registerMessage}</p>
-            <button className="btn" onClick={() => setSignUpView(false)}>
-              Have an account?
-            </button>
-          </div>
-        </section>
+                <input
+                  type="text"
+                  placeholder="Your full name"
+                  className="form-input"
+                  value={registerData.name}
+                  onChange={(e) =>
+                    setRegisterData({ ...registerData, name: e.target.value })
+                  }
+                />
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  className="form-input"
+                  value={registerData.email}
+                  onChange={(e) =>
+                    setRegisterData({ ...registerData, email: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Create a username"
+                  className="form-input"
+                  value={registerData.username}
+                  onChange={(e) =>
+                    setRegisterData({
+                      ...registerData,
+                      username: e.target.value,
+                    })
+                  }
+                />
+                <input
+                  type="password"
+                  placeholder="Create a password"
+                  className="form-input"
+                  value={registerData.password}
+                  onChange={(e) =>
+                    setRegisterData({
+                      ...registerData,
+                      password: e.target.value,
+                    })
+                  }
+                />
+                <input
+                  type="password"
+                  placeholder="Re-enter password"
+                  className="form-input"
+                  value={registerData.passwordCheck}
+                  onChange={(e) =>
+                    setRegisterData({
+                      ...registerData,
+                      passwordCheck: e.target.value,
+                    })
+                  }
+                />
+                <div className="flex flex-col gap-2">
+                  <button className="btn" onClick={register}>
+                    Sign Up
+                  </button>
+                  <p>{registerMessage}</p>
+                  <button className="btn" onClick={() => setSignUpView(false)}>
+                    Have an account?
+                  </button>
+                </div>
+              </section>
+            </>
+          )
+        }
 
         <button className="self-center signin-btn" onClick={signInWithGoogle}>
           <i className="p-1 text-blue-600 rounded ri-google-fill bg-slate-50"></i>{" "}
