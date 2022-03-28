@@ -12,7 +12,7 @@ import {
   updatePassword,
   deleteUser,
   reauthenticateWithCredential,
-  EmailAuthProvider
+  EmailAuthProvider,
 } from "firebase/auth";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
@@ -32,6 +32,12 @@ export default function UserSettings() {
       providerIdList.push(profile.providerId);
     });
   }
+
+  /* reusable reauthentication function */
+  const reauthenticate = (password) => {
+    const credential = EmailAuthProvider.credential(email, password);
+    reauthenticateWithCredential(auth.currentUser, credential);
+  };
 
   /* USER IMAGE */
 
@@ -109,6 +115,7 @@ export default function UserSettings() {
 
   const nameSubmit = async () => {
     setNameStatus("Updating name...");
+
     await updateProfile(auth.currentUser, { displayName: nameForm }).then(() =>
       updateDoc(accountRef, { name: nameForm }).then(() => {
         setNameStatus("Name updated: " + nameForm);
@@ -118,43 +125,56 @@ export default function UserSettings() {
     );
   };
 
+  /* PASSWORD */
+  const [passwordForm, setPasswordForm] = useState({
+    current: "",
+    new: "",
+    email: "",
+    delete: "",
+  });
+  const [passwordStatus, setPasswordStatus] = useState("");
+
+  const passwordSubmit = async () => {
+    setPasswordStatus("Updating password...");
+
+    await reauthenticate(passwordForm.current);
+
+    await updatePassword(auth.currentUser, passwordForm.new)
+      .then(() => {
+        setPasswordStatus("Password updated");
+        setPasswordForm({ ...passwordForm, current: "", new: "" });
+        setTimeout(() => setPasswordStatus(""), 5000);
+      })
+      .catch((error) => {
+        setPasswordStatus("Error updating password. Please try again.");
+        setPasswordForm({ ...passwordForm, current: "", new: "" });
+        setTimeout(() => setPasswordStatus(""), 5000);
+      });
+  };
+
   /* EMAIL */
   const [emailForm, setEmailForm] = useState("");
   const [emailStatus, setEmailStatus] = useState("");
 
   const emailSubmit = async () => {
     setEmailStatus("Updating email...");
+
+    await reauthenticate(passwordForm.email);
+
     await updateEmail(auth.currentUser, emailForm)
       .then(() => {
         updateDoc(accountRef, { email: emailForm }).then(() => {
           setEmailStatus("Email updated: " + emailForm);
           setEmailForm("");
+          setPasswordForm({ ...passwordForm, email: "" });
           setTimeout(() => setEmailStatus(""), 5000);
         });
       })
       .catch((error) => {
         setEmailStatus("Error updating email. Please try again.");
         setEmailForm("");
+        setPasswordForm({ ...passwordForm, email: "" });
         setTimeout(() => setEmailStatus(""), 5000);
-      });
-  };
-
-  /* PASSWORD */
-  const [passwordForm, setPasswordForm] = useState({current: "", new: ""});
-  const [passwordStatus, setPasswordStatus] = useState("");
-
-  const passwordSubmit = async () => {
-    setPasswordStatus("Updating password...");
-    await updatePassword(auth.currentUser, passwordForm)
-      .then(() => {
-        setPasswordStatus("Password updated");
-        setPasswordForm("");
-        setTimeout(() => setPasswordStatus(""), 5000);
-      })
-      .catch((error) => {
-        setPasswordStatus("Error updating password. Please try again.");
-        setPasswordForm("");
-        setTimeout(() => setPasswordStatus(""), 5000);
       });
   };
 
@@ -165,30 +185,23 @@ export default function UserSettings() {
   const [deleteView, setDeleteView] = useState(false);
 
   const deleteConfirm = async () => {
-    setDeleteStatus("Authenticating...")
-    const credential = EmailAuthProvider.credential(
-      email,
-      passwordForm.current
-  )
-    await reauthenticateWithCredential(auth.currentUser, credential).then(() => {
-      if (deleteForm === "DELETE") {
-        setPasswordForm({current: "", new: ""})
-        setDeleteView(true);
-        setDeleteStatus(
-          "Are you sure you want to delete your account? This will be permanent and cannot be recovered."
-        );
-      } else {
-        setDeleteStatus(
-          "Please type 'DELETE' in the box above before submitting."
-        );
-        setDeleteForm("");
-        setTimeout(() => setDeleteStatus(""), 5000);
-      }
-    }).catch(error => {
-      console.log(error)
-      setDeleteView(error.code + " " + error.message)
-    })
-    
+    setDeleteStatus("Authenticating...");
+
+    await reauthenticate(passwordForm.delete);
+
+    if (deleteForm === "DELETE") {
+      setPasswordForm({ ...passwordForm, delete: "" });
+      setDeleteView(true);
+      setDeleteStatus(
+        "Are you sure you want to delete your account? This will be permanent and cannot be recovered."
+      );
+    } else {
+      setDeleteStatus(
+        "Please type 'DELETE' in the box above before submitting."
+      );
+      setDeleteForm("");
+      setTimeout(() => setDeleteStatus(""), 5000);
+    }
   };
 
   const deleteCancel = () => {
@@ -224,6 +237,8 @@ export default function UserSettings() {
         setTimeout(() => setDeleteStatus(""), 5000);
       });
   };
+
+  /* render form */
 
   if (loading) {
     return (
@@ -337,10 +352,19 @@ export default function UserSettings() {
                   setEmailForm(e.target.value);
                 }}
               />
+              <input
+                type="password"
+                placeholder="Enter your password"
+                className="form-input"
+                value={passwordForm.email}
+                onChange={(e) =>
+                  setPasswordForm({ ...passwordForm, email: e.target.value })
+                }
+              />
               <button
                 type="submit"
                 className="btn"
-                disabled={!emailForm}
+                disabled={!emailForm || !passwordForm.email}
                 onClick={emailSubmit}
               >
                 Change Email
@@ -354,17 +378,27 @@ export default function UserSettings() {
           {providerIdList.includes("password") && (
             <section className="settings-section">
               <h2 className="blue-heading">Password</h2>
-
+              <input
+                type="password"
+                placeholder="Enter your current password"
+                className="form-input"
+                value={passwordForm.current}
+                onChange={(e) =>
+                  setPasswordForm({ ...passwordForm, current: e.target.value })
+                }
+              />
               <input
                 type="password"
                 placeholder="Enter your new password"
                 className="form-input"
                 value={passwordForm.new}
-                onChange={(e) => setPasswordForm({...passwordForm, new: e.target.value})}
+                onChange={(e) =>
+                  setPasswordForm({ ...passwordForm, new: e.target.value })
+                }
               />
               <button
                 type="submit"
-                disabled={!passwordForm}
+                disabled={!passwordForm.current || !passwordForm.new}
                 className={`btn`}
                 onClick={passwordSubmit}
               >
@@ -388,16 +422,18 @@ export default function UserSettings() {
                   onChange={(e) => setDeleteForm(e.target.value)}
                 />
                 <input
-                type="password"
-                placeholder="Enter your password"
-                className="form-input"
-                value={passwordForm.current}
-                onChange={(e) => setPasswordForm({...passwordForm, current: e.target.value})}
-              />
+                  type="password"
+                  placeholder="Enter your password"
+                  className="form-input"
+                  value={passwordForm.delete}
+                  onChange={(e) =>
+                    setPasswordForm({ ...passwordForm, delete: e.target.value })
+                  }
+                />
                 <button
                   type="submit"
                   className="btn"
-                  disabled={!deleteForm || !passwordForm.current}
+                  disabled={!deleteForm || !passwordForm.delete}
                   onClick={deleteConfirm}
                 >
                   Delete Account
@@ -423,3 +459,17 @@ export default function UserSettings() {
     return <main className="main-box">{`Error Loading Content :(`}</main>;
   }
 }
+
+/*
+todo:
+- break up settings into components with their own state
+- link signin providers (ie. allow google signin users to create email/pass signin method)
+- password reset email link (ie. "forgot password")
+- confirmation email for making changes in settings / account deletion
+- user generated chatrooms
+- private messaging
+- switchable dark mode
+- allow users to load previous messages after scrolling up
+- allow users to view other user profiles
+- timestamp messages
+*/
