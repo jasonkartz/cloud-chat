@@ -8,6 +8,7 @@ import UpdateName from "./user-settings-page/UpdateName";
 import UpdateEmail from "./user-settings-page/UpdateEmail";
 import UpdatePassword from "./user-settings-page/UpdatePassword";
 import DeleteAccount from "./user-settings-page/DeleteAccount";
+import AddSignin from "./user-settings-page/AddSignin";
 
 export default function UserSettings() {
   const currentUser = auth.currentUser;
@@ -45,6 +46,13 @@ export default function UserSettings() {
     return (
       <>
         <main className="main-box">
+          {providerIdList.length < 2 && (
+            <AddSignin
+              reauthenticate={reauthenticate}
+              providerIdList={providerIdList}
+            />
+          )}
+
           <UpdateProfileImage account={account} accountRef={accountRef} />
 
           <UpdateUserName account={account} accountRef={accountRef} />
