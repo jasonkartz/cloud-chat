@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
@@ -15,6 +16,8 @@ export default function UserSettings() {
   const { uid, email } = currentUser;
   const accountRef = doc(db, "accounts", uid);
   const [account, loading, error] = useDocumentData(accountRef);
+
+  const [keyForRemount, setKeyForRemount] = useState(1)
 
   /* collect all sign-in poviders linked to user */
   const providerIdList = [];
@@ -50,6 +53,8 @@ export default function UserSettings() {
             <AddSignin
               reauthenticate={reauthenticate}
               providerIdList={providerIdList}
+              key={keyForRemount}
+              setKeyForRemount={setKeyForRemount}
             />
           )}
 
@@ -62,6 +67,7 @@ export default function UserSettings() {
           <UpdateEmail
             accountRef={accountRef}
             reauthenticate={reauthenticate}
+            providerIdList={providerIdList}
           />
 
           <UpdatePassword
@@ -85,7 +91,6 @@ export default function UserSettings() {
 
 /*
 todo:
-- link signin providers (ie. allow google signin users to create email/pass signin method)
 - password reset email link (ie. "forgot password")
 - confirmation email for making changes in settings / account deletion
 - user generated chatrooms

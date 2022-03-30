@@ -36,7 +36,7 @@ export default function UpdateEmail(props) {
       });
   };
 
-  return (
+  return props.providerIdList.includes("password") && (
     <section className="border-b-2 border-blue-200 settings-section">
       <h2
         className="blue-heading hover:cursor-pointer hover:text-blue-500"
