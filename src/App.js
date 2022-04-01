@@ -47,10 +47,7 @@ function App() {
         openMenu={openMenu}
         screenMap={screenMap}
       />
-      <div className={`overflow-y-auto ${user && "flex"}`}>
-        <aside className="z-10 overflow-scroll bg-blue-100 resize-x">Some text</aside>
         <main className="main-box">{user ? screen : <SignIn />}</main>
-      </div>
     </div>
   );
 }
