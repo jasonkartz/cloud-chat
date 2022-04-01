@@ -36,7 +36,7 @@
 
 @layer components {
   .main-container {
-    @apply container mx-auto drop-shadow-xl max-w-xl h-[95vh] flex flex-col;
+    @apply mx-auto drop-shadow-xl max-w-xl h-[95vh] flex flex-col bg-blue-300 rounded-lg;
   }
   .header {
     @apply flex flex-col gap-1 p-2 bg-blue-400 rounded-t-lg;
@@ -44,14 +44,11 @@
   .logo {
     @apply flex gap-1 text-2xl italic font-black tracking-wide text-blue-100 select-none;
   }
+  .main-box {
+    @apply flex flex-col gap-3 px-3 py-2 overflow-y-auto;
+  }
   .blue-heading {
     @apply text-xl font-black tracking-wide text-blue-600 select-none;
-  }
-  .main-box {
-    @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300 rounded-b-lg;
-  }
-  .chat-box {
-    @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300;
   }
   .message-input {
     @apply h-12 p-1 rounded shadow-inner text-slate-800 grow bg-blue-50;
@@ -60,16 +57,13 @@
     @apply w-3/6 p-2 text-lg rounded shadow-inner text-slate-800 bg-blue-50;
   }
   .message-form {
-    @apply flex items-center justify-between gap-2 p-2 bg-blue-400 rounded-b md:text-lg;
+    @apply fixed inset-x-0 bottom-0 flex items-center justify-between gap-2 p-2 bg-blue-400 rounded md:text-lg;
   }
   .message-btn {
     @apply w-12 h-12 font-bold text-blue-100 bg-blue-600 rounded disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
   }
   .settings-section {
     @apply flex flex-col items-start gap-2 p-2 text-blue-700;
-  }
-  .main-box-signin {
-    @apply flex flex-col gap-3 px-3 py-2 overflow-y-scroll bg-blue-300 rounded-b-lg;
   }
   .signin-section {
     @apply flex flex-col items-center gap-2 p-2 text-blue-700;
@@ -88,21 +82,26 @@
     disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 disabled:cursor-default;
   }
   .drop-menu {
-    @apply fixed z-10 w-full p-2 text-right border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
+    @apply fixed z-20 w-full p-2 text-right border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
   }
-  main::-webkit-scrollbar {
-    width: 0.5rem;
+  ::-webkit-scrollbar {
+    @apply w-2
   }
-  main::-webkit-scrollbar-track {
+  aside::-webkit-scrollbar {
+    @apply w-4
+  }
+  
+  ::-webkit-scrollbar-track {
     @apply bg-none;
   }
   
-  main::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb {
     @apply bg-opacity-50 rounded-full bg-blue-50;
   }
 }
 
 @layer utilities {
+  
   .m-fadeOut {
     visibility: hidden;
     opacity: 0;
