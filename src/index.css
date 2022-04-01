@@ -82,7 +82,7 @@
     disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 disabled:cursor-default;
   }
   .drop-menu {
-    @apply fixed z-20 w-full p-2 text-right border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
+    @apply fixed w-full p-2 border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
   }
   ::-webkit-scrollbar {
     @apply w-2
