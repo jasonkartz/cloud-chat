@@ -65,3 +65,14 @@ export default function ChatRoom() {
     );
   }
 }
+
+
+/*
+todo:
+- user generated chatrooms
+- private messaging
+- switchable dark mode
+- allow users to load previous messages after scrolling up
+- allow users to view other user profiles
+- timestamp messages
+*/

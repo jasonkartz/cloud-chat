@@ -4,9 +4,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { collection, addDoc, doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import ChatRoom from "./components/ChatRoom";
-import UserSettings from "./components/UserSettings";
+import UserSettings from "./components/user-settings-page/UserSettings";
 import SignIn from "./components/SignIn";
-import MainMenu from "./components/MainMenu";
+import DropMenu from "./components/DropMenu";
 import { useState, useEffect } from "react";
 import UserDisplay from "./components/UserDisplay";
 
@@ -29,7 +29,7 @@ function App() {
             <i className="ri-cloud-fill"></i>CloudChat
           </h1>
           <div className="flex justify-end gap-2">
-            {user && <UserDisplay user={user}/>}
+            {user && <UserDisplay user={user} />}
             <i
               className={`text-blue-100 transition text-3xl hover:cursor-pointer hover:text-yellow-100 
           ${openMenu ? "ri-close-line" : "ri-menu-5-line"} ${
@@ -40,14 +40,17 @@ function App() {
           </div>
         </div>
       </header>
-      <MainMenu
+      <DropMenu
         user={user}
         setOpenMenu={setOpenMenu}
         setScreen={setScreen}
         openMenu={openMenu}
         screenMap={screenMap}
       />
-      {user ? screen : <SignIn />}
+      <div className={`overflow-y-auto ${user && "flex"}`}>
+        <aside className="z-10 overflow-scroll bg-blue-100 resize-x">Some text</aside>
+        <main className="main-box">{user ? screen : <SignIn />}</main>
+      </div>
     </div>
   );
 }

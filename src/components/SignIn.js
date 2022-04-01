@@ -119,7 +119,6 @@ export default function SignIn() {
   };
   return (
     <>
-      <main className="main-box-signin">
         {
           /* Sign In */
           !signUpView && (
@@ -238,7 +237,6 @@ export default function SignIn() {
           <i className="p-1 text-blue-600 rounded ri-google-fill bg-slate-50"></i>{" "}
           <span className="align-top">Sign in with Google</span>
         </button>
-      </main>
     </>
   );
 }

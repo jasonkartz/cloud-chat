@@ -1,7 +1,7 @@
 import { auth } from "../backend/firebase-config";
 import { signOut } from "firebase/auth";
 
-export default function MainMenu({
+export default function DropMenu({
   user,
   setOpenMenu,
   openMenu,
