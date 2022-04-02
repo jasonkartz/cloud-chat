@@ -1,13 +1,17 @@
 import { auth } from "../backend/firebase-config";
 import { signOut } from "firebase/auth";
+import { useState } from "react";
+import ChatList from "./ChatList";
+import UserSettings from "./user-settings-page/UserSettings";
 
-export default function DropMenu({
-  user,
-  setOpenMenu,
-  openMenu,
-  setScreen,
-  screenMap,
-}) {
+export default function DropMenu({ user, setOpenMenu, openMenu }) {
+  const screenMap = {
+    chat: <ChatList />,
+    settings: <UserSettings user={user} />,
+  };
+
+  const [screen, setScreen] = useState(screenMap.chat);
+
   return (
     user && (
       <>
@@ -17,19 +21,14 @@ export default function DropMenu({
               openMenu ? "m-fadeIn" : "m-fadeOut"
             }`}
           >
-            <ul>
-              <li>Chatroom 1</li>
-              <li>Chatroom 2</li>
-              <li>Chatroom 3</li>
-            </ul>
-
+            {screen}
             <ul className="text-right ">
               <li>
                 <button
                   className="menu-btn"
                   onClick={() => {
                     setScreen(screenMap.settings);
-                    setOpenMenu(false);
+                    
                   }}
                 >
                   <i className="ri-user-settings-line"></i> User Settings
@@ -40,7 +39,7 @@ export default function DropMenu({
                   className="menu-btn"
                   onClick={() => {
                     setScreen(screenMap.chat);
-                    setOpenMenu(false);
+                    
                   }}
                 >
                   <i className="ri-search-line"></i> Public Chats

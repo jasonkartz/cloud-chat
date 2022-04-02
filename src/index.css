@@ -48,13 +48,16 @@
     @apply flex flex-col gap-3 px-3 py-2 overflow-y-auto;
   }
   .blue-heading {
-    @apply text-xl font-black tracking-wide text-blue-600 select-none;
+    @apply text-lg font-black tracking-wide text-blue-600 select-none;
   }
   .message-input {
     @apply h-12 p-1 rounded shadow-inner text-slate-800 grow bg-blue-50;
   }
+  .form-input-signin {
+    @apply w-[50%] p-2 rounded shadow-inner text-slate-800 bg-blue-50 text-center;
+  }
   .form-input {
-    @apply w-3/6 p-2 text-lg rounded shadow-inner text-slate-800 bg-blue-50;
+    @apply w-[90%] p-2 text-sm rounded shadow-inner text-slate-800 bg-blue-50;
   }
   .message-form {
     @apply fixed inset-x-0 bottom-0 flex items-center justify-between gap-2 p-2 bg-blue-400 rounded md:text-lg;
@@ -82,21 +85,23 @@
     disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 disabled:cursor-default;
   }
   .drop-menu {
-    @apply fixed w-full p-2 border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
+    @apply fixed z-20 w-full p-4 border-t-2 rounded-b-lg bg-blue-400/90 border-t-blue-50/50;
+  }
+  .drop-menu-container {
+    @apply w-[65%] p-2 overflow-auto rounded whitespace-nowrap bg-blue-300/75 max-h-96 shadow-inner;
   }
   ::-webkit-scrollbar {
-    @apply w-2
+    @apply w-2 h-2;
   }
-  aside::-webkit-scrollbar {
-    @apply w-4
-  }
-  
   ::-webkit-scrollbar-track {
     @apply bg-none;
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-opacity-50 rounded-full bg-blue-50;
+    @apply bg-opacity-75 rounded-full bg-blue-50;
+  }
+  ::-webkit-scrollbar-corner {
+    @apply hidden;
   }
 }
 

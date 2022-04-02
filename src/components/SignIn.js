@@ -129,7 +129,7 @@ export default function SignIn() {
                 <input
                   type="email"
                   placeholder="Enter Your Email"
-                  className="form-input"
+                  className="form-input-signin"
                   value={signInData.email}
                   onChange={(e) =>
                     setSignInData({ ...signInData, email: e.target.value })
@@ -138,7 +138,7 @@ export default function SignIn() {
                 <input
                   type="password"
                   placeholder="Enter Your Password"
-                  className="form-input"
+                  className="form-input-signin"
                   value={signInData.password}
                   onChange={(e) =>
                     setSignInData({ ...signInData, password: e.target.value })
@@ -168,7 +168,7 @@ export default function SignIn() {
                 <input
                   type="text"
                   placeholder="Your full name"
-                  className="form-input"
+                  className="form-input-signin"
                   value={registerData.name}
                   onChange={(e) =>
                     setRegisterData({ ...registerData, name: e.target.value })
@@ -177,7 +177,7 @@ export default function SignIn() {
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="form-input"
+                  className="form-input-signin"
                   value={registerData.email}
                   onChange={(e) =>
                     setRegisterData({ ...registerData, email: e.target.value })
@@ -186,7 +186,7 @@ export default function SignIn() {
                 <input
                   type="text"
                   placeholder="Create a username"
-                  className="form-input"
+                  className="form-input-signin"
                   value={registerData.username}
                   onChange={(e) =>
                     setRegisterData({
@@ -198,7 +198,7 @@ export default function SignIn() {
                 <input
                   type="password"
                   placeholder="Create a password"
-                  className="form-input"
+                  className="form-input-signin"
                   value={registerData.password}
                   onChange={(e) =>
                     setRegisterData({
@@ -210,7 +210,7 @@ export default function SignIn() {
                 <input
                   type="password"
                   placeholder="Re-enter password"
-                  className="form-input"
+                  className="form-input-signin"
                   value={registerData.passwordCheck}
                   onChange={(e) =>
                     setRegisterData({

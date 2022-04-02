@@ -14,13 +14,6 @@ function App() {
   const [user] = useAuthState(auth);
   const [openMenu, setOpenMenu] = useState(false);
 
-  const screenMap = {
-    chat: <ChatRoom />,
-    settings: <UserSettings user={user} />,
-  };
-
-  const [screen, setScreen] = useState(screenMap.chat);
-
   return (
     <div className="main-container">
       <header className={`header`}>
@@ -40,14 +33,8 @@ function App() {
           </div>
         </div>
       </header>
-      <DropMenu
-        user={user}
-        setOpenMenu={setOpenMenu}
-        setScreen={setScreen}
-        openMenu={openMenu}
-        screenMap={screenMap}
-      />
-        <main className="main-box">{user ? screen : <SignIn />}</main>
+      <DropMenu user={user} setOpenMenu={setOpenMenu} openMenu={openMenu} />
+      <main className="main-box">{user ? <ChatRoom /> : <SignIn />}</main>
     </div>
   );
 }

@@ -36,18 +36,18 @@ export default function UserSettings() {
 
   if (loading) {
     return (
-      <>
+      <div className="drop-menu-container">
         <h2 className="flex gap-1 blue-heading">
           Loading
           <div className="animate-spin">
             <i className="ri-loader-5-line"></i>
           </div>
         </h2>
-      </>
+      </div>
     );
   } else if (account) {
     return (
-      <>
+      <div className="drop-menu-container">
         {providerIdList.length < 2 && (
           <AddSignin
             reauthenticate={reauthenticate}
@@ -80,10 +80,10 @@ export default function UserSettings() {
           reauthenticate={reauthenticate}
           providerIdList={providerIdList}
         />
-      </>
+      </div>
     );
   } else if (error) {
-    return <>{`Error Loading Content :(`}</>;
+    return <div className="drop-menu-container">{`Error Loading Content :(`}</div>;
   }
 }
 

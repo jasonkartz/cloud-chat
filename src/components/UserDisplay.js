@@ -1,3 +1,4 @@
+import defaultPic from "../images/cloud-fill.png";
 import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "../backend/firebase-config";
@@ -20,10 +21,10 @@ export default function UserDisplay(props) {
     );
   } else {
     return (
-      <p className="flex items-center gap-1 text-sm font-bold select-none text-blue-50">
-        <i className="text-green-300 ri-user-3-fill animate-pulse"></i>{" "}
+      <div className="flex items-center gap-2 text-sm font-bold select-none text-blue-50">
         {account.userName || account.name}
-      </p>
+        {account.photoURL && <img src={account.photoURL} alt="user" className="rounded-full" width="30" />}
+      </div>
     );
   }
 }
