@@ -13,7 +13,6 @@ export default function AddSignin(props) {
 
   const [display, setDisplay] = useState(false);
 
-
   const [passwordForm, setPasswordForm] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [status, setStatus] = useState("");
@@ -33,8 +32,8 @@ export default function AddSignin(props) {
             .then((userCredential) => {
               alert(`You can now sign in with email and password.`);
               setPasswordForm("");
-              setPasswordCheck("")
-              props.setKeyForRemount(2)
+              setPasswordCheck("");
+              props.setKeyForRemount(2);
             })
             .catch((error) => {
               setStatus(`${error.message}`);
@@ -61,7 +60,7 @@ export default function AddSignin(props) {
       .then((result) => {
         alert(`You can now sign in with your Google account.`);
         setPasswordForm("");
-        props.setKeyForRemount(2)
+        props.setKeyForRemount(2);
       })
       .catch((error) => {
         setStatus(`${error.message}`);
@@ -89,12 +88,10 @@ export default function AddSignin(props) {
             </h2>
             {display && (
               <>
-                <p>
-                  If you would like to add email/password sign in to your
-                  account, create a password below.
-                </p>
-                <p>You will be prompted to sign in with Google again.</p>
-                <p>Email associated with this account: {email}</p>
+                <div className="text-sm max-w-[80%]">
+                  <p>You will be prompted to sign in <br /> with Google again.</p>
+                </div>
+
                 <input
                   type="password"
                   placeholder="Create a password"

@@ -76,7 +76,7 @@ export default function UpdateProfileImage(props) {
           <img
             src={account.photoURL || defaultPic}
             alt="user"
-            width="100"
+            width="80"
             className="rounded"
           />
 
