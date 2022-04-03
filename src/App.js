@@ -1,40 +1,102 @@
 import "./index.css";
 import { auth, db } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { collection, addDoc, doc } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import ChatRoom from "./components/ChatRoom";
-import UserSettings from "./components/user-settings-page/UserSettings";
+import {
+  collection,
+  addDoc,
+  doc,
+  query,
+  orderBy,
+  limitToLast,
+  serverTimestamp,
+} from "firebase/firestore";
+import {
+  useDocumentData,
+  useCollectionData,
+} from "react-firebase-hooks/firestore";
+import Error from "./components/Error";
+import Loading from "./components/Loading";
 import SignIn from "./components/SignIn";
 import DropMenu from "./components/DropMenu";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Header from "./components/Header";
 import UserDisplay from "./components/UserDisplay";
+import MessageForm from "./MessageForm";
+import ChatMessage from "./components/ChatMessage";
+import ChatList from "./components/ChatList";
 
 function App() {
-  const [user] = useAuthState(auth);
+  const [user, userLoading, userError] = useAuthState(auth);
+
   const [openMenu, setOpenMenu] = useState(false);
+
+  const [roomSelection, setRoomSelection] = useState("PTY6qVozXSCkslCVg6ua")
+
+  const messagesRef = collection(db, `/publicChats/${roomSelection}/messages`);
+  const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
+  const [messages, messagesLoading, messagesError] = useCollectionData(
+    messagesQ,
+    {
+      idField: "id",
+    }
+  );
+
+  const [formValue, setFormValue] = useState("");
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    const { uid } = auth.currentUser;
+
+    await addDoc(messagesRef, {
+      text: formValue,
+      createdAt: serverTimestamp(),
+      uid,
+    });
+
+    setFormValue("");
+  };
+
+  const dummy = useRef();
+
+  useEffect(
+    () => messages && dummy.current.scrollIntoView({ behavior: "smooth" }),
+    [messages]
+  );
 
   return (
     <div className="main-container">
-      <header className={`header`}>
-        <div className="flex justify-between">
-          <h1 className="logo">
-            <i className="ri-cloud-fill"></i>CloudChat
-          </h1>
-          <div className="flex justify-end gap-2">
-            {user && <UserDisplay user={user} />}
-            <i
-              className={`text-blue-100 transition text-3xl hover:cursor-pointer hover:text-yellow-100 
-          ${openMenu ? "ri-close-line" : "ri-menu-5-line"} ${
-                !user && "hidden"
-              }`}
-              onClick={() => setOpenMenu(!openMenu)}
-            ></i>
-          </div>
-        </div>
-      </header>
-      <DropMenu user={user} setOpenMenu={setOpenMenu} openMenu={openMenu} />
-      <main className="main-box">{user ? <ChatRoom /> : <SignIn />}</main>
+      <Header user={user} openMenu={openMenu} setOpenMenu={setOpenMenu}>
+        {user && (
+          <UserDisplay
+            user={user}
+          />
+        )}
+      </Header>
+      <DropMenu user={user} openMenu={openMenu} setOpenMenu={setOpenMenu} />
+      <main className="main-box">
+        {user ? (
+          <>
+            {messagesLoading && <Loading />}
+            {messagesError && <Error />}
+            {messages &&
+              messages.map((message, index) => {
+                return <ChatMessage key={index} message={message} />;
+              })}
+
+            <div className="mt-20" ref={dummy}></div>
+          </>
+        ) : (
+          <SignIn />
+        )}
+      </main>
+      {user && (
+        <MessageForm
+          sendMessage={sendMessage}
+          formValue={formValue}
+          setFormValue={setFormValue}
+        />
+      )}
     </div>
   );
 }

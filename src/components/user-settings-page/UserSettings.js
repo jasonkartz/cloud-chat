@@ -10,6 +10,9 @@ import UpdateEmail from "./UpdateEmail";
 import UpdatePassword from "./UpdatePassword";
 import DeleteAccount from "./DeleteAccount";
 import AddSignin from "./AddSignin";
+import Error from "../Error";
+import Loading from "../Loading";
+
 
 export default function UserSettings() {
   const currentUser = auth.currentUser;
@@ -37,12 +40,7 @@ export default function UserSettings() {
   if (loading) {
     return (
       <div className="drop-menu-container">
-        <h2 className="flex gap-1 blue-heading">
-          Loading
-          <div className="animate-spin">
-            <i className="ri-loader-5-line"></i>
-          </div>
-        </h2>
+        <Loading />
       </div>
     );
   } else if (account) {
@@ -83,7 +81,7 @@ export default function UserSettings() {
       </div>
     );
   } else if (error) {
-    return <div className="drop-menu-container">{`Error Loading Content :(`}</div>;
+    return <div className="drop-menu-container"><Error /></div>;
   }
 }
 
