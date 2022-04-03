@@ -4,7 +4,7 @@ import { useState } from "react";
 import ChatList from "./ChatList";
 import UserSettings from "./user-settings-page/UserSettings";
 
-export default function DropMenu({ user, setOpenMenu, openMenu }) {
+export default function DropMenu({ user, setOpenMenu, openMenu}) {
   const screenMap = {
     chat: <ChatList />,
     settings: <UserSettings user={user} />,
