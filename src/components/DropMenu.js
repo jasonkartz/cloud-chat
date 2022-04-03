@@ -4,9 +4,16 @@ import { useState } from "react";
 import ChatList from "./ChatList";
 import UserSettings from "./user-settings-page/UserSettings";
 
-export default function DropMenu({ user, setOpenMenu, openMenu}) {
+export default function DropMenu({
+  user,
+  setOpenMenu,
+  openMenu,
+  setRoomSelection,
+}) {
   const screenMap = {
-    chat: <ChatList />,
+    chat: (
+      <ChatList setRoomSelection={setRoomSelection} setOpenMenu={setOpenMenu} />
+    ),
     settings: <UserSettings user={user} />,
   };
 
@@ -28,7 +35,6 @@ export default function DropMenu({ user, setOpenMenu, openMenu}) {
                   className="menu-btn"
                   onClick={() => {
                     setScreen(screenMap.settings);
-                    
                   }}
                 >
                   <i className="ri-user-settings-line"></i> User Settings
@@ -39,7 +45,6 @@ export default function DropMenu({ user, setOpenMenu, openMenu}) {
                   className="menu-btn"
                   onClick={() => {
                     setScreen(screenMap.chat);
-                    
                   }}
                 >
                   <i className="ri-search-line"></i> Public Chats

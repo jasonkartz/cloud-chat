@@ -30,7 +30,7 @@ function App() {
 
   const [openMenu, setOpenMenu] = useState(false);
 
-  const [roomSelection, setRoomSelection] = useState("PTY6qVozXSCkslCVg6ua")
+  const [roomSelection, setRoomSelection] = useState("PTY6qVozXSCkslCVg6ua");
 
   const messagesRef = collection(db, `/publicChats/${roomSelection}/messages`);
   const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
@@ -67,13 +67,14 @@ function App() {
   return (
     <div className="main-container">
       <Header user={user} openMenu={openMenu} setOpenMenu={setOpenMenu}>
-        {user && (
-          <UserDisplay
-            user={user}
-          />
-        )}
+        {user && <UserDisplay user={user} />}
       </Header>
-      <DropMenu user={user} openMenu={openMenu} setOpenMenu={setOpenMenu} />
+      <DropMenu
+        user={user}
+        openMenu={openMenu}
+        setOpenMenu={setOpenMenu}
+        setRoomSelection={setRoomSelection}
+      />
       <main className="main-box">
         {user ? (
           <>
