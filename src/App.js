@@ -24,13 +24,18 @@ import UserDisplay from "./components/UserDisplay";
 import MessageForm from "./components/MessageForm";
 import ChatMessage from "./components/ChatMessage";
 import ChatList from "./components/ChatList";
+import UserSettings from "./components/user-settings-page/UserSettings";
 
 function App() {
+  /* user auth state - displays signin if auth state is false*/
   const [user, userLoading, userError] = useAuthState(auth);
 
+  /* drop-down menu toggled from header */
   const [openMenu, setOpenMenu] = useState(false);
 
+  /* room selected from chat room list */
   const [roomSelection, setRoomSelection] = useState("PTY6qVozXSCkslCVg6ua");
+  const [roomName, setRoomName] = useState("main lobby");
 
   const messagesRef = collection(db, `/publicChats/${roomSelection}/messages`);
   const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
@@ -41,6 +46,7 @@ function App() {
     }
   );
 
+  /* message form */
   const [formValue, setFormValue] = useState("");
 
   const sendMessage = async (e) => {
@@ -57,6 +63,7 @@ function App() {
     setFormValue("");
   };
 
+  /* scrolling chatroom to bottom */
   const dummy = useRef();
 
   useEffect(
@@ -64,9 +71,18 @@ function App() {
     [messages]
   );
 
+  /* screen display in drop-down menu */
+
+  const [screen, setScreen] = useState("chat");
+
   return (
     <div className="main-container">
-      <Header user={user} openMenu={openMenu} setOpenMenu={setOpenMenu}>
+      <Header
+        user={user}
+        openMenu={openMenu}
+        setOpenMenu={setOpenMenu}
+        roomName={roomName}
+      >
         {user && <UserDisplay user={user} />}
       </Header>
       <DropMenu
@@ -74,8 +90,22 @@ function App() {
         openMenu={openMenu}
         setOpenMenu={setOpenMenu}
         setRoomSelection={setRoomSelection}
-      />
+        setScreen={setScreen}
+      >
+        {screen === "chat" && (
+          <ChatList
+            roomSelection={roomSelection}
+            setRoomSelection={setRoomSelection}
+            setOpenMenu={setOpenMenu}
+            setRoomName={setRoomName}
+            roomName={roomName}
+          />
+        )}
+        {screen === "settings" && <UserSettings user={user} />}
+      </DropMenu>
       <main className="main-box">
+        {userLoading && <Loading />}
+        {userError && <Error />}
         {user ? (
           <>
             {messagesLoading && <Loading />}

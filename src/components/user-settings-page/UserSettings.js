@@ -20,6 +20,7 @@ export default function UserSettings() {
   const accountRef = doc(db, "accounts", uid);
   const [account, loading, error] = useDocumentData(accountRef);
 
+  /* remounts component by changing the key property */
   const [keyForRemount, setKeyForRemount] = useState(1);
 
   /* collect all sign-in poviders linked to user */
