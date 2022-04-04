@@ -1,24 +1,13 @@
 import { auth } from "../backend/firebase-config";
 import { signOut } from "firebase/auth";
-import { useState } from "react";
-import ChatList from "./ChatList";
-import UserSettings from "./user-settings-page/UserSettings";
 
 export default function DropMenu({
   user,
   setOpenMenu,
   openMenu,
-  setRoomSelection,
+  setScreen,
+  children,
 }) {
-  const screenMap = {
-    chat: (
-      <ChatList setRoomSelection={setRoomSelection} setOpenMenu={setOpenMenu} />
-    ),
-    settings: <UserSettings user={user} />,
-  };
-
-  const [screen, setScreen] = useState(screenMap.chat);
-
   return (
     user && (
       <>
@@ -28,14 +17,15 @@ export default function DropMenu({
               openMenu ? "m-fadeIn" : "m-fadeOut"
             }`}
           >
-            <div className="drop-menu-container">{screen}</div>
+            {/* children components here */}
+            <div className="drop-menu-container">{children}</div>
 
             <ul className="text-right ">
               <li>
                 <button
                   className="menu-btn"
                   onClick={() => {
-                    setScreen(screenMap.settings);
+                    setScreen("settings");
                   }}
                 >
                   <i className="ri-user-settings-line"></i> User Settings
@@ -45,7 +35,7 @@ export default function DropMenu({
                 <button
                   className="menu-btn"
                   onClick={() => {
-                    setScreen(screenMap.chat);
+                    setScreen("chat");
                   }}
                 >
                   <i className="ri-search-line"></i> Public Chats
@@ -67,7 +57,6 @@ export default function DropMenu({
                   onClick={() => {
                     signOut(auth);
                     setOpenMenu(false);
-                    setScreen(screenMap.chat);
                   }}
                 >
                   <i className="align-bottom ri-logout-box-line"></i> Sign Out
@@ -81,4 +70,3 @@ export default function DropMenu({
   );
 }
 
-/*flex flex-col items-end */

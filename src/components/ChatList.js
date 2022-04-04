@@ -11,15 +11,22 @@ import {
   limitToLast,
   serverTimestamp,
   addDoc,
-  doc
+  doc,
 } from "firebase/firestore";
 import { useState, useRef, useEffect } from "react";
 import { auth, db } from "../backend/firebase-config";
 
-export default function ChatList({setRoomSelection, setOpenMenu}) {
+export default function ChatList({
+  roomSelection,
+  setRoomSelection,
+  setOpenMenu,
+  setRoomName,
+  roomName,
+}) {
   const publicChatsRef = collection(db, "publicChats");
   const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
-  const [publicChats, loading, error, snapshot] = useCollectionData(publicChatsQ);
+  const [publicChats, loading, error, snapshot] =
+    useCollectionData(publicChatsQ);
 
   if (loading) {
     return (
@@ -35,21 +42,33 @@ export default function ChatList({setRoomSelection, setOpenMenu}) {
     );
   } else {
     return (
-      <ul>
-        {publicChats.map((chatroom, index) => (
-          <li
-            className="px-1 pb-1 rounded hover:cursor-pointer hover:bg-blue-50/50"
-            key={index}
-            onClick={() => {
-              setRoomSelection(snapshot._snapshot.docChanges[index].doc.key.path.segments[6])
-              setOpenMenu(false)
-            }}
-          >
-
-            <span>{chatroom.name}</span>
-          </li>
-        ))}
-      </ul>
+      <>
+        <ul>
+          {publicChats.map((chatroom, index) => {
+            const roomID =
+              snapshot._snapshot.docChanges[index].doc.key.path.segments[6];
+            return (
+              <li
+                className={`rounded px-1 ${
+                  roomID === roomSelection
+                    ? "bg-blue-50/25 text-gray-700"
+                    : "hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
+                }`}
+                key={index}
+                onClick={() => {
+                  if (roomID !== roomSelection) {
+                    setRoomSelection(roomID);
+                    setRoomName(chatroom.name);
+                    setOpenMenu(false);
+                  }
+                }}
+              >
+                <span>{chatroom.name}{roomID === roomSelection && " (Current room)"}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </>
     );
   }
 }
