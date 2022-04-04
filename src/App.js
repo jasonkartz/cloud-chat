@@ -21,7 +21,7 @@ import DropMenu from "./components/DropMenu";
 import { useState, useEffect, useRef } from "react";
 import Header from "./components/Header";
 import UserDisplay from "./components/UserDisplay";
-import MessageForm from "./MessageForm";
+import MessageForm from "./components/MessageForm";
 import ChatMessage from "./components/ChatMessage";
 import ChatList from "./components/ChatList";
 

@@ -39,7 +39,7 @@
     @apply mx-auto drop-shadow-xl max-w-xl h-[95vh] flex flex-col bg-blue-300 rounded-lg;
   }
   .header {
-    @apply flex flex-col gap-1 p-2 bg-blue-400 rounded-t-lg;
+    @apply flex items-center justify-between p-2 bg-blue-400 rounded-t-lg;
   }
   .logo {
     @apply flex gap-1 text-2xl italic font-black tracking-wide text-blue-100 select-none;
@@ -49,6 +49,9 @@
   }
   .blue-heading {
     @apply text-lg font-black tracking-wide text-blue-600 select-none;
+  }
+  .white-heading {
+    @apply flex gap-1 text-xl font-bold tracking-wide text-blue-100 select-none;
   }
   .message-input {
     @apply h-12 p-1 rounded shadow-inner text-slate-800 grow bg-blue-50;

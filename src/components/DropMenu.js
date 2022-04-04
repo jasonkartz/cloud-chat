@@ -28,7 +28,8 @@ export default function DropMenu({
               openMenu ? "m-fadeIn" : "m-fadeOut"
             }`}
           >
-            {screen}
+            <div className="drop-menu-container">{screen}</div>
+
             <ul className="text-right ">
               <li>
                 <button

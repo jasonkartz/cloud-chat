@@ -39,13 +39,13 @@ export default function UserSettings() {
 
   if (loading) {
     return (
-      <div className="drop-menu-container">
+      <>
         <Loading />
-      </div>
+      </>
     );
   } else if (account) {
     return (
-      <div className="drop-menu-container">
+      <>
         {providerIdList.length < 2 && (
           <AddSignin
             reauthenticate={reauthenticate}
@@ -78,10 +78,10 @@ export default function UserSettings() {
           reauthenticate={reauthenticate}
           providerIdList={providerIdList}
         />
-      </div>
+      </>
     );
   } else if (error) {
-    return <div className="drop-menu-container"><Error /></div>;
+    return <><Error /></>;
   }
 }
 
