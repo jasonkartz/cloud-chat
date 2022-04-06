@@ -56,7 +56,13 @@ export default function DropMenu({
                 </button>
               </li>
               <li>
-                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
+                <button
+                  className={`${
+                    screen === "create-chat" ? "menu-btn-selected" : "menu-btn "
+                  }`}
+                  disabled={screen === "create-chat"}
+                  onClick={() => setScreen("create-chat")}
+                >
                   <i className="ri-chat-new-line"></i> <span>Create Chat</span>
                 </button>
               </li>

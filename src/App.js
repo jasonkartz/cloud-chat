@@ -25,6 +25,7 @@ import MessageForm from "./components/MessageForm";
 import ChatMessage from "./components/ChatMessage";
 import ChatList from "./components/ChatList";
 import UserSettings from "./components/user-settings-page/UserSettings";
+import CreateChat from "./components/CreateChat";
 
 function App() {
   /* user auth state - displays signin if auth state is false*/
@@ -67,8 +68,8 @@ function App() {
   const dummy = useRef();
 
   useEffect(
-    () => messages && dummy.current.scrollIntoView({ behavior: "smooth" }),
-    [messages]
+    () => user && dummy.current.scrollIntoView({ behavior: "smooth" }),
+    [user]
   );
 
   /* screen display in drop-down menu */
@@ -95,6 +96,16 @@ function App() {
       >
         {screen === "chat" && (
           <ChatList
+            roomSelection={roomSelection}
+            setRoomSelection={setRoomSelection}
+            setOpenMenu={setOpenMenu}
+            setRoomName={setRoomName}
+            roomName={roomName}
+          />
+        )}
+        {screen === "create-chat" && (
+          <CreateChat
+            user={user}
             roomSelection={roomSelection}
             setRoomSelection={setRoomSelection}
             setOpenMenu={setOpenMenu}
