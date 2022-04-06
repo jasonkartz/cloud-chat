@@ -90,6 +90,7 @@ function App() {
         openMenu={openMenu}
         setOpenMenu={setOpenMenu}
         setRoomSelection={setRoomSelection}
+        screen={screen}
         setScreen={setScreen}
       >
         {screen === "chat" && (
