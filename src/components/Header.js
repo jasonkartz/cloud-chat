@@ -4,7 +4,7 @@ export default function Header({ user, openMenu, setOpenMenu, roomName, children
       <h1 className="logo">
         <i className="ri-cloud-fill"></i>CloudChat
       </h1>
-      <h2 className="white-heading">{roomName}</h2>
+      <div className="room-name-heading">{roomName}</div>
       <div className="flex justify-end gap-2">
         {children}
         <i

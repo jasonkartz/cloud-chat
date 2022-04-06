@@ -5,6 +5,7 @@ export default function DropMenu({
   user,
   setOpenMenu,
   openMenu,
+  screen,
   setScreen,
   children,
 }) {
@@ -20,35 +21,43 @@ export default function DropMenu({
             {/* children components here */}
             <div className="drop-menu-container">{children}</div>
 
-            <ul className="text-right ">
+            <ul className="drop-menu-selection">
               <li>
                 <button
-                  className="menu-btn"
+                  className={`${
+                    screen === "settings" ? "menu-btn-selected" : "menu-btn "
+                  }`}
+                  disabled={screen === "settings"}
                   onClick={() => {
                     setScreen("settings");
                   }}
                 >
-                  <i className="ri-user-settings-line"></i> User Settings
+                  <i className="ri-user-settings-line"></i>{" "}
+                  <span>User Settings</span>
                 </button>
               </li>
               <li>
                 <button
-                  className="menu-btn"
+                  className={`${
+                    screen === "chat" ? "menu-btn-selected" : "menu-btn "
+                  }`}
+                  disabled={screen === "chat"}
                   onClick={() => {
                     setScreen("chat");
                   }}
                 >
-                  <i className="ri-search-line"></i> Public Chats
+                  <i className="ri-search-line"></i> <span>Public Chats</span>
                 </button>
               </li>
               <li>
                 <button className="menu-btn" onClick={() => setOpenMenu(false)}>
-                  <i className="ri-chat-private-line"></i> Direct Chat
+                  <i className="ri-chat-private-line"></i>{" "}
+                  <span>Direct Chat</span>
                 </button>
               </li>
               <li>
                 <button className="menu-btn" onClick={() => setOpenMenu(false)}>
-                  <i className="ri-chat-new-line"></i> Create Chat
+                  <i className="ri-chat-new-line"></i> <span>Create Chat</span>
                 </button>
               </li>
               <li>
@@ -59,7 +68,8 @@ export default function DropMenu({
                     setOpenMenu(false);
                   }}
                 >
-                  <i className="align-bottom ri-logout-box-line"></i> Sign Out
+                  <i className="align-bottom ri-logout-box-line"></i>{" "}
+                  <span>Sign Out</span>
                 </button>
               </li>
             </ul>
@@ -69,4 +79,3 @@ export default function DropMenu({
     )
   );
 }
-
