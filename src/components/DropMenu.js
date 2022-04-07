@@ -7,6 +7,7 @@ export default function DropMenu({
   openMenu,
   screen,
   setScreen,
+  roomName,
   children,
 }) {
   return (

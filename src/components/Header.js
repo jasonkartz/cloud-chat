@@ -1,10 +1,10 @@
 export default function Header({ user, openMenu, setOpenMenu, roomName, children }) {
   return (
     <header className={`header`}>
+      <div className="flex justify-between px-2 py-1 items center">
       <h1 className="logo">
         <i className="ri-cloud-fill"></i>CloudChat
       </h1>
-      <div className="room-name-heading">{roomName}</div>
       <div className="flex justify-end gap-2">
         {children}
         <i
@@ -15,6 +15,8 @@ export default function Header({ user, openMenu, setOpenMenu, roomName, children
           onClick={() => setOpenMenu(!openMenu)}
         ></i>
       </div>
+      </div>
+      <div className="room-name-heading">{roomName}</div>
     </header>
   );
 }
