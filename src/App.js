@@ -68,8 +68,12 @@ function App() {
   const dummy = useRef();
 
   useEffect(
-    () => user && dummy.current.scrollIntoView({ behavior: "smooth" }),
-    [user]
+    () => {
+      if (user && messages ) {
+        dummy.current.scrollIntoView({ behavior: "smooth" })
+      }
+    },
+    [user, messages]
   );
 
   /* screen display in drop-down menu */
