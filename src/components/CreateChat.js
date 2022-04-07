@@ -16,15 +16,24 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { auth, db } from "../backend/firebase-config";
 import { async } from "@firebase/util";
+import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
-export default function CreateChat({ user, setRoomSelection, setRoomName}) {
+export default function CreateChat({
+  user,
+  roomSelection,
+  setRoomSelection,
+  setRoomName,
+}) {
   const [createRoomName, setCreateRoomName] = useState("");
   const [createRoomStatus, setCreateRoomStatus] = useState("");
 
   const accountRef = doc(db, "accounts", user.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
 
-  
+  const publicChatsRef = collection(db, "publicChats");
+  const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
+  const [publicChats, loading, error, snapshot] =
+    useCollectionData(publicChatsQ);
 
   const createRoom = async () => {
     setCreateRoomStatus("Creating room...");
@@ -36,7 +45,7 @@ export default function CreateChat({ user, setRoomSelection, setRoomName}) {
     }).then(() => {
       setCreateRoomStatus("Opening room: " + createRoomName);
       setRoomSelection(createRoomName);
-      setRoomName(createRoomName)
+      setRoomName(createRoomName);
       setCreateRoomStatus(createRoomName + " is now live!");
       setCreateRoomName("");
       setTimeout(() => setCreateRoomStatus(""), 5000);
@@ -46,7 +55,7 @@ export default function CreateChat({ user, setRoomSelection, setRoomName}) {
   return (
     <>
       <section className="border-b-2 border-blue-200 settings-section ">
-        <h2 className="blue-heading">Create Chat</h2>
+        <h2 className="blue-heading">Create a chat</h2>
 
         <input
           type="text"
@@ -59,6 +68,25 @@ export default function CreateChat({ user, setRoomSelection, setRoomName}) {
           Create Chat
         </button>
         <p>{createRoomStatus}</p>
+      </section>
+      <section className="settings-section">
+        <h2 className="blue-heading">Delete a chat</h2>
+        {publicChats && (
+          <ul>
+            {publicChats.map(
+              (chatroom, index) =>
+                chatroom.moderatorUID === user.uid && (
+                  <li
+                    className={`rounded px-1 hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600`}
+                    key={index}
+                    onClick={() => {}}
+                  >
+                    <span>{chatroom.name}</span>
+                  </li>
+                )
+            )}
+          </ul>
+        )}
       </section>
     </>
   );
