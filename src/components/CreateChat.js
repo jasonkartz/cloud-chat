@@ -15,8 +15,6 @@ import {
 } from "firebase/firestore";
 import { useState, useRef, useEffect } from "react";
 import { auth, db } from "../backend/firebase-config";
-import { async } from "@firebase/util";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 export default function CreateChat({
   user,
@@ -26,6 +24,9 @@ export default function CreateChat({
 }) {
   const [createRoomName, setCreateRoomName] = useState("");
   const [createRoomStatus, setCreateRoomStatus] = useState("");
+
+  const [selectedRoomToDelete, setSelectedRoomToDelete] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState("");
 
   const accountRef = doc(db, "accounts", user.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
@@ -52,6 +53,8 @@ export default function CreateChat({
     });
   };
 
+  const deleteRoom = async () => {};
+
   return (
     <>
       <section className="border-b-2 border-blue-200 settings-section ">
@@ -69,22 +72,54 @@ export default function CreateChat({
         </button>
         <p>{createRoomStatus}</p>
       </section>
+
       <section className="settings-section">
         <h2 className="blue-heading">Delete a chat</h2>
+        {selectedRoomToDelete && (
+          <>
+            <input
+              type="text"
+              placeholder="Type DELETE to confirm"
+              className="form-input"
+              value={confirmDelete}
+              onChange={(e) => setConfirmDelete(e.target.value)}
+            />
+            <button
+              className="btn"
+              onClick={deleteRoom}
+              disabled={!confirmDelete}
+            >
+              Delete
+            </button>
+          </>
+        )}
         {publicChats && (
           <ul>
-            {publicChats.map(
-              (chatroom, index) =>
-                chatroom.moderatorUID === user.uid && (
+            {publicChats.map((chatroom, index) => {
+              if (chatroom.moderatorUID === user.uid) {
+                const roomID =
+                  snapshot._snapshot.docChanges[index].doc.key.path.segments[6];
+                return (
                   <li
-                    className={`rounded px-1 hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600`}
+                    className={`rounded px-1 hover:cursor-pointer ${
+                      roomID === selectedRoomToDelete
+                        ? "bg-blue-50/25 text-gray-700"
+                        : "hover:bg-blue-50/50 hover:text-blue-600"
+                    }`}
                     key={index}
-                    onClick={() => {}}
+                    onClick={() => {
+                      setSelectedRoomToDelete(selectedRoomToDelete === roomID ? "" : roomID);
+                      console.log(roomID);
+                    }}
                   >
-                    <span>{chatroom.name}</span>
+                    <span>
+                      {chatroom.name}
+                      {roomID === selectedRoomToDelete && " - (Selected)"}
+                    </span>
                   </li>
-                )
-            )}
+                );
+              }
+            })}
           </ul>
         )}
       </section>
