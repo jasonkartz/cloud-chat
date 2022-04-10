@@ -105,6 +105,15 @@
     @apply w-[65%] p-2 overflow-auto rounded whitespace-nowrap bg-blue-300/75 max-h-96 shadow-inner 
     backdrop-blur-sm;
   }
+  .user-display-container {
+    @apply flex items-center gap-2 text-sm font-bold select-none text-blue-50 hover:text-yellow-100 hover:cursor-pointer;
+  }
+  .user-display-container:hover > img {
+    @apply opacity-75 outline outline-yellow-100;
+  }
+  .user-display-image {
+    @apply rounded-full;
+  }
   ::-webkit-scrollbar {
     @apply w-2 h-2;
   }

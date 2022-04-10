@@ -61,7 +61,15 @@ export default function DropMenu({
 
               {/* user search */}
               <li>
-                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
+              <button
+                  className={`${
+                    screen === "users" ? "menu-btn-selected" : "menu-btn "
+                  }`}
+                  disabled={screen === "users"}
+                  onClick={() => {
+                    setScreen("users");
+                  }}
+                >
                   <i className="ri-user-search-line"></i>{" "}
                   <span>Search Users</span>
                 </button>
@@ -69,7 +77,15 @@ export default function DropMenu({
 
               {/* profile */}
               <li>
-                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
+              <button
+                  className={`${
+                    screen === "profile" ? "menu-btn-selected" : "menu-btn "
+                  }`}
+                  disabled={screen === "profile"}
+                  onClick={() => {
+                    setScreen("profile");
+                  }}
+                >
                   <i className="ri-profile-line"></i> <span>Profile</span>
                 </button>
               </li>
