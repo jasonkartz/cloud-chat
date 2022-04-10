@@ -23,20 +23,7 @@ export default function DropMenu({
             <div className="drop-menu-container">{children}</div>
 
             <ul className="drop-menu-selection">
-              <li>
-                <button
-                  className={`${
-                    screen === "settings" ? "menu-btn-selected" : "menu-btn "
-                  }`}
-                  disabled={screen === "settings"}
-                  onClick={() => {
-                    setScreen("settings");
-                  }}
-                >
-                  <i className="ri-user-settings-line"></i>{" "}
-                  <span>User Settings</span>
-                </button>
-              </li>
+              {/* public chats */}
               <li>
                 <button
                   className={`${
@@ -50,12 +37,8 @@ export default function DropMenu({
                   <i className="ri-search-line"></i> <span>Public Chats</span>
                 </button>
               </li>
-              <li>
-                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
-                  <i className="ri-chat-private-line"></i>{" "}
-                  <span>Direct Chat</span>
-                </button>
-              </li>
+
+              {/* create public chat */}
               <li>
                 <button
                   className={`${
@@ -67,6 +50,45 @@ export default function DropMenu({
                   <i className="ri-chat-new-line"></i> <span>Create Chat</span>
                 </button>
               </li>
+
+              {/* direct chats */}
+              <li>
+                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
+                  <i className="ri-chat-private-line"></i>{" "}
+                  <span>Direct Chats</span>
+                </button>
+              </li>
+
+              {/* user search */}
+              <li>
+                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
+                  <i className="ri-user-search-line"></i>{" "}
+                  <span>Search Users</span>
+                </button>
+              </li>
+
+              {/* profile */}
+              <li>
+                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
+                  <i className="ri-profile-line"></i> <span>Profile</span>
+                </button>
+              </li>
+
+              {/* settings */}
+              <li>
+                <button
+                  className={`${
+                    screen === "settings" ? "menu-btn-selected" : "menu-btn "
+                  }`}
+                  disabled={screen === "settings"}
+                  onClick={() => {
+                    setScreen("settings");
+                  }}
+                >
+                  <i className="ri-settings-3-line"></i> <span>Settings</span>
+                </button>
+              </li>
+              {/* sign out */}
               <li>
                 <button
                   className="menu-btn"
