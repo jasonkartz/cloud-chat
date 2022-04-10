@@ -26,6 +26,8 @@ import ChatMessage from "./components/ChatMessage";
 import PublicChats from "./components/PublicChats";
 import UserSettings from "./components/user-settings-page/UserSettings";
 import CreateChat from "./components/CreateChat";
+import UserProfile from "./components/UserProfile";
+import UserList from "./components/UserList";
 
 function App() {
   /* user auth state - displays signin if auth state is false*/
@@ -67,14 +69,11 @@ function App() {
   /* scrolling chatroom to bottom */
   const dummy = useRef();
 
-  useEffect(
-    () => {
-      if (user && messages ) {
-        dummy.current.scrollIntoView({ behavior: "smooth" })
-      }
-    },
-    [user, messages]
-  );
+  useEffect(() => {
+    if (user && messages) {
+      dummy.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [user, messages]);
 
   /* screen display in drop-down menu */
 
@@ -88,7 +87,13 @@ function App() {
         setOpenMenu={setOpenMenu}
         roomName={roomName}
       >
-        {user && <UserDisplay user={user} />}
+        {user && (
+          <UserDisplay
+            user={user}
+            setOpenMenu={setOpenMenu}
+            setScreen={setScreen}
+          />
+        )}
       </Header>
       <DropMenu
         user={user}
@@ -98,9 +103,10 @@ function App() {
         screen={screen}
         setScreen={setScreen}
       >
+        {screen === "profile" && <UserProfile user={user}/>}
         {screen === "chat" && (
           <PublicChats
-          user={user}
+            user={user}
             roomSelection={roomSelection}
             setRoomSelection={setRoomSelection}
             setOpenMenu={setOpenMenu}
@@ -108,6 +114,7 @@ function App() {
             roomName={roomName}
           />
         )}
+        {screen === "users" && <UserList user={user} />}
         {screen === "create-chat" && (
           <CreateChat
             user={user}

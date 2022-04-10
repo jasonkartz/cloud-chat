@@ -2,7 +2,7 @@ import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "../backend/firebase-config";
 
-export default function UserDisplay({user}) {
+export default function UserDisplay({ user, setOpenMenu, setScreen }) {
   const accountRef = doc(db, "accounts", user.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
 
@@ -20,9 +20,22 @@ export default function UserDisplay({user}) {
     );
   } else {
     return (
-      <div className="flex items-center gap-2 text-sm font-bold select-none text-blue-50">
+      <div
+        className="user-display-container"
+        onClick={() => {
+          setOpenMenu(true);
+          setScreen("profile");
+        }}
+      >
         {account.userName || account.name}
-        {account.photoURL && <img src={account.photoURL} alt="user" className="rounded-full" width="30" />}
+        {account.photoURL && (
+          <img
+            src={account.photoURL}
+            alt="user"
+            className="user-display-image"
+            width="30"
+          />
+        )}
       </div>
     );
   }
