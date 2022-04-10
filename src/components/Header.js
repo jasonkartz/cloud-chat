@@ -22,7 +22,7 @@ export default function Header({
           ></i>
         </div>
       </div>
-      <div className="room-name-heading">{roomName}</div>
+      {user && (<div className="room-name-heading">{roomName}</div>)}
     </header>
   );
 }

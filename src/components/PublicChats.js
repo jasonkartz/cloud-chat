@@ -17,6 +17,7 @@ import { useState, useRef, useEffect } from "react";
 import { auth, db } from "../backend/firebase-config";
 
 export default function ChatList({
+  user,
   roomSelection,
   setRoomSelection,
   setOpenMenu,
@@ -27,6 +28,7 @@ export default function ChatList({
   const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
   const [publicChats, loading, error, snapshot] =
     useCollectionData(publicChatsQ);
+
 
   if (loading) {
     return (
@@ -46,7 +48,7 @@ export default function ChatList({
         <ul>
           {publicChats.map((chatroom, index) => {
             const roomID =
-              snapshot._snapshot.docChanges[index].doc.key.path.segments[6];
+            snapshot._snapshot.docChanges[index].doc.key.path.segments[6];
             return (
               <li
                 className={`rounded px-1 ${
@@ -63,7 +65,10 @@ export default function ChatList({
                   }
                 }}
               >
-                <span>{chatroom.name}{roomID === roomSelection && " (Current room)"}</span>
+                <span>
+                  {chatroom.name}
+                  {roomID === roomSelection && " (Current room)"}
+                </span>
               </li>
             );
           })}

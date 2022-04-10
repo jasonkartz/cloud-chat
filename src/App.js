@@ -23,7 +23,7 @@ import Header from "./components/Header";
 import UserDisplay from "./components/UserDisplay";
 import MessageForm from "./components/MessageForm";
 import ChatMessage from "./components/ChatMessage";
-import ChatList from "./components/ChatList";
+import PublicChats from "./components/PublicChats";
 import UserSettings from "./components/user-settings-page/UserSettings";
 import CreateChat from "./components/CreateChat";
 
@@ -99,7 +99,8 @@ function App() {
         setScreen={setScreen}
       >
         {screen === "chat" && (
-          <ChatList
+          <PublicChats
+          user={user}
             roomSelection={roomSelection}
             setRoomSelection={setRoomSelection}
             setOpenMenu={setOpenMenu}

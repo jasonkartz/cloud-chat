@@ -53,6 +53,8 @@ export default function SignIn() {
         email: email,
         photoURL: photoURL,
         lastLogin: serverTimestamp(),
+        following: [],
+        followers: []
       });
     }
   };
@@ -75,6 +77,8 @@ export default function SignIn() {
                   email: email,
                   photoURL: "",
                   lastLogin: serverTimestamp(),
+                  following: [],
+                  followers: []
                 });
               }
             );
