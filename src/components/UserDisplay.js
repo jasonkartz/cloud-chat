@@ -2,7 +2,7 @@ import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "../backend/firebase-config";
 
-export default function UserDisplay({ user, setOpenMenu, setScreen }) {
+export default function UserDisplay({ user, setOpenMenu, setScreen, setAccountSelection }) {
   const accountRef = doc(db, "accounts", user.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
 
@@ -23,6 +23,7 @@ export default function UserDisplay({ user, setOpenMenu, setScreen }) {
       <div
         className="user-display-container"
         onClick={() => {
+          setAccountSelection(user.uid)
           setOpenMenu(true);
           setScreen("profile");
         }}

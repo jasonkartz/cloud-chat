@@ -8,6 +8,8 @@ export default function DropMenu({
   screen,
   setScreen,
   roomName,
+  accountSelection,
+  setAccountSelection,
   children,
 }) {
   return (
@@ -61,7 +63,7 @@ export default function DropMenu({
 
               {/* user search */}
               <li>
-              <button
+                <button
                   className={`${
                     screen === "users" ? "menu-btn-selected" : "menu-btn "
                   }`}
@@ -77,13 +79,18 @@ export default function DropMenu({
 
               {/* profile */}
               <li>
-              <button
+                <button
                   className={`${
-                    screen === "profile" ? "menu-btn-selected" : "menu-btn "
+                    screen === "profile" && accountSelection === user.uid
+                      ? "menu-btn-selected"
+                      : "menu-btn "
                   }`}
-                  disabled={screen === "profile"}
+                  disabled={
+                    screen === "profile" && accountSelection === user.uid
+                  }
                   onClick={() => {
                     setScreen("profile");
+                    setAccountSelection(user.uid);
                   }}
                 >
                   <i className="ri-profile-line"></i> <span>Profile</span>
