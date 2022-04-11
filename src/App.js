@@ -33,6 +33,9 @@ function App() {
   /* user auth state - displays signin if auth state is false*/
   const [user, userLoading, userError] = useAuthState(auth);
 
+  /* account ID selection from UserList */
+  const [accountSelection, setAccountSelection] = useState(null);
+
   /* drop-down menu toggled from header */
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -92,6 +95,7 @@ function App() {
             user={user}
             setOpenMenu={setOpenMenu}
             setScreen={setScreen}
+            setAccountSelection={setAccountSelection}
           />
         )}
       </Header>
@@ -102,8 +106,9 @@ function App() {
         setRoomSelection={setRoomSelection}
         screen={screen}
         setScreen={setScreen}
+        setAccountSelection={setAccountSelection}
+        accountSelection={accountSelection}
       >
-        {screen === "profile" && <UserProfile user={user}/>}
         {screen === "chat" && (
           <PublicChats
             user={user}
@@ -114,7 +119,22 @@ function App() {
             roomName={roomName}
           />
         )}
-        {screen === "users" && <UserList user={user} />}
+        {screen === "profile" && (
+          <UserProfile
+            user={user}
+            accountSelection={accountSelection}
+            setAccountSelection={setAccountSelection}
+            setScreen={setScreen}
+          />
+        )}
+        {screen === "users" && (
+          <UserList
+            user={user}
+            accountSelection={accountSelection}
+            setAccountSelection={setAccountSelection}
+            setScreen={setScreen}
+          />
+        )}
         {screen === "create-chat" && (
           <CreateChat
             user={user}

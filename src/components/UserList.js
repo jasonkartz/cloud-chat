@@ -17,7 +17,12 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { auth, db } from "../backend/firebase-config";
 
-export default function UserList() {
+export default function UserList({
+  user,
+  accountSelection,
+  setAccountSelection,
+  setScreen,
+}) {
   const accountsRef = collection(db, "accounts");
   const accountsQ = query(accountsRef, orderBy("name"), limitToLast(25));
   const [accounts, loading, error, snapshot] = useCollectionData(accountsQ);
@@ -32,20 +37,30 @@ export default function UserList() {
         {accounts &&
           accounts.map((account) => {
             return (
-              <>
-                <li className="flex gap-2 mb-2">
-                  <img
-                    src={account.photoURL || defaultPic}
-                    alt="user"
-                    width="25"
-                    className="self-center rounded"
-                  />
-                  <span className="flex flex-col">
-                    <p>{account.userName || account.name}{" "}</p>
-                    <p className="text-sm">{account.userName && account.name}</p>
-                  </span>
-                </li>
-              </>
+              account.uid !== user.uid && (
+                <>
+                  <li
+                    className="flex gap-2 p-1 border-b border-blue-200 hover:rounded hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
+                    onClick={() => {
+                      setAccountSelection(account.uid);
+                      setScreen("profile");
+                    }}
+                  >
+                    <img
+                      src={account.photoURL || defaultPic}
+                      alt="user"
+                      width="25"
+                      className="self-center rounded"
+                    />
+                    <span className="flex flex-col">
+                      <p>{account.userName || account.name} </p>
+                      <p className="text-sm">
+                        {account.userName && account.name}
+                      </p>
+                    </span>
+                  </li>
+                </>
+              )
             );
           })}
       </ul>
