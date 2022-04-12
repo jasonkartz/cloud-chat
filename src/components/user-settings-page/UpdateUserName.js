@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { updateDoc } from "firebase/firestore";
 
-export default function UpdateUserName(props) {
-  const accountRef = props.accountRef;
-  const account = props.account;
+export default function UpdateUserName({account, accountRef}) {
 
   const [display, setDisplay] = useState(false);
 

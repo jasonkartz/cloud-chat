@@ -1,5 +1,12 @@
 import defaultPic from "../images/cloud-fill.png";
-import { doc, getDoc, collection, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+} from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { auth, db } from "../backend/firebase-config";
 import Loading from "./Loading";
@@ -11,46 +18,79 @@ export default function Profile({
   setAccountSelection,
   setScreen,
 }) {
-  const accountRef = doc(db, "accounts", accountSelection);
-  const [account, loading, error] = useDocumentData(accountRef);
+  const selectedAccountRef = doc(db, "accounts", accountSelection);
+  const [selectedAccount, selectedAccountLoading, selectedAccountError] =
+    useDocumentData(selectedAccountRef);
 
   const userAccountRef = doc(db, "accounts", user.uid);
+  const [userAccount, userLoading, userError] = useDocumentData(userAccountRef);
 
   const followUser = () => {
     updateDoc(userAccountRef, {
-      following: arrayUnion(account.uid)
-    })
+      following: arrayUnion(selectedAccount.uid),
+    });
 
-    updateDoc(accountRef, {
-      followers: arrayUnion(user.uid)
-    })
-    
-  }
+    updateDoc(selectedAccountRef, {
+      followers: arrayUnion(user.uid),
+    });
+  };
 
-  if (loading) {
+  const unFollowUser = () => {
+    updateDoc(userAccountRef, {
+      following: arrayRemove(selectedAccount.uid),
+    });
+
+    updateDoc(selectedAccountRef, {
+      followers: arrayRemove(user.uid),
+    });
+  };
+
+  if (selectedAccountLoading || userLoading) {
     return <Loading />;
-  } else if (error) {
+  } else if (selectedAccountError || userError) {
     return <Error />;
   } else {
+    const followCheck = userAccount.following.includes(selectedAccount.uid);
+
     return (
       <section className="settings-section">
-        <h1 className="blue-heading">{account.name}</h1>
+        <h1 className="blue-heading">{selectedAccount.name}</h1>
         <img
-          src={account.photoURL || defaultPic}
+          src={selectedAccount.photoURL || defaultPic}
           alt="user"
           width="100"
           className="rounded"
         />
-        {account.uid !== user.uid && (
-          <button className="flex items-center gap-1 btn"
-          onClick={followUser}
+
+        <p className="font-bold">
+          <span>
+            Followers{" "}
+            {selectedAccount.followers ? selectedAccount.followers.length : "0"}
+          </span>{" "}
+          |{" "}
+          <span>
+            Following{" "}
+            {selectedAccount.following ? selectedAccount.following.length : "0"}
+          </span>
+        </p>
+
+        {selectedAccount.uid !== user.uid && (
+          <button
+            className="flex items-center gap-1 btn"
+            onClick={followCheck ? unFollowUser : followUser}
           >
-            <i className="ri-user-follow-line"></i>
-            <span>Follow</span>
+            <i
+              className={`ri-user-${followCheck ? "unfollow" : "follow"}-line`}
+            ></i>
+            <span>{followCheck ? "Unfollow" : "Follow"}</span>
           </button>
         )}
-        <p>Last Login: {account.lastLogin.toDate().toDateString()}</p>
-        {account.uid !== user.uid && (
+        <p>
+          Last Login:{" "}
+          {selectedAccount.lastLogin &&
+            selectedAccount.lastLogin.toDate().toDateString()}
+        </p>
+        {selectedAccount.uid !== user.uid && (
           <p
             className="flex items-center gap-1 hover:cursor-pointer hover:text-blue-500"
             onClick={() => setScreen("users")}
