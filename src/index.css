@@ -72,7 +72,7 @@
     @apply w-12 h-12 font-bold text-blue-100 bg-blue-600 rounded disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 drop-shadow hover:text-yellow-100 active:drop-shadow-sm;
   }
   .settings-section {
-    @apply flex flex-col items-start gap-2 p-2 text-blue-600;
+    @apply flex flex-col items-start w-full gap-2 p-2 text-blue-600;
   }
   .signin-section {
     @apply flex flex-col items-center gap-2 p-2 text-blue-600;
