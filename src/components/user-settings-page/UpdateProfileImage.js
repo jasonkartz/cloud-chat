@@ -5,11 +5,9 @@ import { updateProfile } from "firebase/auth";
 import { updateDoc } from "firebase/firestore";
 import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 
-export default function UpdateProfileImage(props) {
+export default function UpdateProfileImage({account, accountRef}) {
   const currentUser = auth.currentUser;
   const { uid } = currentUser;
-  const accountRef = props.accountRef;
-  const account = props.account;
 
   const [display, setDisplay] = useState(false);
 

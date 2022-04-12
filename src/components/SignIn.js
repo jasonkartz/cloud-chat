@@ -41,7 +41,7 @@ export default function SignIn() {
     const accountRef = doc(db, "accounts", auth.currentUser.uid);
     const docSnap = getDoc(accountRef);
 
-    if (docSnap.exists) {
+    if (docSnap) {
       updateDoc(accountRef, {
         lastLogin: serverTimestamp(),
       });
@@ -53,8 +53,8 @@ export default function SignIn() {
         email: email,
         photoURL: photoURL,
         lastLogin: serverTimestamp(),
+        followers: [],
         following: [],
-        followers: []
       });
     }
   };
