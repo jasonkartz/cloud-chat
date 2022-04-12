@@ -75,7 +75,7 @@ export default function Profile({
         : "";
 
     return (
-      <section className="settings-section">
+      <><section className="settings-section">
         <div className="">
           <h1 className="blue-heading">{selectedAccount.name}</h1>
           <p className="text-sm italic">{followDisplay}</p>
@@ -150,17 +150,17 @@ export default function Profile({
             )}
           </>
         )}
-
+        </section>
         {/* Follower/Following Screen */}
 
         {openFollowList && (
           <>
-            <div className="flex gap-5">
-              {" "}
-              <h1>Follow List</h1>
-              <button onClick={() => setOpenFollowList(false)}>
-                <i className="ri-close-circle-line"></i>
+            <div className="flex flex-col">
+              <button className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:cursor-pointer hover:text-blue-500" onClick={() => setOpenFollowList(false)}>
+              <i className="ri-arrow-go-back-line"></i>
+                <span> Back to profile</span>
               </button>
+              <h1 className="blue-heading">{selectFollowList === "followers" ? "Following" : "Followers"}</h1>
             </div>
             <ul>
               {accounts.map((account, index) => {
@@ -194,7 +194,7 @@ export default function Profile({
             </ul>
           </>
         )}
-      </section>
+      </>
     );
   }
 }
