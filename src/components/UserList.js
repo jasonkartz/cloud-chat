@@ -34,7 +34,7 @@ export default function UserList({
   } else {
     return (
       <ul>
-        {accounts &&
+        {
           accounts.map((account, index) => {
             return (
               account.uid !== user.uid && (
