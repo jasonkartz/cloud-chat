@@ -177,3 +177,14 @@ function App() {
 }
 
 export default App;
+
+
+/* DIRECT CHATS
+- use state to switch between 'public' or 'direct' 'Chats' in messagesRef collection path
+- change 'roomSelection' to 'documentId' since this will also be used for direct messages
+- direct chats will have a 'users' field containing an array of UIDs involved in the chat
+- add 'message' to user profiles
+- test with 2 user messages first using 'message' function, group chats can be done by 'create message'
+- all chats are displayed under 'direct chats'. 'create message' can be added here
+- add notifications when messages are recieved
+*/
