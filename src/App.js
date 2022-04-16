@@ -40,11 +40,14 @@ function App() {
   const [openMenu, setOpenMenu] = useState(false);
 
   /* room selected from chat room list */
-  const [chatSelection, setChatSelection] = useState("PTY6qVozXSCkslCVg6ua");
+  const [chatSelection, setChatSelection] = useState({
+    id: "PTY6qVozXSCkslCVg6ua",
+    path:"/publicChats/PTY6qVozXSCkslCVg6ua/messages"
+  });
   const [chatName, setChatName] = useState("main lobby");
 
 
-  const messagesRef = collection(db, `/publicChats/${chatSelection}/messages`);
+  const messagesRef = collection(db, chatSelection.path);
   const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
   const [messages, messagesLoading, messagesError] = useCollectionData(
     messagesQ,

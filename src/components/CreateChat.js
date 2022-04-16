@@ -25,8 +25,8 @@ export default function CreateChat({
   setChatSelection,
   setChatName,
 }) {
-  const [createRoomName, setCreateRoomName] = useState("");
-  const [createRoomStatus, setCreateRoomStatus] = useState("");
+  const [createChatName, setCreateChatName] = useState("");
+  const [createChatStatus, setCreateChatStatus] = useState("");
 
   const accountRef = doc(db, "accounts", user.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
@@ -37,19 +37,22 @@ export default function CreateChat({
     useCollectionData(publicChatsQ);
 
   const createRoom = async () => {
-    setCreateRoomStatus("Creating room...");
+    setCreateChatStatus("Creating room...");
     await addDoc(collection(db, `publicChats`), {
       createdAt: serverTimestamp(),
       creator: account.name,
       moderatorUID: user.uid,
-      name: createRoomName,
-    }).then(() => {
-      setCreateRoomStatus("Opening room: " + createRoomName);
-      setChatSelection(createRoomName);
-      setChatName(createRoomName);
-      setCreateRoomStatus(createRoomName + " is now live!");
-      setCreateRoomName("");
-      setTimeout(() => setCreateRoomStatus(""), 5000);
+      name: createChatName,
+    }).then((doc) => {
+      setCreateChatStatus("Opening room: " + createChatName);
+      setChatSelection({
+        id: doc.id,
+        path: "/publicChats/" + doc.id + "/messages"
+      });
+      setChatName(createChatName);
+      setCreateChatStatus(createChatName + " is now live!");
+      setCreateChatName("");
+      setTimeout(() => setCreateChatStatus(""), 5000);
     });
   };
 
@@ -62,13 +65,13 @@ export default function CreateChat({
           type="text"
           placeholder="Enter room name / topic"
           className="form-input"
-          value={createRoomName}
-          onChange={(e) => setCreateRoomName(e.target.value)}
+          value={createChatName}
+          onChange={(e) => setCreateChatName(e.target.value)}
         />
-        <button className="btn" onClick={createRoom} disabled={!createRoomName}>
+        <button className="btn" onClick={createRoom} disabled={!createChatName}>
           Create Chat
         </button>
-        <p>{createRoomStatus}</p>
+        <p>{createChatStatus}</p>
       </section>
     </>
   );

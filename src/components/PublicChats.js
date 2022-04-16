@@ -48,19 +48,22 @@ export default function ChatList({
       <>
         <ul>
           {publicChats.map((chatroom, index) => {
-            const roomID =
+            const chatID =
             snapshot._snapshot.docChanges[index].doc.key.path.segments[6]
             return (
               <li
                 className={`rounded px-1 ${
-                  roomID === chatSelection
+                  chatID === chatSelection
                     ? "bg-blue-50/25 text-gray-700"
                     : "hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
                 }`}
                 key={index}
                 onClick={() => {
-                  if (roomID !== chatSelection) {
-                    setChatSelection(roomID);
+                  if (chatID !== chatSelection.id) {
+                    setChatSelection({
+                      id: chatID,
+                      path: "/publicChats/" + chatID +"/messages"
+                    });
                     setChatName(chatroom.name);
                     setOpenMenu(false);
                   }
@@ -68,7 +71,7 @@ export default function ChatList({
               >
                 <span>
                   {chatroom.name}
-                  {roomID === chatSelection && " (Current room)"}
+                  {chatID === chatSelection.id && " (Current room)"}
                 </span>
               </li>
             );
