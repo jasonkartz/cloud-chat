@@ -22,8 +22,6 @@ export default function ChatList({
   chatSelection,
   setChatSelection,
   setOpenMenu,
-  setChatName,
-  chatName,
 }) {
   const publicChatsRef = collection(db, "publicChats");
   const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
@@ -48,8 +46,7 @@ export default function ChatList({
       <>
         <ul>
           {publicChats.map((chatroom, index) => {
-            const chatID =
-            snapshot._snapshot.docChanges[index].doc.key.path.segments[6]
+            const chatID = chatroom.id
             return (
               <li
                 className={`rounded px-1 ${
@@ -62,9 +59,9 @@ export default function ChatList({
                   if (chatID !== chatSelection.id) {
                     setChatSelection({
                       id: chatID,
+                      name: chatroom.name,
                       path: "/publicChats/" + chatID +"/messages"
                     });
-                    setChatName(chatroom.name);
                     setOpenMenu(false);
                   }
                 }}

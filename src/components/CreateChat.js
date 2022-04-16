@@ -11,6 +11,7 @@ import {
   limitToLast,
   serverTimestamp,
   addDoc,
+  setDoc,
   doc,
   updateDoc,
   deleteField,
@@ -38,18 +39,20 @@ export default function CreateChat({
 
   const createRoom = async () => {
     setCreateChatStatus("Creating room...");
-    await addDoc(collection(db, `publicChats`), {
+    const newRoomRef = doc(collection(db, `publicChats`))
+    await setDoc(newRoomRef, {
       createdAt: serverTimestamp(),
       creator: account.name,
       moderatorUID: user.uid,
       name: createChatName,
-    }).then((doc) => {
+      id: newRoomRef.id
+    }).then(() => {
       setCreateChatStatus("Opening room: " + createChatName);
       setChatSelection({
-        id: doc.id,
-        path: "/publicChats/" + doc.id + "/messages"
+        id: newRoomRef.id,
+        name: createChatName,
+        path: "/publicChats/" + newRoomRef.id + "/messages",
       });
-      setChatName(createChatName);
       setCreateChatStatus(createChatName + " is now live!");
       setCreateChatName("");
       setTimeout(() => setCreateChatStatus(""), 5000);
