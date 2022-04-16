@@ -10,7 +10,10 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useDocumentData, useCollectionData, } from "react-firebase-hooks/firestore";
+import {
+  useDocumentData,
+  useCollectionData,
+} from "react-firebase-hooks/firestore";
 import { useState } from "react";
 import { auth, db } from "../backend/firebase-config";
 import Loading from "./Loading";
@@ -75,92 +78,110 @@ export default function Profile({
         : "";
 
     return (
-      <><section className="settings-section">
-        <div className="">
-          <h1 className="blue-heading">{selectedAccount.name}</h1>
-          <p className="text-sm italic">{followDisplay}</p>
-        </div>
+      <>
+        <section className="settings-section">
+          <div className="">
+            <h1 className="blue-heading">{selectedAccount.name}</h1>
+            <p className="text-sm italic">{followDisplay}</p>
+          </div>
 
-        {/* Default screen */}
+          {/* Default screen */}
 
-        {!openFollowList && (
-          <>
-            <p className="font-bold">
-              <span
-                className="hover:cursor-pointer"
-                onClick={() => {
-                  setOpenFollowList(true)
-                  setSelectFollowList("following")
-                }}
-              >
-                Followers{" "}
-                {selectedAccount.followers
-                  ? selectedAccount.followers.length
-                  : "0"}
-              </span>{" "}
-              |{" "}
-              <span
-                className="hover:cursor-pointer"
-                onClick={() => {
-                  setOpenFollowList(true)
-                  setSelectFollowList("followers")
-                }}
-              >
-                Following{" "}
-                {selectedAccount.following
-                  ? selectedAccount.following.length
-                  : "0"}
-              </span>
-            </p>
-
-            <img
-              src={selectedAccount.photoURL || defaultPic}
-              alt="user"
-              width="100"
-              className="rounded"
-            />
-
-            {selectedAccount.uid !== user.uid && (
-              <button
-                className="flex items-center gap-1 btn"
-                onClick={followCheck ? unFollowUser : followUser}
-              >
-                <i
-                  className={`ri-user-${
-                    followCheck ? "unfollow" : "follow"
-                  }-line`}
-                ></i>
-                <span>{followCheck ? "Unfollow" : "Follow"}</span>
-              </button>
-            )}
-            <p>
-              Last Login:{" "}
-              {selectedAccount.lastLogin &&
-                selectedAccount.lastLogin.toDate().toDateString()}
-            </p>
-
-            {selectedAccount.uid !== user.uid && (
-              <p
-                className="flex items-center gap-1 hover:cursor-pointer hover:text-blue-500"
-                onClick={() => setScreen("users")}
-              >
-                <i className="text-lg font-bold ri-arrow-go-back-line"></i>
-                <span> Go Back</span>
+          {!openFollowList && (
+            <>
+              <p className="font-bold">
+                <span
+                  className="hover:cursor-pointer"
+                  onClick={() => {
+                    setOpenFollowList(true);
+                    setSelectFollowList("following");
+                  }}
+                >
+                  Followers{" "}
+                  {selectedAccount.followers
+                    ? selectedAccount.followers.length
+                    : "0"}
+                </span>{" "}
+                |{" "}
+                <span
+                  className="hover:cursor-pointer"
+                  onClick={() => {
+                    setOpenFollowList(true);
+                    setSelectFollowList("followers");
+                  }}
+                >
+                  Following{" "}
+                  {selectedAccount.following
+                    ? selectedAccount.following.length
+                    : "0"}
+                </span>
               </p>
-            )}
-          </>
-        )}
+
+              <img
+                src={selectedAccount.photoURL || defaultPic}
+                alt="user"
+                width="100"
+                className="rounded"
+              />
+
+              {selectedAccount.uid !== user.uid && (
+                <div className="flex gap-2">
+                  <button
+                    className="flex items-center gap-1 btn"
+                    onClick={followCheck ? unFollowUser : followUser}
+                  >
+                    <i
+                      className={`ri-user-${
+                        followCheck ? "unfollow" : "follow"
+                      }-line`}
+                    ></i>
+                    <span>{followCheck ? "Unfollow" : "Follow"}</span>
+                  </button>
+                  <button
+                    className="flex items-center gap-1 btn"
+                    onClick={() => console.log()}
+                  >
+                    <i
+                      className={`ri-chat-2-line`}
+                    ></i>
+                    <span>Message</span>
+                  </button>
+                </div>
+              )}
+              <p>
+                Last Login:{" "}
+                {selectedAccount.lastLogin &&
+                  selectedAccount.lastLogin.toDate().toDateString()}
+              </p>
+
+              {selectedAccount.uid !== user.uid && (
+                <p
+                  className="flex items-center gap-1 hover:cursor-pointer hover:text-blue-500"
+                  onClick={() => setScreen("users")}
+                >
+                  <i className="text-lg font-bold ri-arrow-go-back-line"></i>
+                  <span> Go Back</span>
+                </p>
+              )}
+            </>
+          )}
         </section>
+
         {/* Follower/Following Screen */}
 
         {openFollowList && (
           <>
             <div className="flex flex-col">
-              <button className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:cursor-pointer hover:text-blue-500" onClick={() => setOpenFollowList(false)}>
-              <i className="ri-arrow-go-back-line"></i>
+              <button
+                className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:cursor-pointer hover:text-blue-500"
+                onClick={() => setOpenFollowList(false)}
+              >
+                <i className="ri-arrow-go-back-line"></i>
                 <span> Back to profile</span>
               </button>
-              <h1 className="blue-heading">{selectFollowList === "followers" ? "Following" : "Followers"}</h1>
+              <h1 className="blue-heading">
+                {selectFollowList === "followers" ? "Following" : "Followers"}
+              </h1>
             </div>
             <ul>
               {accounts.map((account, index) => {
@@ -171,7 +192,7 @@ export default function Profile({
                       key={index}
                       onClick={() => {
                         setAccountSelection(account.uid);
-                        setOpenFollowList(false)
+                        setOpenFollowList(false);
                         setScreen("profile");
                       }}
                     >

@@ -78,7 +78,7 @@ export default function SignIn() {
                   photoURL: "",
                   lastLogin: serverTimestamp(),
                   following: [],
-                  followers: []
+                  followers: [],
                 });
               }
             );

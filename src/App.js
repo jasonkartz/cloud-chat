@@ -40,10 +40,11 @@ function App() {
   const [openMenu, setOpenMenu] = useState(false);
 
   /* room selected from chat room list */
-  const [roomSelection, setRoomSelection] = useState("PTY6qVozXSCkslCVg6ua");
-  const [roomName, setRoomName] = useState("main lobby");
+  const [chatSelection, setChatSelection] = useState("PTY6qVozXSCkslCVg6ua");
+  const [chatName, setChatName] = useState("main lobby");
 
-  const messagesRef = collection(db, `/publicChats/${roomSelection}/messages`);
+
+  const messagesRef = collection(db, `/publicChats/${chatSelection}/messages`);
   const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
   const [messages, messagesLoading, messagesError] = useCollectionData(
     messagesQ,
@@ -88,7 +89,7 @@ function App() {
         user={user}
         openMenu={openMenu}
         setOpenMenu={setOpenMenu}
-        roomName={roomName}
+        chatName={chatName}
       >
         {user && (
           <UserDisplay
@@ -103,7 +104,7 @@ function App() {
         user={user}
         openMenu={openMenu}
         setOpenMenu={setOpenMenu}
-        setRoomSelection={setRoomSelection}
+        setChatSelection={setChatSelection}
         screen={screen}
         setScreen={setScreen}
         setAccountSelection={setAccountSelection}
@@ -112,11 +113,21 @@ function App() {
         {screen === "chat" && (
           <PublicChats
             user={user}
-            roomSelection={roomSelection}
-            setRoomSelection={setRoomSelection}
+            chatSelection={chatSelection}
+            setChatSelection={setChatSelection}
             setOpenMenu={setOpenMenu}
-            setRoomName={setRoomName}
-            roomName={roomName}
+            setChatName={setChatName}
+            chatName={chatName}
+          />
+        )}
+        {screen === "create-chat" && (
+          <CreateChat
+            user={user}
+            chatSelection={chatSelection}
+            setChatSelection={setChatSelection}
+            setOpenMenu={setOpenMenu}
+            setChatName={setChatName}
+            chatName={chatName}
           />
         )}
         {screen === "profile" && (
@@ -133,16 +144,6 @@ function App() {
             accountSelection={accountSelection}
             setAccountSelection={setAccountSelection}
             setScreen={setScreen}
-          />
-        )}
-        {screen === "create-chat" && (
-          <CreateChat
-            user={user}
-            roomSelection={roomSelection}
-            setRoomSelection={setRoomSelection}
-            setOpenMenu={setOpenMenu}
-            setRoomName={setRoomName}
-            roomName={roomName}
           />
         )}
         {screen === "settings" && <UserSettings user={user} />}
@@ -178,10 +179,9 @@ function App() {
 
 export default App;
 
-
 /* DIRECT CHATS
 - use state to switch between 'public' or 'direct' 'Chats' in messagesRef collection path
-- change 'roomSelection' to 'documentId' since this will also be used for direct messages
+- change 'chatSelection' to 'documentId' since this will also be used for direct messages
 - direct chats will have a 'users' field containing an array of UIDs involved in the chat
 - add 'message' to user profiles
 - test with 2 user messages first using 'message' function, group chats can be done by 'create message'
