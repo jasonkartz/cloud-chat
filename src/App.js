@@ -141,6 +141,8 @@ function App() {
               accountSelection={accountSelection}
               setAccountSelection={setAccountSelection}
               setScreen={setScreen}
+              setChatSelection={setChatSelection}
+              setOpenMenu={setOpenMenu}
             />
           )}
           {screen === "users" && (
