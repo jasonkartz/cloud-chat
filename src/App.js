@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import {
   collection,
   addDoc,
+  setDoc,
   doc,
   query,
   orderBy,
@@ -41,11 +42,10 @@ function App() {
 
   /* room selected from chat room list */
   const [chatSelection, setChatSelection] = useState({
-    id: "PTY6qVozXSCkslCVg6ua",
-    path:"/publicChats/PTY6qVozXSCkslCVg6ua/messages"
+    id: "96UnBx22d0OWd45HtlFt",
+    name: "Main",
+    path: "/publicChats/96UnBx22d0OWd45HtlFt/messages",
   });
-  const [chatName, setChatName] = useState("main lobby");
-
 
   const messagesRef = collection(db, chatSelection.path);
   const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
@@ -63,11 +63,12 @@ function App() {
     e.preventDefault();
 
     const { uid } = auth.currentUser;
-
-    await addDoc(messagesRef, {
+    const newMessageRef = doc(messagesRef)
+    await setDoc(newMessageRef, {
       text: formValue,
       createdAt: serverTimestamp(),
       uid,
+      messageID: newMessageRef.id,
     });
 
     setFormValue("");
@@ -86,98 +87,102 @@ function App() {
 
   const [screen, setScreen] = useState("chat");
 
-  return (
-    <div className="main-container">
-      <Header
-        user={user}
-        openMenu={openMenu}
-        setOpenMenu={setOpenMenu}
-        chatName={chatName}
-      >
-        {user && (
-          <UserDisplay
-            user={user}
-            setOpenMenu={setOpenMenu}
-            setScreen={setScreen}
-            setAccountSelection={setAccountSelection}
-          />
-        )}
-      </Header>
-      <DropMenu
-        user={user}
-        openMenu={openMenu}
-        setOpenMenu={setOpenMenu}
-        setChatSelection={setChatSelection}
-        screen={screen}
-        setScreen={setScreen}
-        setAccountSelection={setAccountSelection}
-        accountSelection={accountSelection}
-      >
-        {screen === "chat" && (
-          <PublicChats
-            user={user}
-            chatSelection={chatSelection}
-            setChatSelection={setChatSelection}
-            setOpenMenu={setOpenMenu}
-            setChatName={setChatName}
-            chatName={chatName}
-          />
-        )}
-        {screen === "create-chat" && (
-          <CreateChat
-            user={user}
-            chatSelection={chatSelection}
-            setChatSelection={setChatSelection}
-            setOpenMenu={setOpenMenu}
-            setChatName={setChatName}
-            chatName={chatName}
-          />
-        )}
-        {screen === "profile" && (
-          <UserProfile
-            user={user}
-            accountSelection={accountSelection}
-            setAccountSelection={setAccountSelection}
-            setScreen={setScreen}
-          />
-        )}
-        {screen === "users" && (
-          <UserList
-            user={user}
-            accountSelection={accountSelection}
-            setAccountSelection={setAccountSelection}
-            setScreen={setScreen}
-          />
-        )}
-        {screen === "settings" && <UserSettings user={user} />}
-      </DropMenu>
-      <main className="main-box">
-        {userLoading && <Loading />}
-        {userError && <Error />}
-        {user ? (
-          <>
-            {messagesLoading && <Loading />}
-            {messagesError && <Error />}
-            {messages &&
-              messages.map((message, index) => {
-                return <ChatMessage key={index} message={message} />;
-              })}
+  if (userLoading) {
+    return <Loading />;
+  } else if (userError) {
+    return <Error />;
+  } else {
+    return (
+      <div className="main-container">
+        <Header
+          user={user}
+          openMenu={openMenu}
+          setOpenMenu={setOpenMenu}
+          chatSelection={chatSelection}
+        >
+          {user && (
+            <UserDisplay
+              user={user}
+              setOpenMenu={setOpenMenu}
+              setScreen={setScreen}
+              setAccountSelection={setAccountSelection}
+            />
+          )}
+        </Header>
+        <DropMenu
+          user={user}
+          openMenu={openMenu}
+          setOpenMenu={setOpenMenu}
+          setChatSelection={setChatSelection}
+          screen={screen}
+          setScreen={setScreen}
+          setAccountSelection={setAccountSelection}
+          accountSelection={accountSelection}
+        >
+          {screen === "chat" && (
+            <PublicChats
+              user={user}
+              chatSelection={chatSelection}
+              setChatSelection={setChatSelection}
+              setOpenMenu={setOpenMenu}
+            />
+          )}
+          {screen === "create-chat" && (
+            <CreateChat
+              user={user}
+              chatSelection={chatSelection}
+              setChatSelection={setChatSelection}
+              setOpenMenu={setOpenMenu}
+            />
+          )}
+          {screen === "profile" && (
+            <UserProfile
+              user={user}
+              accountSelection={accountSelection}
+              setAccountSelection={setAccountSelection}
+              setScreen={setScreen}
+            />
+          )}
+          {screen === "users" && (
+            <UserList
+              user={user}
+              accountSelection={accountSelection}
+              setAccountSelection={setAccountSelection}
+              setScreen={setScreen}
+            />
+          )}
+          {screen === "settings" && <UserSettings user={user} />}
+        </DropMenu>
+        <main className="main-box">
+          {userLoading ? (
+            <Loading />
+          ) : userError ? (
+            <Error />
+          ) : user ? (
+            <>
+              {messagesLoading && <Loading />}
+              {messagesError && <Error />}
+              {messages &&
+                messages.map((message, index) => {
+                  return <ChatMessage key={index} message={message} />;
+                })}
 
-            <div className="mt-20" ref={dummy}></div>
-          </>
-        ) : (
-          <SignIn />
+              <div className="mt-20" ref={dummy}></div>
+            </>
+          ) : (
+            <SignIn />
+          )}
+        </main>
+        {user && (
+          <MessageForm
+            sendMessage={sendMessage}
+            formValue={formValue}
+            setFormValue={setFormValue}
+          />
         )}
-      </main>
-      {user && (
-        <MessageForm
-          sendMessage={sendMessage}
-          formValue={formValue}
-          setFormValue={setFormValue}
-        />
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default App;
