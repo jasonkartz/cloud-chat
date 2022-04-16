@@ -4,6 +4,7 @@ import {
   orderBy,
   limitToLast,
   collection,
+  setDoc,
   updateDoc,
   arrayRemove,
   arrayUnion,
@@ -24,6 +25,8 @@ export default function Profile({
   accountSelection,
   setAccountSelection,
   setScreen,
+  setChatSelection,
+  setOpenMenu,
 }) {
   const [openFollowList, setOpenFollowList] = useState(false);
   const [selectFollowList, setSelectFollowList] = useState("following");
@@ -35,7 +38,59 @@ export default function Profile({
   const userAccountRef = doc(db, "accounts", user.uid);
   const [userAccount, userLoading, userError] = useDocumentData(userAccountRef);
 
-  const followUser = () => {
+  const privateChatRef = doc(db, "accounts", user.uid, "privateChats", selectedAccount.uid)
+  const [privateChat, privateChatLoading, privateChatError] = useDocumentData(privateChatRef);
+
+  const sendMessage = async () => {
+    const userChatRef = doc(
+      db,
+      "accounts",
+      user.uid,
+      "privateChats",
+      selectedAccount.uid
+    );
+    const selectedAccountChatRef = doc(
+      db,
+      "accounts",
+      selectedAccount.uid,
+      "privateChats",
+      user.uid
+    );
+
+    if (userChatRef || selectedAccountChatRef) {
+      setChatSelection({
+        id: privateChat.chatID,
+        name: `You and ${selectedAccount.userName || selectedAccount.name}`,
+        path: privateChat.chatPath + "/messages",
+      });
+      setOpenMenu(false);
+    } else {
+      const newChatRef = doc(collection(db, "privateChats"));
+      await setDoc(newChatRef, {
+        id: newChatRef.id,
+        users: [user.uid, selectedAccount.uid],
+      }).then(() => {
+        setDoc(userChatRef, {
+          chatID: newChatRef.id,
+          withUser: selectedAccount.uid,
+          chatPath: newChatRef.path,
+        });
+        setDoc(selectedAccountChatRef, {
+          chatID: newChatRef.id,
+          withUser: user.uid,
+          chatPath: newChatRef.path,
+        });
+        setChatSelection({
+          id: newChatRef.id,
+          name: `You and ${selectedAccount.userName || selectedAccount.name}`,
+          path: "/privateChats/" + newChatRef.id + "/messages",
+        });
+        setOpenMenu(false);
+      });
+    }
+  };
+
+  const followUser = async () => {
     updateDoc(userAccountRef, {
       following: arrayUnion(selectedAccount.uid),
     });
@@ -139,11 +194,9 @@ export default function Profile({
                   </button>
                   <button
                     className="flex items-center gap-1 btn"
-                    onClick={() => console.log()}
+                    onClick={() => sendMessage()}
                   >
-                    <i
-                      className={`ri-chat-2-line`}
-                    ></i>
+                    <i className={`ri-chat-2-line`}></i>
                     <span>Message</span>
                   </button>
                 </div>
