@@ -21,9 +21,9 @@ import { auth, db } from "../backend/firebase-config";
 
 export default function CreateChat({
   user,
-  roomSelection,
-  setRoomSelection,
-  setRoomName,
+  chatSelection,
+  setChatSelection,
+  setChatName,
 }) {
   const [createRoomName, setCreateRoomName] = useState("");
   const [createRoomStatus, setCreateRoomStatus] = useState("");
@@ -45,8 +45,8 @@ export default function CreateChat({
       name: createRoomName,
     }).then(() => {
       setCreateRoomStatus("Opening room: " + createRoomName);
-      setRoomSelection(createRoomName);
-      setRoomName(createRoomName);
+      setChatSelection(createRoomName);
+      setChatName(createRoomName);
       setCreateRoomStatus(createRoomName + " is now live!");
       setCreateRoomName("");
       setTimeout(() => setCreateRoomStatus(""), 5000);

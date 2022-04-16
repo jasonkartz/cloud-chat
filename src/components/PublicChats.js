@@ -19,11 +19,11 @@ import { auth, db } from "../backend/firebase-config";
 
 export default function ChatList({
   user,
-  roomSelection,
-  setRoomSelection,
+  chatSelection,
+  setChatSelection,
   setOpenMenu,
-  setRoomName,
-  roomName,
+  setChatName,
+  chatName,
 }) {
   const publicChatsRef = collection(db, "publicChats");
   const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
@@ -53,22 +53,22 @@ export default function ChatList({
             return (
               <li
                 className={`rounded px-1 ${
-                  roomID === roomSelection
+                  roomID === chatSelection
                     ? "bg-blue-50/25 text-gray-700"
                     : "hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
                 }`}
                 key={index}
                 onClick={() => {
-                  if (roomID !== roomSelection) {
-                    setRoomSelection(roomID);
-                    setRoomName(chatroom.name);
+                  if (roomID !== chatSelection) {
+                    setChatSelection(roomID);
+                    setChatName(chatroom.name);
                     setOpenMenu(false);
                   }
                 }}
               >
                 <span>
                   {chatroom.name}
-                  {roomID === roomSelection && " (Current room)"}
+                  {roomID === chatSelection && " (Current room)"}
                 </span>
               </li>
             );

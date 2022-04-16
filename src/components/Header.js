@@ -2,7 +2,7 @@ export default function Header({
   user,
   openMenu,
   setOpenMenu,
-  roomName,
+  chatName,
   children,
 }) {
   return (
@@ -22,7 +22,7 @@ export default function Header({
           ></i>
         </div>
       </div>
-      {user && (<div className="room-name-heading">{roomName}</div>)}
+      {user && (<div className="room-name-heading">{chatName}</div>)}
     </header>
   );
 }
