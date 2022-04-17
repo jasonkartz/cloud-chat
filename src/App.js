@@ -29,6 +29,7 @@ import UserSettings from "./components/user-settings-page/UserSettings";
 import CreateChat from "./components/CreateChat";
 import UserProfile from "./components/UserProfile";
 import UserList from "./components/UserList";
+import PrivateChats from "./components/PrivateChats";
 
 function App() {
   /* user auth state - displays signin if auth state is false*/
@@ -63,7 +64,7 @@ function App() {
     e.preventDefault();
 
     const { uid } = auth.currentUser;
-    const newMessageRef = doc(messagesRef)
+    const newMessageRef = doc(messagesRef);
     await setDoc(newMessageRef, {
       text: formValue,
       createdAt: serverTimestamp(),
@@ -90,7 +91,7 @@ function App() {
   if (userLoading) {
     return <Loading />;
   } else if (userError) {
-    return <Error />;
+    return <Error error={userError} content={"user"} />;
   } else {
     return (
       <div className="main-container">
@@ -135,6 +136,14 @@ function App() {
               setOpenMenu={setOpenMenu}
             />
           )}
+          {screen === "private-chats" && (
+            <PrivateChats
+              user={user}
+              accountSelection={accountSelection}
+              setAccountSelection={setAccountSelection}
+              setScreen={setScreen}
+            />
+          )}
           {screen === "profile" && (
             <UserProfile
               user={user}
@@ -159,11 +168,13 @@ function App() {
           {userLoading ? (
             <Loading />
           ) : userError ? (
-            <Error />
+            <Error error={userError} content={"user in chat"} />
           ) : user ? (
             <>
               {messagesLoading && <Loading />}
-              {messagesError && <Error />}
+              {messagesError && (
+                <Error error={messagesError} content={"messages"} />
+              )}
               {messages &&
                 messages.map((message, index) => {
                   return <ChatMessage key={index} message={message} />;
