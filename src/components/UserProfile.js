@@ -38,7 +38,7 @@ export default function Profile({
   const userAccountRef = doc(db, "accounts", user.uid);
   const [userAccount, userLoading, userError] = useDocumentData(userAccountRef);
 
-  const privateChatRef = doc(db, "accounts", user.uid, "privateChats", selectedAccount.uid)
+  const privateChatRef = doc(db, "accounts", user.uid, "privateChats", accountSelection)
   const [privateChat, privateChatLoading, privateChatError] = useDocumentData(privateChatRef);
 
   const sendMessage = async () => {
