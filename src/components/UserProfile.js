@@ -38,33 +38,53 @@ export default function Profile({
   const userAccountRef = doc(db, "accounts", user.uid);
   const [userAccount, userLoading, userError] = useDocumentData(userAccountRef);
 
-  const privateChatRef = doc(db, "accounts", user.uid, "privateChats", accountSelection)
-  const [privateChat, privateChatLoading, privateChatError] = useDocumentData(privateChatRef);
+  const selectedAccountPrivateChatRef = doc(
+    db,
+    "accounts",
+    accountSelection,
+    "privateChats",
+    user.uid
+  );
+  const [
+    selectedAccountPrivateChat,
+    selectedAccountPrivateChatLoading,
+    selectedAccountPrivateChatError,
+  ] = useDocumentData(selectedAccountPrivateChatRef);
+
+  const userPrivateChatRef = doc(
+    db,
+    "accounts",
+    user.uid,
+    "privateChats",
+    accountSelection
+  );
+  const [userPrivateChat, userPrivateChatLoading, userPrivateChatError] =
+    useDocumentData(userPrivateChatRef);
 
   const sendMessage = async () => {
-    const userChatRef = doc(
-      db,
-      "accounts",
-      user.uid,
-      "privateChats",
-      selectedAccount.uid
-    );
-    const selectedAccountChatRef = doc(
-      db,
-      "accounts",
-      selectedAccount.uid,
-      "privateChats",
-      user.uid
-    );
-
-    if (userChatRef || selectedAccountChatRef) {
+    if (userPrivateChat || selectedAccountPrivateChat) {
       setChatSelection({
-        id: privateChat.chatID,
+        id: userPrivateChat.chatID,
         name: `You and ${selectedAccount.userName || selectedAccount.name}`,
-        path: privateChat.chatPath + "/messages",
+        path: userPrivateChat.chatPath + "/messages",
       });
       setOpenMenu(false);
     } else {
+      const userChatRef = doc(
+        db,
+        "accounts",
+        user.uid,
+        "privateChats",
+        selectedAccount.uid
+      );
+      const selectedAccountChatRef = doc(
+        db,
+        "accounts",
+        selectedAccount.uid,
+        "privateChats",
+        user.uid
+      );
+
       const newChatRef = doc(collection(db, "privateChats"));
       await setDoc(newChatRef, {
         id: newChatRef.id,
@@ -136,7 +156,8 @@ export default function Profile({
       <>
         <section className="settings-section">
           <div className="">
-            <h1 className="blue-heading">{selectedAccount.name}</h1>
+            <h1 className="blue-heading">{selectedAccount.userName || selectedAccount.name}</h1>
+            {selectedAccount.userName && (<p className="text-sm font-semibold">{selectedAccount.name}</p>)}
             <p className="text-sm italic">{followDisplay}</p>
           </div>
 
