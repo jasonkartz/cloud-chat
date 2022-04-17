@@ -53,11 +53,16 @@ export default function DropMenu({
                 </button>
               </li>
 
-              {/* direct chats */}
+              {/* private chats */}
               <li>
-                <button className="menu-btn" onClick={() => setOpenMenu(false)}>
-                  <i className="ri-chat-private-line"></i>{" "}
-                  <span>Direct Chats</span>
+              <button
+                  className={`${
+                    screen === "private-chats" ? "menu-btn-selected" : "menu-btn "
+                  }`}
+                  disabled={screen === "private-chats"}
+                  onClick={() => setScreen("private-chats")}
+                >
+                  <i className="ri-chat-new-line"></i> <span>Private Chats</span>
                 </button>
               </li>
 
