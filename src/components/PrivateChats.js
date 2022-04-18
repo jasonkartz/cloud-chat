@@ -10,12 +10,14 @@ import {
   orderBy,
   query,
   limitToLast,
+  getDoc,
   serverTimestamp,
   addDoc,
   doc,
 } from "firebase/firestore";
 import { useState, useRef, useEffect } from "react";
 import { auth, db } from "../backend/firebase-config";
+import PrivateChatUser from "./PrivateChatUser";
 
 export default function PrivateChats({
   user,
@@ -32,8 +34,6 @@ export default function PrivateChats({
   const [privateChats, privateChatsLoading, privateChatsError] =
     useCollectionData(privateChatsQ);
 
-  console.log(privateChats);
-
   if (privateChatsLoading) {
     return <Loading />;
   } else if (privateChatsError) {
@@ -42,9 +42,13 @@ export default function PrivateChats({
     return (
       <ul>
         {privateChats.map((chat, index) => {
-          return <li key={index}>{chat.chatID}</li>;
+          return <li key={index}>{chat.chatID}<PrivateChatUser chat={chat}/></li>;
         })}
       </ul>
     );
   }
 }
+
+/*
+create a component like ChatMessage that takes props and grabs user data for each private chat
+*/
