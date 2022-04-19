@@ -104,7 +104,7 @@ export default function ChatMessage({
               uid === auth.currentUser.uid ? "items-end" : "items-start"
             }`}
           >
-            <p className={`text-xs text-blue-900 hover:cursor-default select-none`}>{nameStatus()}</p>
+            <p className={`text-sm text-blue-900 hover:cursor-default select-none`}>{nameStatus()}</p>
 
             <p
               className="px-1.5 pb-0.5 bg-blue-100 rounded text-slate-900 hover:cursor-pointer select-none"
@@ -114,7 +114,7 @@ export default function ChatMessage({
             </p>
             {displayTimeStamp && (
               <p className={`text-xs text-blue-900 hover:cursor-default select-none`}>
-                {createdAt.toDate().toDateString()}
+                {createdAt.toDate().toLocaleString()}
               </p>
             )}
           </div>

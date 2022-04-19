@@ -48,8 +48,22 @@ function App() {
     path: "/publicChats/96UnBx22d0OWd45HtlFt/messages",
   });
 
+  /* for viewing older messages, sets limitToLast in messagesQ below*/
+
+  const [messagesLimit, setMessagesLimit] = useState(25);
+
+  /* resets message limit when changing chats */
+
+  useEffect(() => {
+    setMessagesLimit(25);
+  }, [chatSelection]);
+
   const messagesRef = collection(db, chatSelection.path);
-  const messagesQ = query(messagesRef, orderBy("createdAt"), limitToLast(25));
+  const messagesQ = query(
+    messagesRef,
+    orderBy("createdAt"),
+    limitToLast(messagesLimit)
+  );
   const [messages, messagesLoading, messagesError] = useCollectionData(
     messagesQ,
     {
@@ -173,18 +187,28 @@ function App() {
               {messagesError && (
                 <Error error={messagesError} content={"messages"} />
               )}
-              {messages &&
-                messages.map((message, index) => {
-                  return (
-                    <ChatMessage
-                      key={index}
-                      message={message}
-                      setOpenMenu={setOpenMenu}
-                      setAccountSelection={setAccountSelection}
-                      setScreen={setScreen}
-                    />
-                  );
-                })}
+              {messages && (
+                <>
+                  {messages.length === messagesLimit && (
+                    <button className="active:shadow-none text-sm text-blue-700 shadow py-1 bg-blue-200 w-[40%] mx-auto rounded-full"
+                    onClick={() => setMessagesLimit(messagesLimit + 25)}
+                    >
+                      Load older messages
+                    </button>
+                  )}
+                  {messages.map((message, index) => {
+                    return (
+                      <ChatMessage
+                        key={index}
+                        message={message}
+                        setOpenMenu={setOpenMenu}
+                        setAccountSelection={setAccountSelection}
+                        setScreen={setScreen}
+                      />
+                    );
+                  })}
+                </>
+              )}
 
               <div className="mt-20" ref={dummy}></div>
             </>

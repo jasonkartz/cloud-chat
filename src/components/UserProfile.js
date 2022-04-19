@@ -222,10 +222,10 @@ export default function Profile({
                   </button>
                 </div>
               )}
-              <p>
+              <p className="text-sm">
                 Last Login:{" "}
                 {selectedAccount.lastLogin &&
-                  selectedAccount.lastLogin.toDate().toDateString()}
+                  selectedAccount.lastLogin.toDate().toLocaleString()}
               </p>
 
               {selectedAccount.uid !== user.uid && (
