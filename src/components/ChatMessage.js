@@ -2,11 +2,18 @@ import defaultPic from "../images/cloud-fill.png";
 import { auth, db } from "../backend/firebase-config";
 import { doc, getDoc, collection } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useState } from "react";
 
-export default function ChatMessage(props) {
-  const { text, uid } = props.message;
+export default function ChatMessage({
+  message,
+  setOpenMenu,
+  setAccountSelection,
+  setScreen,
+}) {
+  const { text, uid, createdAt } = message;
   const accountRef = doc(db, "accounts", uid);
   const [account, loading, error] = useDocumentData(accountRef);
+  const [displayTimeStamp, setDisplayTimeStamp] = useState(false);
 
   const photoStatus = () => {
     if (loading) {
@@ -18,10 +25,10 @@ export default function ChatMessage(props) {
     } else if (account) {
       return account.photoURL || defaultPic;
     } else {
-      return defaultPic
+      return defaultPic;
     }
   };
-  
+
   const nameStatus = () => {
     if (loading) {
       return (
@@ -85,16 +92,31 @@ export default function ChatMessage(props) {
             src={photoStatus()}
             alt="user"
             width="45"
-            className={`rounded`}
+            className={`rounded hover:cursor-pointer hover:opacity-75 hover:outline hover:outline-yellow-100`}
+            onClick={() => {
+              setAccountSelection(uid);
+              setScreen("profile");
+              setOpenMenu(true);
+            }}
           />
           <div
             className={`flex flex-col p-1 gap-1 ${
               uid === auth.currentUser.uid ? "items-end" : "items-start"
             }`}
           >
-            <p className={`text-xs text-blue-900`}>{nameStatus()}</p>
+            <p className={`text-xs text-blue-900 hover:cursor-default select-none`}>{nameStatus()}</p>
 
-            <p className="p-1 bg-blue-100 rounded-lg text-slate-900">{text}</p>
+            <p
+              className="px-1.5 pb-0.5 bg-blue-100 rounded text-slate-900 hover:cursor-pointer select-none"
+              onClick={() => setDisplayTimeStamp(!displayTimeStamp)}
+            >
+              {text}
+            </p>
+            {displayTimeStamp && (
+              <p className={`text-xs text-blue-900 hover:cursor-default select-none`}>
+                {createdAt.toDate().toDateString()}
+              </p>
+            )}
           </div>
         </div>
       </>
