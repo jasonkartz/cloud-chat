@@ -39,13 +39,13 @@ export default function CreateChat({
 
   const createRoom = async () => {
     setCreateChatStatus("Creating room...");
-    const newRoomRef = doc(collection(db, `publicChats`))
+    const newRoomRef = doc(collection(db, `publicChats`));
     await setDoc(newRoomRef, {
       createdAt: serverTimestamp(),
       creator: account.name,
       moderatorUID: user.uid,
       name: createChatName,
-      id: newRoomRef.id
+      id: newRoomRef.id,
     }).then(() => {
       setCreateChatStatus("Opening room: " + createChatName);
       setChatSelection({
@@ -61,21 +61,19 @@ export default function CreateChat({
 
   return (
     <>
-      <section className="border-b-2 border-blue-200 settings-section ">
-        <h2 className="blue-heading">Create a chat</h2>
+      <h2 className="blue-heading">Create a chat</h2>
 
-        <input
-          type="text"
-          placeholder="Enter room name / topic"
-          className="form-input"
-          value={createChatName}
-          onChange={(e) => setCreateChatName(e.target.value)}
-        />
-        <button className="btn" onClick={createRoom} disabled={!createChatName}>
-          Create Chat
-        </button>
-        <p>{createChatStatus}</p>
-      </section>
+      <input
+        type="text"
+        placeholder="Enter room name / topic"
+        className="form-input"
+        value={createChatName}
+        onChange={(e) => setCreateChatName(e.target.value)}
+      />
+      <button className="btn" onClick={createRoom} disabled={!createChatName}>
+        Create Chat
+      </button>
+      <p>{createChatStatus}</p>
     </>
   );
 }

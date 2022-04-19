@@ -126,22 +126,20 @@ function App() {
               chatSelection={chatSelection}
               setChatSelection={setChatSelection}
               setOpenMenu={setOpenMenu}
-            />
-          )}
-          {screen === "create-chat" && (
-            <CreateChat
-              user={user}
-              chatSelection={chatSelection}
-              setChatSelection={setChatSelection}
-              setOpenMenu={setOpenMenu}
-            />
+            >
+              <CreateChat
+                user={user}
+                chatSelection={chatSelection}
+                setChatSelection={setChatSelection}
+                setOpenMenu={setOpenMenu}
+              />
+            </PublicChats>
           )}
           {screen === "private-chats" && (
             <PrivateChats
               user={user}
-              accountSelection={accountSelection}
-              setAccountSelection={setAccountSelection}
-              setScreen={setScreen}
+              setChatSelection={setChatSelection}
+              setOpenMenu={setOpenMenu}
             />
           )}
           {screen === "profile" && (

@@ -19,12 +19,7 @@ import { useState, useRef, useEffect } from "react";
 import { auth, db } from "../backend/firebase-config";
 import PrivateChatUser from "./PrivateChatUser";
 
-export default function PrivateChats({
-  user,
-  accountSelection,
-  setAccountSelection,
-  setScreen,
-}) {
+export default function PrivateChats({ user, setChatSelection, setOpenMenu }) {
   const privateChatsRef = collection(db, "accounts", user.uid, "privateChats");
   const privateChatsQ = query(
     privateChatsRef,
@@ -42,13 +37,18 @@ export default function PrivateChats({
     return (
       <ul>
         {privateChats.map((chat, index) => {
-          return <li key={index}>{chat.chatID}<PrivateChatUser chat={chat}/></li>;
+          return (
+            <PrivateChatUser
+              key={index}
+              chat={chat}
+              setChatSelection={setChatSelection}
+              setOpenMenu={setOpenMenu}
+            />
+          );
         })}
       </ul>
     );
   }
 }
 
-/*
-create a component like ChatMessage that takes props and grabs user data for each private chat
-*/
+
