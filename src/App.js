@@ -175,7 +175,15 @@ function App() {
               )}
               {messages &&
                 messages.map((message, index) => {
-                  return <ChatMessage key={index} message={message} />;
+                  return (
+                    <ChatMessage
+                      key={index}
+                      message={message}
+                      setOpenMenu={setOpenMenu}
+                      setAccountSelection={setAccountSelection}
+                      setScreen={setScreen}
+                    />
+                  );
                 })}
 
               <div className="mt-20" ref={dummy}></div>
