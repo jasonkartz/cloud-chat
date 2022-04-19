@@ -14,7 +14,7 @@ import {
   doc,
   documentId,
 } from "firebase/firestore";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Children } from "react";
 import { auth, db } from "../backend/firebase-config";
 
 export default function ChatList({
@@ -22,12 +22,12 @@ export default function ChatList({
   chatSelection,
   setChatSelection,
   setOpenMenu,
+  children
 }) {
   const publicChatsRef = collection(db, "publicChats");
   const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
   const [publicChats, loading, error, snapshot] =
     useCollectionData(publicChatsQ);
-
 
   if (loading) {
     return (
@@ -44,9 +44,10 @@ export default function ChatList({
   } else {
     return (
       <>
+        <section className="border-b-2 border-blue-200 settings-section" >{children}</section>
         <ul>
           {publicChats.map((chatroom, index) => {
-            const chatID = chatroom.id
+            const chatID = chatroom.id;
             return (
               <li
                 className={`rounded px-1 ${
@@ -60,7 +61,7 @@ export default function ChatList({
                     setChatSelection({
                       id: chatID,
                       name: chatroom.name,
-                      path: "/publicChats/" + chatID +"/messages"
+                      path: "/publicChats/" + chatID + "/messages",
                     });
                     setOpenMenu(false);
                   }
@@ -78,6 +79,5 @@ export default function ChatList({
     );
   }
 }
-
 
 // snapshot._snapshot.docChanges[index].doc.key.path.segments[6]
