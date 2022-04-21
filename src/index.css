@@ -86,6 +86,9 @@
     hover:text-yellow-100 active:drop-shadow-sm cursor-pointer 
     disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 disabled:cursor-default;
   }
+  .load-more-btn {
+    @apply px-2 py-1 mx-auto mt-2 text-sm text-blue-700 bg-blue-200 rounded-full shadow active:shadow-none;
+  }
   .menu-btn {
     @apply flex items-center gap-1 transition px-1.5 py-0.5 font-bold text-blue-600 hover:text-blue-500 rounded;
   }
