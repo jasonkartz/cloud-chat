@@ -65,7 +65,7 @@ export default function DropMenu({
                   }}
                 >
                   <i className="ri-user-search-line"></i>{" "}
-                  <span>Search Users</span>
+                  <span>Users</span>
                 </button>
               </li>
 

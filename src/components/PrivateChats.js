@@ -20,11 +20,14 @@ import { auth, db } from "../backend/firebase-config";
 import PrivateChatUser from "./PrivateChatUser";
 
 export default function PrivateChats({ user, setChatSelection, setOpenMenu }) {
+
+  const [chatsLimit, setChatsLimit] = useState(20);
+
   const privateChatsRef = collection(db, "accounts", user.uid, "privateChats");
   const privateChatsQ = query(
     privateChatsRef,
     orderBy("withUser"),
-    limitToLast(25)
+    limitToLast(chatsLimit)
   );
   const [privateChats, privateChatsLoading, privateChatsError] =
     useCollectionData(privateChatsQ);
@@ -46,9 +49,16 @@ export default function PrivateChats({ user, setChatSelection, setOpenMenu }) {
             />
           );
         })}
+        {privateChats.length ===  chatsLimit && (
+          <li>
+            <button className="load-more-btn"
+            onClick={() => setChatsLimit(chatsLimit + 20)}
+            >
+              Load more...
+            </button>
+          </li>
+        )}
       </ul>
     );
   }
 }
-
-

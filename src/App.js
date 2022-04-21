@@ -190,7 +190,7 @@ function App() {
               {messages && (
                 <>
                   {messages.length === messagesLimit && (
-                    <button className="active:shadow-none text-sm text-blue-700 shadow py-1 bg-blue-200 w-[40%] mx-auto rounded-full"
+                    <button className="load-more-btn"
                     onClick={() => setMessagesLimit(messagesLimit + 25)}
                     >
                       Load older messages
