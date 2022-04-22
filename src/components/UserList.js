@@ -45,7 +45,7 @@ export default function UserList({
           return (
             account.uid !== user.uid && (
               <li
-                className="flex gap-2 p-1 border-b border-blue-200 hover:rounded hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
+                className="user-list-display"
                 key={index}
                 onClick={() => {
                   setAccountSelection(account.uid);

@@ -156,7 +156,7 @@ export default function Profile({
         <section className="settings-section">
           {openFollowList && (
             <button
-              className="flex items-center gap-1 text-sm font-bold text-blue-600 dark:text-yellow-100 hover:cursor-pointer hover:text-blue-500 dark:hover:text-yellow-200"
+              className="profile-back-btn"
               onClick={() => setOpenFollowList(false)}
             >
               <i className="ri-arrow-go-back-line"></i>
@@ -242,11 +242,11 @@ export default function Profile({
 
               {selectedAccount.uid !== user.uid && (
                 <p
-                  className="flex items-center gap-1 hover:cursor-pointer hover:text-blue-500 dark:hover:yellow-200"
+                  className="profile-back-btn"
                   onClick={() => setScreen("users")}
                 >
                   <i className="text-lg font-bold ri-arrow-go-back-line"></i>
-                  <span> Go Back</span>
+                  <span>User List</span>
                 </p>
               )}
             </>
@@ -267,7 +267,7 @@ export default function Profile({
                 return (
                   account[selectFollowList].includes(selectedAccount.uid) && (
                     <li
-                      className="flex gap-2 p-1 border-b border-blue-200 hover:rounded hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
+                      className="user-list-display"
                       key={index}
                       onClick={() => {
                         setAccountSelection(account.uid);
