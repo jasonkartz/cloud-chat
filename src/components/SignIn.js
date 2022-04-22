@@ -1,7 +1,5 @@
 import {
   signInWithPopup,
-  onAuthStateChanged,
-  signOut,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
@@ -149,10 +147,10 @@ export default function SignIn() {
                   }
                 />
                 <div className="flex flex-col gap-2">
-                  <button className="btn" onClick={signin}>
+                  <button className="signin-btn" onClick={signin}>
                     Sign in
                   </button>
-                  <button className="btn" onClick={() => setSignUpView(true)}>
+                  <button className="signin-btn" onClick={() => setSignUpView(true)}>
                     Create an account
                   </button>
                   <p>{signinMessage}</p>
@@ -224,11 +222,11 @@ export default function SignIn() {
                   }
                 />
                 <div className="flex flex-col gap-2">
-                  <button className="btn" onClick={register}>
+                  <button className="signin-btn" onClick={register}>
                     Sign Up
                   </button>
                   <p>{registerMessage}</p>
-                  <button className="btn" onClick={() => setSignUpView(false)}>
+                  <button className="signin-btn" onClick={() => setSignUpView(false)}>
                     Have an account?
                   </button>
                 </div>

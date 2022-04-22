@@ -3,7 +3,6 @@ import { auth, db } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   collection,
-  addDoc,
   setDoc,
   doc,
   query,
@@ -12,7 +11,6 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import {
-  useDocumentData,
   useCollectionData,
 } from "react-firebase-hooks/firestore";
 import Error from "./components/Error";

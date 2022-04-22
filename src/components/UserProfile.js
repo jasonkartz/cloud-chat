@@ -9,14 +9,13 @@ import {
   arrayRemove,
   arrayUnion,
   query,
-  where,
 } from "firebase/firestore";
 import {
   useDocumentData,
   useCollectionData,
 } from "react-firebase-hooks/firestore";
 import { useState } from "react";
-import { auth, db } from "../backend/firebase-config";
+import { db } from "../backend/firebase-config";
 import Loading from "./Loading";
 import Error from "./Error";
 
@@ -155,9 +154,22 @@ export default function Profile({
     return (
       <>
         <section className="settings-section">
+          {openFollowList && (
+            <button
+              className="flex items-center gap-1 text-sm font-bold text-blue-600 dark:text-yellow-100 hover:cursor-pointer hover:text-blue-500 dark:hover:text-yellow-200"
+              onClick={() => setOpenFollowList(false)}
+            >
+              <i className="ri-arrow-go-back-line"></i>
+              <span> Back to profile</span>
+            </button>
+          )}
           <div className="">
-            <h1 className="blue-heading">{selectedAccount.userName || selectedAccount.name}</h1>
-            {selectedAccount.userName && (<p className="text-sm font-semibold">{selectedAccount.name}</p>)}
+            <h1 className="blue-heading">
+              {selectedAccount.userName || selectedAccount.name}
+            </h1>
+            {selectedAccount.userName && (
+              <p className="text-sm font-semibold">{selectedAccount.name}</p>
+            )}
             <p className="text-sm italic">{followDisplay}</p>
           </div>
 
@@ -230,7 +242,7 @@ export default function Profile({
 
               {selectedAccount.uid !== user.uid && (
                 <p
-                  className="flex items-center gap-1 hover:cursor-pointer hover:text-blue-500"
+                  className="flex items-center gap-1 hover:cursor-pointer hover:text-blue-500 dark:hover:yellow-200"
                   onClick={() => setScreen("users")}
                 >
                   <i className="text-lg font-bold ri-arrow-go-back-line"></i>
@@ -246,13 +258,6 @@ export default function Profile({
         {openFollowList && (
           <>
             <div className="flex flex-col">
-              <button
-                className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:cursor-pointer hover:text-blue-500"
-                onClick={() => setOpenFollowList(false)}
-              >
-                <i className="ri-arrow-go-back-line"></i>
-                <span> Back to profile</span>
-              </button>
               <h1 className="blue-heading">
                 {selectFollowList === "followers" ? "Following" : "Followers"}
               </h1>

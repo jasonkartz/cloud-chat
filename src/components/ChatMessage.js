@@ -1,6 +1,6 @@
 import defaultPic from "../images/cloud-fill.png";
 import { auth, db } from "../backend/firebase-config";
-import { doc, getDoc, collection } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useState } from "react";
 
@@ -65,7 +65,7 @@ export default function ChatMessage({
               uid === auth.currentUser.uid ? "items-end" : "items-start"
             }`}
           >
-            <p className={`text-xs text-blue-900`}>
+            <p className={`text-xs text-blue-900 dark:text-blue-50`}>
               <span className="animate-spin">
                 <i className="ri-loader-5-line"></i>
               </span>
@@ -92,7 +92,7 @@ export default function ChatMessage({
             src={photoStatus()}
             alt="user"
             width="45"
-            className={`rounded hover:cursor-pointer hover:opacity-75 hover:outline hover:outline-yellow-100`}
+            className={`rounded hover:cursor-pointer hover:outline hover:outline-yellow-200`}
             onClick={() => {
               setAccountSelection(uid);
               setScreen("profile");
@@ -104,16 +104,16 @@ export default function ChatMessage({
               uid === auth.currentUser.uid ? "items-end" : "items-start"
             }`}
           >
-            <p className={`text-sm text-blue-900 hover:cursor-default select-none`}>{nameStatus()}</p>
+            <p className={`text-sm text-blue-900 dark:text-blue-50 hover:cursor-default select-none`}>{nameStatus()}</p>
 
             <p
-              className="px-1.5 pb-0.5 bg-blue-100 rounded text-slate-900 hover:cursor-pointer select-none"
+              className="px-1.5 pb-0.5 bg-blue-100 dark:bg-blue-900 rounded text-slate-900 dark:text-blue-50 hover:cursor-pointer select-none"
               onClick={() => setDisplayTimeStamp(!displayTimeStamp)}
             >
               {text}
             </p>
             {displayTimeStamp && (
-              <p className={`text-xs text-blue-900 hover:cursor-default select-none`}>
+              <p className={`text-xs text-blue-900 dark:text-blue-50 hover:cursor-default select-none`}>
                 {createdAt.toDate().toLocaleString()}
               </p>
             )}
