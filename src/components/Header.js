@@ -2,7 +2,6 @@ export default function Header({
   user,
   openMenu,
   setOpenMenu,
-  chatName,
   children,
   chatSelection,
 }) {
@@ -15,7 +14,7 @@ export default function Header({
         <div className="flex justify-end gap-2">
           {children}
           <i
-            className={`text-blue-100 transition text-3xl hover:cursor-pointer hover:text-yellow-100 
+            className={`menu-toggle 
           ${openMenu ? "ri-close-line" : "ri-menu-5-line"} ${
               !user && "hidden"
             }`}

@@ -134,14 +134,12 @@ function App() {
         >
           {screen === "chat" && (
             <PublicChats
-              user={user}
               chatSelection={chatSelection}
               setChatSelection={setChatSelection}
               setOpenMenu={setOpenMenu}
             >
               <CreateChat
                 user={user}
-                chatSelection={chatSelection}
                 setChatSelection={setChatSelection}
                 setOpenMenu={setOpenMenu}
               />
@@ -167,7 +165,6 @@ function App() {
           {screen === "users" && (
             <UserList
               user={user}
-              accountSelection={accountSelection}
               setAccountSelection={setAccountSelection}
               setScreen={setScreen}
             />

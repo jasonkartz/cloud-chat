@@ -1,6 +1,5 @@
 import {
   useCollectionData,
-  useDocumentData,
 } from "react-firebase-hooks/firestore";
 import Error from "./Error";
 import Loading from "./Loading";
@@ -9,16 +8,10 @@ import {
   orderBy,
   query,
   limitToLast,
-  serverTimestamp,
-  addDoc,
-  doc,
-  documentId,
 } from "firebase/firestore";
-import { useState, useRef, useEffect, Children } from "react";
-import { auth, db } from "../backend/firebase-config";
+import { db } from "../backend/firebase-config";
 
 export default function ChatList({
-  user,
   chatSelection,
   setChatSelection,
   setOpenMenu,
@@ -44,7 +37,8 @@ export default function ChatList({
   } else {
     return (
       <>
-        <section className="border-b-2 border-blue-200 settings-section" >{children}</section>
+        <section className="settings-section" >{children}</section>
+        <h1 className="mb-1 border-b-2 blue-heading border-blue-50">Chats</h1>
         <ul>
           {publicChats.map((chatroom, index) => {
             const chatID = chatroom.id;
@@ -53,7 +47,7 @@ export default function ChatList({
                 className={`rounded px-1 ${
                   chatID === chatSelection
                     ? "bg-blue-50/25 text-gray-700"
-                    : "hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
+                    : "chat-list-display"
                 }`}
                 key={index}
                 onClick={() => {
