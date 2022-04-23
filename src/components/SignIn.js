@@ -236,7 +236,7 @@ export default function SignIn() {
         }
 
         <button className="self-center signin-btn" onClick={signInWithGoogle}>
-          <i className="p-1 text-blue-600 rounded ri-google-fill bg-slate-50"></i>{" "}
+          <i className="p-1 text-blue-600 rounded dark:text-blue-900 ri-google-fill bg-blue-50"></i>{" "}
           <span className="align-top">Sign in with Google</span>
         </button>
     </>

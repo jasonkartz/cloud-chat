@@ -1,26 +1,12 @@
-import defaultPic from "../images/cloud-fill.png";
-import {
-  useCollectionData,
-  useDocumentData,
-} from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import Error from "./Error";
 import Loading from "./Loading";
-import {
-  collection,
-  orderBy,
-  query,
-  limitToLast,
-  getDoc,
-  serverTimestamp,
-  addDoc,
-  doc,
-} from "firebase/firestore";
-import { useState, useRef, useEffect } from "react";
-import { auth, db } from "../backend/firebase-config";
+import { collection, orderBy, query, limitToLast } from "firebase/firestore";
+import { useState } from "react";
+import { db } from "../backend/firebase-config";
 import PrivateChatUser from "./PrivateChatUser";
 
 export default function PrivateChats({ user, setChatSelection, setOpenMenu }) {
-
   const [chatsLimit, setChatsLimit] = useState(20);
 
   const privateChatsRef = collection(db, "accounts", user.uid, "privateChats");
@@ -49,10 +35,11 @@ export default function PrivateChats({ user, setChatSelection, setOpenMenu }) {
             />
           );
         })}
-        {privateChats.length ===  chatsLimit && (
+        {privateChats.length === chatsLimit && (
           <li>
-            <button className="load-more-btn"
-            onClick={() => setChatsLimit(chatsLimit + 20)}
+            <button
+              className="load-more-btn"
+              onClick={() => setChatsLimit(chatsLimit + 20)}
             >
               Load more...
             </button>

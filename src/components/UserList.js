@@ -1,7 +1,6 @@
 import defaultPic from "../images/cloud-fill.png";
 import {
   useCollectionData,
-  useDocumentData,
 } from "react-firebase-hooks/firestore";
 import Error from "./Error";
 import Loading from "./Loading";
@@ -10,17 +9,12 @@ import {
   orderBy,
   query,
   limitToLast,
-  where,
-  serverTimestamp,
-  addDoc,
-  doc,
 } from "firebase/firestore";
-import { useState, useRef, useEffect } from "react";
-import { auth, db } from "../backend/firebase-config";
+import { useState, } from "react";
+import { db } from "../backend/firebase-config";
 
 export default function UserList({
   user,
-  accountSelection,
   setAccountSelection,
   setScreen,
 }) {

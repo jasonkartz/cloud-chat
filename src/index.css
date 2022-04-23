@@ -60,7 +60,6 @@
   .blue-heading {
     @apply text-lg font-black tracking-wide text-blue-600 select-none dark:text-blue-50;
   }
-  
   .message-input {
     @apply h-12 p-1 rounded shadow-inner text-slate-800 grow bg-blue-50;
     @apply dark:text-blue-100 dark:focus:text-blue-50 dark:bg-slate-800 dark:focus:bg-slate-800;
@@ -94,7 +93,7 @@
   .signin-btn {
     @apply p-2 font-bold rounded-md drop-shadow;
     @apply text-blue-100 bg-blue-600;
-    @apply hover:text-yellow-100 active:drop-shadow-sm;
+    @apply hover:text-yellow-200 active:drop-shadow-sm;
     @apply dark:text-blue-50 dark:bg-blue-900;
   }
   .profile-back-btn {
@@ -130,6 +129,11 @@
     @apply bg-blue-400/50 border-t-blue-50/50 backdrop-blur-sm;
     @apply dark:bg-slate-400/10 dark:border-t-blue-50;
   }
+  .menu-toggle {
+    @apply text-3xl text-blue-100 transition;
+    @apply hover:cursor-pointer hover:text-yellow-200;
+    @apply dark:text-blue-50;
+  }
   .drop-menu-selection{
     @apply p-1 rounded shadow-inner backdrop-blur-sm bg-blue-300/75;
     @apply dark:bg-blue-900/95;
@@ -152,7 +156,11 @@
   .user-list-display {
     @apply flex gap-2 p-1 border-b border-blue-200;
     @apply hover:rounded hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600;
-    @apply dark:border-blue-50 dark:hover:bg-blue-50/10 dark:hover:text-yellow-200;
+    @apply dark:border-blue-50 dark:hover:bg-blue-50/10 dark:hover:text-yellow-200 dark:text-blue-50;
+  }
+  .chat-list-display {
+    @apply hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600;
+    @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:hover:bg-blue-50/10;
   }
   .chat-msg-box {
     @apply px-1.5 pb-0.5 rounded hover:cursor-pointer select-none;

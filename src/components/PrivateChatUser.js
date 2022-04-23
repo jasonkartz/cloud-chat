@@ -1,6 +1,6 @@
 import defaultPic from "../images/cloud-fill.png";
-import { auth, db } from "../backend/firebase-config";
-import { doc, getDoc, collection } from "firebase/firestore";
+import { db } from "../backend/firebase-config";
+import { doc, } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import Loading from "./Loading";
 import Error from "./Error";
@@ -16,7 +16,7 @@ export default function PrivateChatUser({ chat, setChatSelection, setOpenMenu })
       return <Error error={error} content={"user"} />
   } else {
       return <li
-      className="flex gap-2 p-1 border-b border-blue-200 hover:rounded hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600"
+      className="user-list-display"
       onClick={() => {
         setChatSelection({
           id: chatID,

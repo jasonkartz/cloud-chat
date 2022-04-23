@@ -1,6 +1,8 @@
 import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { db } from "../backend/firebase-config";
+import Loading from "./Loading";
+import Error from "./Error";
 
 export default function UserDisplay({ user, setOpenMenu, setScreen, setAccountSelection }) {
   const accountRef = doc(db, "accounts", user.uid);
@@ -8,15 +10,11 @@ export default function UserDisplay({ user, setOpenMenu, setScreen, setAccountSe
 
   if (accountLoading) {
     return (
-      <div className="animate-spin">
-        <i className="ri-loader-5-line"></i>
-      </div>
+      <Loading />
     );
   } else if (accountError) {
     return (
-      <p className="text-red-800">
-        <i className="ri-error-warning-line"></i> Error Loading Content
-      </p>
+      <Error error={accountError} content={"user info"} />
     );
   } else {
     return (

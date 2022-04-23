@@ -1,41 +1,23 @@
 import {
-  useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
 import Error from "./Error";
 import Loading from "./Loading";
 import {
   collection,
-  orderBy,
-  query,
-  limitToLast,
   serverTimestamp,
-  addDoc,
   setDoc,
   doc,
-  updateDoc,
-  deleteField,
-  deleteDoc,
 } from "firebase/firestore";
-import { useState, useRef, useEffect } from "react";
-import { auth, db } from "../backend/firebase-config";
+import { useState } from "react";
+import { db } from "../backend/firebase-config";
 
-export default function CreateChat({
-  user,
-  chatSelection,
-  setChatSelection,
-  setChatName,
-}) {
+export default function CreateChat({ user, setChatSelection }) {
   const [createChatName, setCreateChatName] = useState("");
   const [createChatStatus, setCreateChatStatus] = useState("");
 
   const accountRef = doc(db, "accounts", user.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
-
-  const publicChatsRef = collection(db, "publicChats");
-  const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
-  const [publicChats, loading, error, snapshot] =
-    useCollectionData(publicChatsQ);
 
   const createRoom = async () => {
     setCreateChatStatus("Creating room...");
@@ -59,21 +41,26 @@ export default function CreateChat({
     });
   };
 
-  return (
-    <>
-      <h2 className="blue-heading">Create a chat</h2>
-
-      <input
-        type="text"
-        placeholder="Enter room name / topic"
-        className="form-input"
-        value={createChatName}
-        onChange={(e) => setCreateChatName(e.target.value)}
-      />
-      <button className="btn" onClick={createRoom} disabled={!createChatName}>
-        Create Chat
-      </button>
-      <p>{createChatStatus}</p>
-    </>
-  );
+  if (accountLoading) {
+    return <Loading />;
+  } else if (accountError) {
+    return <Error error={accountError} content={"user data"} />;
+  } else {
+    return (
+      <>
+        <h2 className="blue-heading">Create a chat</h2>
+        <input
+          type="text"
+          placeholder="Enter room name / topic"
+          className="form-input"
+          value={createChatName}
+          onChange={(e) => setCreateChatName(e.target.value)}
+        />
+        <button className="btn" onClick={createRoom} disabled={!createChatName}>
+          Create Chat
+        </button>
+        <p>{createChatStatus}</p>
+      </>
+    );
+  }
 }
