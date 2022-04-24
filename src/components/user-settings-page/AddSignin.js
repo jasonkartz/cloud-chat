@@ -71,12 +71,12 @@ export default function AddSignin(props) {
 
   return (
     props.providerIdList.length < 2 && (
-      <section className="border-b-2 border-blue-200 settings-section">
+      <section className="settings-section settings-section-border">
         {/* Displays add password sign in if the user only has Google option */}
         {props.providerIdList.includes("google.com") && (
           <>
             <h2
-              className="blue-heading hover:cursor-pointer hover:text-blue-500"
+              className="heading heading-hover"
               onClick={() => setDisplay(!display)}
             >
               Add a Password
@@ -95,14 +95,14 @@ export default function AddSignin(props) {
                 <input
                   type="password"
                   placeholder="Create a password"
-                  className="form-input"
+                  className="text-input"
                   value={passwordForm}
                   onChange={(e) => setPasswordForm(e.target.value)}
                 />
                 <input
                   type="password"
                   placeholder="Re-type password"
-                  className="form-input"
+                  className="text-input"
                   value={passwordCheck}
                   onChange={(e) => setPasswordCheck(e.target.value)}
                 />
@@ -126,7 +126,7 @@ export default function AddSignin(props) {
         {props.providerIdList.includes("password") && (
           <>
             <h2
-              className="blue-heading hover:cursor-pointer hover:text-blue-500"
+              className="heading heading-hover"
               onClick={() => setDisplay(!display)}
             >
               Link Your Google Account
@@ -141,7 +141,7 @@ export default function AddSignin(props) {
                 <input
                   type="password"
                   placeholder="Enter your password"
-                  className="form-input"
+                  className="text-input"
                   value={passwordForm}
                   onChange={(e) => setPasswordForm(e.target.value)}
                 />
@@ -151,7 +151,7 @@ export default function AddSignin(props) {
                   onClick={addGoogle}
                   disabled={!passwordForm}
                 >
-                  <i className="p-1 text-blue-600 rounded ri-google-fill bg-slate-50"></i>{" "}
+                  <i className="sign-in-btn-google-icon ri-google-fill"></i>{" "}
                   <span className="align-top">Sign in with Google</span>
                 </button>
                 <p>{status}</p>

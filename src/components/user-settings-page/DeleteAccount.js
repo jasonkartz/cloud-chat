@@ -89,9 +89,9 @@ export default function DeleteAccount(props) {
   };
 
   return (
-    <section className="border-b-2 border-blue-200 settings-section">
+    <section className="settings-section settings-section-border">
       <h2
-        className="blue-heading hover:cursor-pointer hover:text-blue-500"
+        className="heading heading-hover"
         onClick={() => setDisplay(!display)}
       >
         Delete Account
@@ -106,7 +106,7 @@ export default function DeleteAccount(props) {
               <input
                 type="text"
                 placeholder="Type DELETE in all caps"
-                className="form-input"
+                className="text-input"
                 value={deleteForm}
                 onChange={(e) => setDeleteForm(e.target.value)}
               />
@@ -118,7 +118,7 @@ export default function DeleteAccount(props) {
                   <input
                     type="password"
                     placeholder="Enter your password"
-                    className="form-input"
+                    className="text-input"
                     value={passwordForm.delete}
                     onChange={(e) => setPasswordForm(e.target.value)}
                   />

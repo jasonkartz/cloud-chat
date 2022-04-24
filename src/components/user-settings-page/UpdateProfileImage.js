@@ -5,7 +5,7 @@ import { updateProfile } from "firebase/auth";
 import { updateDoc } from "firebase/firestore";
 import { uploadBytesResumable, ref, getDownloadURL } from "firebase/storage";
 
-export default function UpdateProfileImage({account, accountRef}) {
+export default function UpdateProfileImage({ account, accountRef }) {
   const currentUser = auth.currentUser;
   const { uid } = currentUser;
 
@@ -65,9 +65,15 @@ export default function UpdateProfileImage({account, accountRef}) {
   };
 
   return (
-    <section className="border-b-2 border-blue-200 settings-section">
-      <h2 className="blue-heading hover:cursor-pointer hover:text-blue-500" onClick={() => setDisplay(!display)}>
-        Profile Image <i className={`ri-arrow-${display ? "up" : "down"}-s-line align-sub`}></i>
+    <section className="settings-section settings-section-border">
+      <h2
+        className="heading heading-hover"
+        onClick={() => setDisplay(!display)}
+      >
+        Profile Image{" "}
+        <i
+          className={`ri-arrow-${display ? "up" : "down"}-s-line align-sub`}
+        ></i>
       </h2>
       {display && (
         <>

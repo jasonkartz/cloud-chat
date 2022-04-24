@@ -3,7 +3,7 @@ export default function MessageForm(props) {
     <form onSubmit={props.sendMessage} className="message-form">
       <input
         type="text"
-        className="message-input"
+        className="text-input message-input"
         placeholder="Say something nice"
         value={props.formValue}
         onChange={(e) => props.setFormValue(e.target.value)}

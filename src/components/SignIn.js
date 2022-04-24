@@ -126,12 +126,12 @@ export default function SignIn() {
           !signUpView && (
             <>
               <section className={`signin-section`}>
-                <h2 className="blue-heading">Sign In</h2>
+                <h2 className="heading">Sign In</h2>
 
                 <input
                   type="email"
                   placeholder="Enter Your Email"
-                  className="form-input-signin"
+                  className="text-input text-input-signin-width"
                   value={signInData.email}
                   onChange={(e) =>
                     setSignInData({ ...signInData, email: e.target.value })
@@ -140,17 +140,17 @@ export default function SignIn() {
                 <input
                   type="password"
                   placeholder="Enter Your Password"
-                  className="form-input-signin"
+                  className="text-input text-input-signin-width"
                   value={signInData.password}
                   onChange={(e) =>
                     setSignInData({ ...signInData, password: e.target.value })
                   }
                 />
                 <div className="flex flex-col gap-2">
-                  <button className="signin-btn" onClick={signin}>
+                  <button className="btn" onClick={signin}>
                     Sign in
                   </button>
-                  <button className="signin-btn" onClick={() => setSignUpView(true)}>
+                  <button className="btn" onClick={() => setSignUpView(true)}>
                     Create an account
                   </button>
                   <p>{signinMessage}</p>
@@ -165,12 +165,12 @@ export default function SignIn() {
           signUpView && (
             <>
               <section className={`signin-section`}>
-                <h2 className="blue-heading">Sign Up</h2>
+                <h2 className="heading">Sign Up</h2>
 
                 <input
                   type="text"
                   placeholder="Your full name"
-                  className="form-input-signin"
+                  className="text-input text-input-signin-width"
                   value={registerData.name}
                   onChange={(e) =>
                     setRegisterData({ ...registerData, name: e.target.value })
@@ -179,7 +179,7 @@ export default function SignIn() {
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="form-input-signin"
+                  className="text-input text-input-signin-width"
                   value={registerData.email}
                   onChange={(e) =>
                     setRegisterData({ ...registerData, email: e.target.value })
@@ -188,7 +188,7 @@ export default function SignIn() {
                 <input
                   type="text"
                   placeholder="Create a username"
-                  className="form-input-signin"
+                  className="text-input text-input-signin-width"
                   value={registerData.username}
                   onChange={(e) =>
                     setRegisterData({
@@ -200,7 +200,7 @@ export default function SignIn() {
                 <input
                   type="password"
                   placeholder="Create a password"
-                  className="form-input-signin"
+                  className="text-input text-input-signin-width"
                   value={registerData.password}
                   onChange={(e) =>
                     setRegisterData({
@@ -212,7 +212,7 @@ export default function SignIn() {
                 <input
                   type="password"
                   placeholder="Re-enter password"
-                  className="form-input-signin"
+                  className="text-input text-input-signin-width"
                   value={registerData.passwordCheck}
                   onChange={(e) =>
                     setRegisterData({
@@ -221,12 +221,12 @@ export default function SignIn() {
                     })
                   }
                 />
-                <div className="flex flex-col gap-2">
-                  <button className="signin-btn" onClick={register}>
+                <div className="flex flex-col gap-1">
+                  <button className="btn" onClick={register}>
                     Sign Up
                   </button>
                   <p>{registerMessage}</p>
-                  <button className="signin-btn" onClick={() => setSignUpView(false)}>
+                  <button className="btn" onClick={() => setSignUpView(false)}>
                     Have an account?
                   </button>
                 </div>
@@ -235,8 +235,8 @@ export default function SignIn() {
           )
         }
 
-        <button className="self-center signin-btn" onClick={signInWithGoogle}>
-          <i className="p-1 text-blue-600 rounded dark:text-blue-900 ri-google-fill bg-blue-50"></i>{" "}
+        <button className="self-center btn" onClick={signInWithGoogle}>
+          <i className="sign-in-btn-google-icon ri-google-fill"></i>{" "}
           <span className="align-top">Sign in with Google</span>
         </button>
     </>

@@ -37,9 +37,9 @@ export default function UpdateEmail(props) {
   };
 
   return props.providerIdList.includes("password") && (
-    <section className="border-b-2 border-blue-200 settings-section">
+    <section className="settings-section settings-section-border">
       <h2
-        className="blue-heading hover:cursor-pointer hover:text-blue-500"
+        className="heading heading-hover"
         onClick={() => setDisplay(!display)}
       >
         Email{" "}
@@ -52,7 +52,7 @@ export default function UpdateEmail(props) {
           <input
             type="email"
             placeholder={email}
-            className="form-input"
+            className="text-input"
             value={emailForm}
             onChange={(e) => {
               setEmailForm(e.target.value);
@@ -61,7 +61,7 @@ export default function UpdateEmail(props) {
           <input
             type="password"
             placeholder="Enter your password"
-            className="form-input"
+            className="text-input"
             value={passwordForm}
             onChange={(e) =>
               setPasswordForm(e.target.value)

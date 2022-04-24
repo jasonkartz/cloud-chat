@@ -48,11 +48,11 @@ export default function CreateChat({ user, setChatSelection }) {
   } else {
     return (
       <>
-        <h2 className="blue-heading">Create a chat</h2>
+        <h2 className="heading">Create a chat</h2>
         <input
           type="text"
           placeholder="Enter room name / topic"
-          className="form-input"
+          className="text-input"
           value={createChatName}
           onChange={(e) => setCreateChatName(e.target.value)}
         />
