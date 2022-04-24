@@ -3,10 +3,8 @@ import { auth } from "../../backend/firebase-config";
 import { updateProfile } from "firebase/auth";
 import { updateDoc } from "firebase/firestore";
 
-export default function UpdateName(props) {
+export default function UpdateName({ account, accountRef }) {
   const currentUser = auth.currentUser;
-  const accountRef = props.accountRef;
-  const account = props.account;
 
   const [display, setDisplay] = useState(false);
 

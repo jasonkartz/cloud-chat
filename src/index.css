@@ -30,9 +30,8 @@
   [type=file]::file-selector-button {
     @apply px-1.5 py-0.5 font-bold rounded shadow border-none cursor-pointer visible;
     @apply text-blue-100 bg-blue-600 hover:text-yellow-200;
-    @apply dark:bg-blue-900 dark:text-blue-50;
+    @apply dark:bg-blue-700 dark:text-blue-50;
   }
-
 }
 
 @layer components {
