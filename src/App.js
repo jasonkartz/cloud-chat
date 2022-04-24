@@ -10,9 +10,7 @@ import {
   limitToLast,
   serverTimestamp,
 } from "firebase/firestore";
-import {
-  useCollectionData,
-} from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import Error from "./components/Error";
 import Loading from "./components/Loading";
 import SignIn from "./components/SignIn";
@@ -100,124 +98,135 @@ function App() {
 
   const [screen, setScreen] = useState("chat");
 
+  /* theme */
+
+  const [darkMode, setDarkMode] = useState(false);
+
   if (userLoading) {
     return <Loading />;
   } else if (userError) {
     return <Error error={userError} content={"user"} />;
   } else {
     return (
-      <div className="main-container">
-        <Header
-          user={user}
-          openMenu={openMenu}
-          setOpenMenu={setOpenMenu}
-          chatSelection={chatSelection}
-        >
-          {user && (
-            <UserDisplay
+      <div className={darkMode && "dark"}>
+        <div className="background">
+          <div className={`main-container`}>
+            <Header
               user={user}
+              openMenu={openMenu}
               setOpenMenu={setOpenMenu}
-              setScreen={setScreen}
-              setAccountSelection={setAccountSelection}
-            />
-          )}
-        </Header>
-        <DropMenu
-          user={user}
-          openMenu={openMenu}
-          setOpenMenu={setOpenMenu}
-          setChatSelection={setChatSelection}
-          screen={screen}
-          setScreen={setScreen}
-          setAccountSelection={setAccountSelection}
-          accountSelection={accountSelection}
-        >
-          {screen === "chat" && (
-            <PublicChats
               chatSelection={chatSelection}
-              setChatSelection={setChatSelection}
-              setOpenMenu={setOpenMenu}
+              darkMode={darkMode}
+              setDarkMode={setDarkMode}
             >
-              <CreateChat
-                user={user}
-                setChatSelection={setChatSelection}
-                setOpenMenu={setOpenMenu}
-              />
-            </PublicChats>
-          )}
-          {screen === "private-chats" && (
-            <PrivateChats
+              {user && (
+                <UserDisplay
+                  user={user}
+                  setOpenMenu={setOpenMenu}
+                  setScreen={setScreen}
+                  setAccountSelection={setAccountSelection}
+                />
+              )}
+            </Header>
+            <DropMenu
               user={user}
-              setChatSelection={setChatSelection}
+              openMenu={openMenu}
               setOpenMenu={setOpenMenu}
-            />
-          )}
-          {screen === "profile" && (
-            <UserProfile
-              user={user}
+              setChatSelection={setChatSelection}
+              screen={screen}
+              setScreen={setScreen}
+              setAccountSelection={setAccountSelection}
               accountSelection={accountSelection}
-              setAccountSelection={setAccountSelection}
-              setScreen={setScreen}
-              setChatSelection={setChatSelection}
-              setOpenMenu={setOpenMenu}
-            />
-          )}
-          {screen === "users" && (
-            <UserList
-              user={user}
-              setAccountSelection={setAccountSelection}
-              setScreen={setScreen}
-            />
-          )}
-          {screen === "settings" && <UserSettings user={user} />}
-        </DropMenu>
-        <main className="main-box">
-          {userLoading ? (
-            <Loading />
-          ) : userError ? (
-            <Error error={userError} content={"user in chat"} />
-          ) : user ? (
-            <>
-              {messagesLoading && <Loading />}
-              {messagesError && (
-                <Error error={messagesError} content={"messages"} />
+            >
+              {screen === "chat" && (
+                <PublicChats
+                  chatSelection={chatSelection}
+                  setChatSelection={setChatSelection}
+                  setOpenMenu={setOpenMenu}
+                >
+                  <CreateChat
+                    user={user}
+                    setChatSelection={setChatSelection}
+                    setOpenMenu={setOpenMenu}
+                  />
+                </PublicChats>
               )}
-              {messages && (
+              {screen === "private-chats" && (
+                <PrivateChats
+                  user={user}
+                  setChatSelection={setChatSelection}
+                  setOpenMenu={setOpenMenu}
+                />
+              )}
+              {screen === "profile" && (
+                <UserProfile
+                  user={user}
+                  accountSelection={accountSelection}
+                  setAccountSelection={setAccountSelection}
+                  setScreen={setScreen}
+                  setChatSelection={setChatSelection}
+                  setOpenMenu={setOpenMenu}
+                />
+              )}
+              {screen === "users" && (
+                <UserList
+                  user={user}
+                  setAccountSelection={setAccountSelection}
+                  setScreen={setScreen}
+                />
+              )}
+              {screen === "settings" && <UserSettings user={user} />}
+            </DropMenu>
+            <main className="main-box">
+              {userLoading ? (
+                <Loading />
+              ) : userError ? (
+                <Error error={userError} content={"user in chat"} />
+              ) : user ? (
                 <>
-                  {messages.length === messagesLimit && (
-                    <button className="load-more-btn"
-                    onClick={() => setMessagesLimit(messagesLimit + 25)}
-                    >
-                      Load older messages
-                    </button>
+                  {messagesLoading && <Loading />}
+                  {messagesError && (
+                    <Error error={messagesError} content={"messages"} />
                   )}
-                  {messages.map((message, index) => {
-                    return (
-                      <ChatMessage
-                        key={index}
-                        message={message}
-                        setOpenMenu={setOpenMenu}
-                        setAccountSelection={setAccountSelection}
-                        setScreen={setScreen}
-                      />
-                    );
-                  })}
-                </>
-              )}
+                  {messages && (
+                    <>
+                      {messages.length === messagesLimit && (
+                        <button
+                          className="load-more-btn"
+                          onClick={() => setMessagesLimit(messagesLimit + 25)}
+                        >
+                          Load older messages
+                        </button>
+                      )}
+                      {messages.map((message, index) => {
+                        return (
+                          <ChatMessage
+                            key={index}
+                            message={message}
+                            setOpenMenu={setOpenMenu}
+                            setAccountSelection={setAccountSelection}
+                            setScreen={setScreen}
+                          />
+                        );
+                      })}
+                    </>
+                  )}
 
-              <div className="mt-20" ref={dummy}></div>
-            </>
-          ) : (
-            <SignIn />
-          )}
-        </main>
-        {user && (
-          <MessageForm
-            sendMessage={sendMessage}
-            formValue={formValue}
-            setFormValue={setFormValue}
-          />
-        )}
+                  <div className="mt-16" ref={dummy}></div>
+                </>
+              ) : (
+                <SignIn />
+              )}
+            </main>
+            {user && (
+              <MessageForm
+                sendMessage={sendMessage}
+                formValue={formValue}
+                setFormValue={setFormValue}
+              />
+            )}
+          </div>
+        </div>
       </div>
     );
   }

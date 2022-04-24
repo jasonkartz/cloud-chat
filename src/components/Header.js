@@ -4,6 +4,8 @@ export default function Header({
   setOpenMenu,
   children,
   chatSelection,
+  setDarkMode,
+  darkMode,
 }) {
   return (
     <header className={`header`}>
@@ -14,6 +16,12 @@ export default function Header({
         <div className="flex justify-end gap-2">
           {children}
           <i
+            className={`self-center text-2xl text-blue-50 hover:cursor-pointer hover:text-yellow-200 ri-${
+              darkMode ? "moon" : "sun"
+            }-line`}
+            onClick={() => setDarkMode(!darkMode)}
+          ></i>
+          <i
             className={`menu-toggle 
           ${openMenu ? "ri-close-line" : "ri-menu-5-line"} ${
               !user && "hidden"
@@ -22,7 +30,11 @@ export default function Header({
           ></i>
         </div>
       </div>
-      {user && (<div className="room-name-heading">{chatSelection.name}</div>)}
+      {user && (
+        <div className="room-name-heading">
+          <span>{chatSelection.name}</span>
+        </div>
+      )}
     </header>
   );
 }
