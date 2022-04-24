@@ -38,7 +38,7 @@ export default function ChatList({
     return (
       <>
         <section className="settings-section" >{children}</section>
-        <h1 className="mb-1 border-b-2 blue-heading border-blue-50">Chats</h1>
+        <h1 className="mb-1 border-b-2 heading border-blue-50">Chats</h1>
         <ul>
           {publicChats.map((chatroom, index) => {
             const chatID = chatroom.id;

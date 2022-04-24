@@ -18,9 +18,9 @@ export default function UpdateUserName({account, accountRef}) {
   };
 
   return (
-    <section className="border-b-2 border-blue-200 settings-section ">
+    <section className="settings-section settings-section-border">
       <h2
-        className="blue-heading hover:cursor-pointer hover:text-blue-500"
+        className="heading heading-hover"
         onClick={() => setDisplay(!display)}
       >
         User Name{" "}
@@ -34,7 +34,7 @@ export default function UpdateUserName({account, accountRef}) {
           <input
             type="text"
             placeholder={account.userName || "Create User Name"}
-            className="form-input"
+            className="text-input"
             value={userNameForm}
             onChange={(e) => setUserNameForm(e.target.value)}
           />

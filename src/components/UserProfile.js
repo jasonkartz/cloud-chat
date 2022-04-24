@@ -164,7 +164,7 @@ export default function Profile({
             </button>
           )}
           <div className="">
-            <h1 className="blue-heading">
+            <h1 className="heading">
               {selectedAccount.userName || selectedAccount.name}
             </h1>
             {selectedAccount.userName && (
@@ -258,7 +258,7 @@ export default function Profile({
         {openFollowList && (
           <>
             <div className="flex flex-col">
-              <h1 className="blue-heading">
+              <h1 className="heading">
                 {selectFollowList === "followers" ? "Following" : "Followers"}
               </h1>
             </div>

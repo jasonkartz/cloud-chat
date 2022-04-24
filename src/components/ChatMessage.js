@@ -101,7 +101,7 @@ export default function ChatMessage({
             </p>
 
             <p
-              className="chat-msg-box"
+              className="chat-text-bubble"
               onClick={() => setDisplayTimeStamp(!displayTimeStamp)}
             >
               {text}

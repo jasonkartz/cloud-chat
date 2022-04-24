@@ -33,9 +33,9 @@ export default function UpdatePassword(props) {
 
   return (
     props.providerIdList.includes("password") && (
-      <section className="border-b-2 border-blue-200 settings-section">
+      <section className="settings-section settings-section-border">
         <h2
-          className="blue-heading hover:cursor-pointer hover:text-blue-500"
+          className="heading heading-hover"
           onClick={() => setDisplay(!display)}
         >
           Password
@@ -48,7 +48,7 @@ export default function UpdatePassword(props) {
             <input
               type="password"
               placeholder="Enter your current password"
-              className="form-input"
+              className="text-input"
               value={passwordForm.current}
               onChange={(e) =>
                 setPasswordForm({ ...passwordForm, current: e.target.value })
@@ -57,7 +57,7 @@ export default function UpdatePassword(props) {
             <input
               type="password"
               placeholder="Enter your new password"
-              className="form-input"
+              className="text-input"
               value={passwordForm.new}
               onChange={(e) =>
                 setPasswordForm({ ...passwordForm, new: e.target.value })

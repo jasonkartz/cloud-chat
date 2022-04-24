@@ -26,9 +26,9 @@ export default function UpdateName(props) {
   };
 
   return (
-    <section className="border-b-2 border-blue-200 settings-section ">
+    <section className="settings-section settings-section-border">
       <h2
-        className="blue-heading hover:cursor-pointer hover:text-blue-500"
+        className="heading heading-hover"
         onClick={() => setDisplay(!display)}
       >
         Name{" "}
@@ -42,7 +42,7 @@ export default function UpdateName(props) {
           <input
             type="text"
             placeholder={account.name}
-            className="form-input"
+            className="text-input"
             value={nameForm}
             onChange={(e) => setNameForm(e.target.value)}
           />
