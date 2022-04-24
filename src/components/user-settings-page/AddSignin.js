@@ -7,7 +7,11 @@ import {
   reauthenticateWithPopup,
 } from "firebase/auth";
 
-export default function AddSignin(props) {
+export default function AddSignin({
+  setKeyForRemount,
+  reauthenticate,
+  providerIdList,
+}) {
   const currentUser = auth.currentUser;
   const { email } = currentUser;
 
@@ -33,7 +37,7 @@ export default function AddSignin(props) {
               alert(`You can now sign in with email and password.`);
               setPasswordForm("");
               setPasswordCheck("");
-              props.setKeyForRemount(2);
+              setKeyForRemount(2);
             })
             .catch((error) => {
               setStatus(`${error.message}`);
@@ -52,7 +56,7 @@ export default function AddSignin(props) {
   const addGoogle = async () => {
     setStatus("Reauthenticating...");
 
-    await props.reauthenticate(passwordForm.current);
+    await reauthenticate(passwordForm.current);
 
     setStatus("Sign in to your Google account.");
 
@@ -60,7 +64,7 @@ export default function AddSignin(props) {
       .then((result) => {
         alert(`You can now sign in with your Google account.`);
         setPasswordForm("");
-        props.setKeyForRemount(2);
+        setKeyForRemount(2);
       })
       .catch((error) => {
         setStatus(`${error.message}`);
@@ -70,10 +74,10 @@ export default function AddSignin(props) {
   /* return if account has less than 2 sign in providers (Google and email/password are only options offered) */
 
   return (
-    props.providerIdList.length < 2 && (
+    providerIdList.length < 2 && (
       <section className="settings-section settings-section-border">
         {/* Displays add password sign in if the user only has Google option */}
-        {props.providerIdList.includes("google.com") && (
+        {providerIdList.includes("google.com") && (
           <>
             <h2
               className="heading heading-hover"
@@ -89,7 +93,9 @@ export default function AddSignin(props) {
             {display && (
               <>
                 <div className="text-sm max-w-[80%]">
-                  <p>You will be prompted to sign in <br /> with Google again.</p>
+                  <p>
+                    You will be prompted to sign in <br /> with Google again.
+                  </p>
                 </div>
 
                 <input
@@ -123,7 +129,7 @@ export default function AddSignin(props) {
 
         {/* Displays add Google sign in if the user only has email/password option */}
 
-        {props.providerIdList.includes("password") && (
+        {providerIdList.includes("password") && (
           <>
             <h2
               className="heading heading-hover"

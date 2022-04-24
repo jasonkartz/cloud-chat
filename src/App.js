@@ -8,7 +8,7 @@ import {
   query,
   orderBy,
   limitToLast,
-  serverTimestamp,
+  serverTimestamp
 } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import Error from "./components/Error";
@@ -107,8 +107,9 @@ function App() {
   } else if (userError) {
     return <Error error={userError} content={"user"} />;
   } else {
+
     return (
-      <div className={darkMode && "dark"}>
+      <div className={`${darkMode && "dark"}`}>
         <div className="background">
           <div className={`main-container`}>
             <Header

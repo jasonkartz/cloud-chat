@@ -2,7 +2,7 @@ import { useState } from "react";
 import { auth } from "../../backend/firebase-config";
 import { updatePassword } from "firebase/auth";
 
-export default function UpdatePassword(props) {
+export default function UpdatePassword({ reauthenticate, providerIdList }) {
   const currentUser = auth.currentUser;
 
   const [display, setDisplay] = useState(false);
@@ -16,7 +16,7 @@ export default function UpdatePassword(props) {
   const passwordSubmit = async () => {
     setPasswordStatus("Updating password...");
 
-    await props.reauthenticate(passwordForm.current);
+    await reauthenticate(passwordForm.current);
 
     await updatePassword(currentUser, passwordForm.new)
       .then(() => {
@@ -32,7 +32,7 @@ export default function UpdatePassword(props) {
   };
 
   return (
-    props.providerIdList.includes("password") && (
+    providerIdList.includes("password") && (
       <section className="settings-section settings-section-border">
         <h2
           className="heading heading-hover"

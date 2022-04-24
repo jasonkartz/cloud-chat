@@ -4,10 +4,13 @@ import { deleteUser, reauthenticateWithPopup } from "firebase/auth";
 import { deleteDoc } from "firebase/firestore";
 import { listAll, deleteObject, ref } from "firebase/storage";
 
-export default function DeleteAccount(props) {
+export default function DeleteAccount({
+  accountRef,
+  providerIdList,
+  reauthenticate,
+}) {
   const currentUser = auth.currentUser;
   const { uid } = currentUser;
-  const accountRef = props.accountRef;
 
   const [display, setDisplay] = useState(false);
 
@@ -29,7 +32,6 @@ export default function DeleteAccount(props) {
         setDeleteStatus(
           "Are you sure you want to delete your account? This will be permanent and cannot be recovered."
         );
-        
       } else {
         setDeleteStatus(
           "Please type 'DELETE' in the box above before submitting."
@@ -39,9 +41,8 @@ export default function DeleteAccount(props) {
       }
     };
 
-    if (props.providerIdList.includes("password")) {
-      await props
-        .reauthenticate(passwordForm)
+    if (providerIdList.includes("password")) {
+      await reauthenticate(passwordForm)
         .then(() => {
           deleteCheck();
         })
@@ -113,7 +114,7 @@ export default function DeleteAccount(props) {
 
               {/* if user has a password sign in method, display this */}
 
-              {props.providerIdList.includes("password") && (
+              {providerIdList.includes("password") && (
                 <>
                   <input
                     type="password"
@@ -137,8 +138,8 @@ export default function DeleteAccount(props) {
 
           {/* if user ONLY has a Google sign in method, display this */}
 
-          {props.providerIdList.includes("google.com") &&
-          props.providerIdList.length < 2 ? (
+          {providerIdList.includes("google.com") &&
+          providerIdList.length < 2 ? (
             <>
               <button
                 type="submit"
