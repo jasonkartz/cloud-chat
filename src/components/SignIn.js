@@ -34,29 +34,6 @@ export default function SignIn() {
 
   const [signinMessage, setSigninMessage] = useState("");
 
-  const syncAccount = () => {
-    const { uid, displayName, email, photoURL } = auth.currentUser;
-    const accountRef = doc(db, "accounts", auth.currentUser.uid);
-    const docSnap = getDoc(accountRef);
-
-    if (docSnap) {
-      updateDoc(accountRef, {
-        lastLogin: serverTimestamp(),
-      });
-    } else {
-      setDoc(accountRef, {
-        uid: uid,
-        name: displayName,
-        userName: "",
-        email: email,
-        photoURL: photoURL,
-        lastLogin: serverTimestamp(),
-        followers: [],
-        following: [],
-      });
-    }
-  };
-
   const register = async () => {
     const { name, email, username, password, passwordCheck } = registerData;
     setRegisterMessage("Signing up...");
@@ -116,8 +93,31 @@ export default function SignIn() {
       });
   };
 
+  const syncAccount = async () => {
+    const { uid, displayName, email, photoURL } = auth.currentUser;
+    const accountRef = doc(db, "accounts", auth.currentUser.uid);
+    const docSnap = getDoc(accountRef);
+
+    if (docSnap) {
+      updateDoc(accountRef, {
+        lastLogin: serverTimestamp(),
+      });
+    } else {
+      await setDoc(accountRef, {
+        uid: uid,
+        name: displayName,
+        userName: "",
+        email: email,
+        photoURL: photoURL,
+        lastLogin: serverTimestamp(),
+        followers: [],
+        following: [],
+      });
+    }
+  };
+
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleAuth).then(() => syncAccount());
+    await signInWithPopup(auth, googleAuth).then(async () => await syncAccount());
   };
   return (
     <>

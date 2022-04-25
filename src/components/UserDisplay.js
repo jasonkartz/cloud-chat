@@ -16,7 +16,7 @@ export default function UserDisplay({ user, setOpenMenu, setScreen, setAccountSe
     return (
       <Error error={accountError} content={"user info"} />
     );
-  } else {
+  } else if (account) {
     return (
       <div
         className="user-display-container"
@@ -26,7 +26,7 @@ export default function UserDisplay({ user, setOpenMenu, setScreen, setAccountSe
           setScreen("profile");
         }}
       >
-        {account.userName || account.name}
+        {!account.userName ? user.displayName : account.userName}
         {account.photoURL && (
           <img
             src={account.photoURL}
@@ -37,5 +37,7 @@ export default function UserDisplay({ user, setOpenMenu, setScreen, setAccountSe
         )}
       </div>
     );
+  } else {
+    return <i className="text-2xl text-blue-900 ri-close-circle-line dark:text-blue-50"></i>
   }
 }
