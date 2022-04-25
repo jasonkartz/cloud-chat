@@ -15,15 +15,20 @@ export default function ChatMessage({
   const { text, uid, createdAt } = message;
   const accountRef = doc(db, "accounts", uid);
   const [account, loading, error] = useDocumentData(accountRef);
+  
   const [displayTimeStamp, setDisplayTimeStamp] = useState(false);
+
 
   const photoStatus = () => {
     if (loading) {
       return <Loading />;
-    } else {
+    } else if (error) {
+      return <Error error={error} content={"user image"}/>
+    } else if (account) {
+      const userImage = account.photoURL === null ? defaultPic : account.photoURL;
       return (
         <img
-          src={account.photoURL || defaultPic}
+          src={userImage}
           alt="user"
           width="45"
           className={`rounded hover:cursor-pointer hover:outline hover:outline-yellow-200`}
@@ -34,6 +39,8 @@ export default function ChatMessage({
           }}
         />
       );
+    } else {
+      return <i className="text-2xl text-blue-900 ri-close-circle-line dark:text-blue-50"></i>
     }
   };
 
@@ -45,7 +52,7 @@ export default function ChatMessage({
     } else {
       return (
         <>
-          <i className="ri-close-circle-line"></i> Deleted User
+           Deleted User
         </>
       );
     }
