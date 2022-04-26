@@ -1,4 +1,3 @@
-import { useDocumentData } from "react-firebase-hooks/firestore";
 import Error from "./Error";
 import Loading from "./Loading";
 import { collection, serverTimestamp, setDoc, doc } from "firebase/firestore";

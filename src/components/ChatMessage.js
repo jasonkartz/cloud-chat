@@ -1,7 +1,5 @@
 import defaultPic from "../images/cloud-fill.png";
-import { auth, db } from "../backend/firebase-config";
-import { doc } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { auth } from "../backend/firebase-config";
 import { useState } from "react";
 import Loading from "./Loading";
 import Error from "./Error";

@@ -1,6 +1,4 @@
-import { auth, db, storage } from "../backend/firebase-config";
-import { ref } from "firebase/storage";
-import { useDownloadURL } from "react-firebase-hooks/storage";
+import { auth, db } from "../backend/firebase-config";
 import {
   collection,
   setDoc,
