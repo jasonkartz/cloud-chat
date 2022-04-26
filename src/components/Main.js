@@ -34,25 +34,28 @@ function Main({ user, userLoading, userError, cloudImg }) {
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
 
   useEffect(() => {
-    const { uid, displayName, email, photoURL } = auth.currentUser;
-    const docSnap = getDoc(accountRef);
+    async function accountSync() {
+      const { uid, displayName, email, photoURL } = auth.currentUser;
+      const docSnap = await getDoc(accountRef);
 
-    if (docSnap.exists) {
-      updateDoc(accountRef, {
-        lastLogin: serverTimestamp(),
-      });
-    } else {
-      setDoc(accountRef, {
-        uid: uid,
-        name: displayName,
-        userName: "",
-        email: email,
-        photoURL: photoURL || cloudImg,
-        lastLogin: serverTimestamp(),
-        followers: [],
-        following: [],
-      });
+      if (docSnap.exists) {
+        updateDoc(accountRef, {
+          lastLogin: serverTimestamp(),
+        });
+      } else {
+        setDoc(accountRef, {
+          uid: uid,
+          name: displayName,
+          userName: "",
+          email: email,
+          photoURL: photoURL || cloudImg,
+          lastLogin: serverTimestamp(),
+          followers: [],
+          following: [],
+        });
+      }
     }
+    accountSync();
   }, []);
 
   /* account ID selection from UserList */

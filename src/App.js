@@ -1,7 +1,5 @@
 import "./index.css";
 import {
-  signInWithPopup,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
@@ -13,7 +11,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { ref } from "firebase/storage";
-import { auth, googleAuth, db, storage } from "./backend/firebase-config";
+import { auth, db, storage } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { useState } from "react";
