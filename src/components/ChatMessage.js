@@ -1,5 +1,7 @@
 import defaultPic from "../images/cloud-fill.png";
-import { auth } from "../backend/firebase-config";
+import { auth, db } from "../backend/firebase-config";
+import { doc } from "firebase/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useState } from "react";
 import Loading from "./Loading";
 import Error from "./Error";
@@ -9,22 +11,21 @@ export default function ChatMessage({
   setOpenMenu,
   setAccountSelection,
   setScreen,
-  account,
-  accountLoading,
-  accountError,
 }) {
   const { text, uid, createdAt } = message;
+  const msgAccountRef = doc(db, "accounts", uid);
+  const [msgAccount, msgAccountLoading, msgAccountError] = useDocumentData(msgAccountRef);
 
   const [displayTimeStamp, setDisplayTimeStamp] = useState(false);
 
   const photoStatus = () => {
-    if (accountLoading) {
+    if (msgAccountLoading) {
       return <Loading />;
-    } else if (accountError) {
-      return <Error accountError={accountError} content={"user image"} />;
-    } else if (account) {
+    } else if (msgAccountError) {
+      return <Error msgAccountError={msgAccountError} content={"user image"} />;
+    } else if (msgAccount) {
       const userImage =
-        account.photoURL === null ? defaultPic : account.photoURL;
+        msgAccount.photoURL === null ? defaultPic : msgAccount.photoURL;
       return (
         <img
           src={userImage}
@@ -46,10 +47,10 @@ export default function ChatMessage({
   };
 
   const nameStatus = () => {
-    if (accountLoading) {
+    if (msgAccountLoading) {
       return <Loading />;
-    } else if (account) {
-      return account.userName || account.name;
+    } else if (msgAccount) {
+      return msgAccount.userName || msgAccount.name;
     } else {
       return <>Deleted User</>;
     }
@@ -58,7 +59,7 @@ export default function ChatMessage({
   const messageClass =
     uid === auth.currentUser.uid ? "flex-row-reverse self-end" : "";
 
-  if (accountLoading) {
+  if (msgAccountLoading) {
     return (
       <>
         <div className={`flex items-center gap-1 ${messageClass}`}>
@@ -86,8 +87,8 @@ export default function ChatMessage({
         </div>
       </>
     );
-  } else if (accountError) {
-    return <Error accountError={accountError} content={"message"} />;
+  } else if (msgAccountError) {
+    return <Error msgAccountError={msgAccountError} content={"message"} />;
   } else {
     return (
       <>

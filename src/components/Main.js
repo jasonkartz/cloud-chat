@@ -9,6 +9,7 @@ import {
   serverTimestamp,
   getDoc,
   updateDoc,
+  arrayRemove,
 } from "firebase/firestore";
 import {
   useCollectionData,
@@ -38,7 +39,7 @@ function Main({ user, userLoading, userError, cloudImg }) {
       const { uid, displayName, email, photoURL } = auth.currentUser;
       const docSnap = await getDoc(accountRef);
 
-      if (docSnap.exists) {
+      if (docSnap) {
         updateDoc(accountRef, {
           lastLogin: serverTimestamp(),
         });
