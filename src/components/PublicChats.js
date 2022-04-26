@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../backend/firebase-config";
 
-export default function ChatList({
+export default function PublicChats({
   chatSelection,
   setChatSelection,
   setOpenMenu,

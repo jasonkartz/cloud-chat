@@ -26,6 +26,10 @@ export default function Profile({
   setScreen,
   setChatSelection,
   setOpenMenu,
+  account,
+  accountLoading,
+  accountError,
+  accountRef,
 }) {
   const [openFollowList, setOpenFollowList] = useState(false);
   const [selectFollowList, setSelectFollowList] = useState("following");
@@ -33,9 +37,6 @@ export default function Profile({
   const selectedAccountRef = doc(db, "accounts", accountSelection);
   const [selectedAccount, selectedAccountLoading, selectedAccountError] =
     useDocumentData(selectedAccountRef);
-
-  const userAccountRef = doc(db, "accounts", user.uid);
-  const [userAccount, userLoading, userError] = useDocumentData(userAccountRef);
 
   const selectedAccountPrivateChatRef = doc(
     db,
@@ -110,7 +111,7 @@ export default function Profile({
   };
 
   const followUser = async () => {
-    updateDoc(userAccountRef, {
+    updateDoc(accountRef, {
       following: arrayUnion(selectedAccount.uid),
     });
 
@@ -120,7 +121,7 @@ export default function Profile({
   };
 
   const unFollowUser = () => {
-    updateDoc(userAccountRef, {
+    updateDoc(accountRef, {
       following: arrayRemove(selectedAccount.uid),
     });
 
@@ -134,13 +135,13 @@ export default function Profile({
   const [accounts, accountsLoading, accountsError, snapshot] =
     useCollectionData(accountsQ);
 
-  if (selectedAccountLoading || userLoading) {
+  if (selectedAccountLoading || accountLoading) {
     return <Loading />;
-  } else if (selectedAccountError || userError) {
+  } else if (selectedAccountError || accountError) {
     return <Error />;
   } else {
-    const followCheck = userAccount.following.includes(selectedAccount.uid);
-    const followBackCheck = selectedAccount.following.includes(userAccount.uid);
+    const followCheck = account.following.includes(selectedAccount.uid);
+    const followBackCheck = selectedAccount.following.includes(account.uid);
 
     const followDisplay =
       followCheck && followBackCheck

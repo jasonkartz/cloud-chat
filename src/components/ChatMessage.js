@@ -11,21 +11,22 @@ export default function ChatMessage({
   setOpenMenu,
   setAccountSelection,
   setScreen,
+  account,
+  accountLoading,
+  accountError,
 }) {
   const { text, uid, createdAt } = message;
-  const accountRef = doc(db, "accounts", uid);
-  const [account, loading, error] = useDocumentData(accountRef);
-  
+
   const [displayTimeStamp, setDisplayTimeStamp] = useState(false);
 
-
   const photoStatus = () => {
-    if (loading) {
+    if (accountLoading) {
       return <Loading />;
-    } else if (error) {
-      return <Error error={error} content={"user image"}/>
+    } else if (accountError) {
+      return <Error accountError={accountError} content={"user image"} />;
     } else if (account) {
-      const userImage = account.photoURL === null ? defaultPic : account.photoURL;
+      const userImage =
+        account.photoURL === null ? defaultPic : account.photoURL;
       return (
         <img
           src={userImage}
@@ -40,28 +41,26 @@ export default function ChatMessage({
         />
       );
     } else {
-      return <i className="text-2xl text-blue-900 ri-close-circle-line dark:text-blue-50"></i>
+      return (
+        <i className="text-2xl text-blue-900 ri-close-circle-line dark:text-blue-50"></i>
+      );
     }
   };
 
   const nameStatus = () => {
-    if (loading) {
+    if (accountLoading) {
       return <Loading />;
     } else if (account) {
       return account.userName || account.name;
     } else {
-      return (
-        <>
-           Deleted User
-        </>
-      );
+      return <>Deleted User</>;
     }
   };
 
   const messageClass =
     uid === auth.currentUser.uid ? "flex-row-reverse self-end" : "";
 
-  if (loading) {
+  if (accountLoading) {
     return (
       <>
         <div className={`flex items-center gap-1 ${messageClass}`}>
@@ -89,8 +88,8 @@ export default function ChatMessage({
         </div>
       </>
     );
-  } else if (error) {
-    return <Error error={error} content={"message"} />;
+  } else if (accountError) {
+    return <Error accountError={accountError} content={"message"} />;
   } else {
     return (
       <>
@@ -101,11 +100,7 @@ export default function ChatMessage({
               uid === auth.currentUser.uid ? "items-end" : "items-start"
             }`}
           >
-            <p
-              className={`text-sm chat-info-text`}
-            >
-              {nameStatus()}
-            </p>
+            <p className={`text-sm chat-info-text`}>{nameStatus()}</p>
 
             <p
               className="chat-text-bubble"
@@ -114,9 +109,7 @@ export default function ChatMessage({
               {text}
             </p>
             {displayTimeStamp && (
-              <p
-                className={`text-xs chat-info-text`}
-              >
+              <p className={`text-xs chat-info-text`}>
                 {createdAt.toDate().toLocaleString()}
               </p>
             )}

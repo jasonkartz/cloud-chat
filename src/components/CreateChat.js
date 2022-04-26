@@ -1,23 +1,19 @@
-import {
-  useDocumentData,
-} from "react-firebase-hooks/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 import Error from "./Error";
 import Loading from "./Loading";
-import {
-  collection,
-  serverTimestamp,
-  setDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, serverTimestamp, setDoc, doc } from "firebase/firestore";
 import { useState } from "react";
 import { db } from "../backend/firebase-config";
 
-export default function CreateChat({ user, setChatSelection }) {
+export default function CreateChat({
+  user,
+  setChatSelection,
+  account,
+  accountLoading,
+  accountError,
+}) {
   const [createChatName, setCreateChatName] = useState("");
   const [createChatStatus, setCreateChatStatus] = useState("");
-
-  const accountRef = doc(db, "accounts", user.uid);
-  const [account, accountLoading, accountError] = useDocumentData(accountRef);
 
   const createRoom = async () => {
     setCreateChatStatus("Creating room...");

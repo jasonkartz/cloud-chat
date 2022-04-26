@@ -31,11 +31,9 @@ import UserProfile from "./UserProfile";
 import UserList from "./UserList";
 import PrivateChats from "./PrivateChats";
 
-
 function Main({ user, userLoading, userError, cloudImg }) {
   const accountRef = doc(db, "accounts", auth.currentUser.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
-
 
   useEffect(() => {
     const { uid, displayName, email, photoURL } = auth.currentUser;
@@ -180,6 +178,9 @@ function Main({ user, userLoading, userError, cloudImg }) {
                     user={user}
                     setChatSelection={setChatSelection}
                     setOpenMenu={setOpenMenu}
+                    account={account}
+                    accountLoading={accountLoading}
+                    accountError={accountError}
                   />
                 </PublicChats>
               )}
@@ -198,6 +199,10 @@ function Main({ user, userLoading, userError, cloudImg }) {
                   setScreen={setScreen}
                   setChatSelection={setChatSelection}
                   setOpenMenu={setOpenMenu}
+                  account={account}
+                  accountLoading={accountLoading}
+                  accountError={accountError}
+                  accountRef={accountRef}
                 />
               )}
               {screen === "users" && (
@@ -207,7 +212,15 @@ function Main({ user, userLoading, userError, cloudImg }) {
                   setScreen={setScreen}
                 />
               )}
-              {screen === "settings" && <UserSettings user={user} />}
+              {screen === "settings" && (
+                <UserSettings
+                  user={user}
+                  accountRef={accountRef}
+                  account={account}
+                  accountLoading={accountLoading}
+                  accountError={accountError}
+                />
+              )}
             </DropMenu>
             <main className="main-box">
               <>
@@ -236,6 +249,9 @@ function Main({ user, userLoading, userError, cloudImg }) {
                           setOpenMenu={setOpenMenu}
                           setAccountSelection={setAccountSelection}
                           setScreen={setScreen}
+                          account={account}
+                          accountLoading={accountLoading}
+                          accountError={accountError}
                         />
                       );
                     })}

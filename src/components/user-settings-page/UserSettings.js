@@ -13,12 +13,14 @@ import AddSignin from "./AddSignin";
 import Error from "../Error";
 import Loading from "../Loading";
 
-
-export default function UserSettings() {
+export default function UserSettings({
+  accountRef,
+  account,
+  accountLoading,
+  accountError,
+}) {
   const currentUser = auth.currentUser;
-  const { uid, email } = currentUser;
-  const accountRef = doc(db, "accounts", uid);
-  const [account, loading, error] = useDocumentData(accountRef);
+  const { email } = currentUser;
 
   /* remounts component by changing the key property */
   const [keyForRemount, setKeyForRemount] = useState(1);
@@ -38,7 +40,7 @@ export default function UserSettings() {
     reauthenticateWithCredential(currentUser, credential);
   };
 
-  if (loading) {
+  if (accountLoading) {
     return (
       <>
         <Loading />
@@ -80,7 +82,7 @@ export default function UserSettings() {
         />
       </>
     );
-  } else if (error) {
+  } else if (accountError) {
     return (
       <>
         <Error />

@@ -1,6 +1,3 @@
-import { doc } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import { db } from "../backend/firebase-config";
 import Loading from "./Loading";
 import Error from "./Error";
 
