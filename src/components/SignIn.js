@@ -1,14 +1,10 @@
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  updateProfile,
 } from "firebase/auth";
 import { auth, googleAuth, db } from "../backend/firebase-config";
 import {
   doc,
-  setDoc,
-  getDoc,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
@@ -18,7 +14,6 @@ export default function SignIn({
   setRegisterData,
   registerData,
   registerMessage,
-  setRegisterMessage,
   registerUser,
 }) {
   const [signUpView, setSignUpView] = useState(false);

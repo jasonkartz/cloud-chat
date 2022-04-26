@@ -156,6 +156,7 @@ function Main({ user, userLoading, userError, cloudImg }) {
                   account={account}
                   accountLoading={accountLoading}
                   accountError={accountError}
+                  cloudImg={cloudImg}
                 />
               )}
             </Header>

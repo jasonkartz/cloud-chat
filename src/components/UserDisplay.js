@@ -12,6 +12,7 @@ export default function UserDisplay({
   account,
   accountLoading,
   accountError,
+  cloudImg,
 }) {
 
   if (accountLoading) {
@@ -31,7 +32,7 @@ export default function UserDisplay({
         {!account.userName ? user.displayName : account.userName}
         {account.photoURL && (
           <img
-            src={account.photoURL}
+            src={account?.photoURL || cloudImg}
             alt="user"
             className="user-display-image"
             width="30"
