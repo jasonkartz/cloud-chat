@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
-import { doc } from "firebase/firestore";
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import { auth, db } from "../../backend/firebase-config";
+import { auth } from "../../backend/firebase-config";
 import UpdateProfileImage from "./UpdateProfileImage";
 import UpdateUserName from "./UpdateUserName";
 import UpdateName from "./UpdateName";
@@ -89,7 +87,7 @@ export default function UserSettings({
       </>
     );
   } else {
-    return <p>Deleting account..</p>;
+    return <Loading />;
   }
 }
 
