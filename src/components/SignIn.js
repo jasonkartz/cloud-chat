@@ -117,10 +117,20 @@ export default function SignIn() {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleAuth).then(async () => await syncAccount());
+    await signInWithPopup(auth, googleAuth).then(
+      async () => await syncAccount()
+    );
   };
   return (
-    <>
+    <div className="background">
+      <div className="main-container">
+        <header className={`header`}>
+          <div className="flex justify-between px-2 py-1 items center">
+            <h1 className="logo">
+              <i className="ri-cloud-fill"></i>CloudChat
+            </h1>
+          </div>
+        </header>
         {
           /* Sign In */
           !signUpView && (
@@ -239,6 +249,7 @@ export default function SignIn() {
           <i className="sign-in-btn-google-icon ri-google-fill"></i>{" "}
           <span className="align-top">Sign in with Google</span>
         </button>
-    </>
+      </div>
+    </div>
   );
 }
