@@ -12,7 +12,7 @@ import DeleteAccount from "./DeleteAccount";
 import AddSignin from "./AddSignin";
 import Error from "../Error";
 import Loading from "../Loading";
-import SignIn from "../SignIn";
+
 
 export default function UserSettings() {
   const currentUser = auth.currentUser;
