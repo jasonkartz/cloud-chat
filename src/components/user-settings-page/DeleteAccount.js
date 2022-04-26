@@ -77,9 +77,9 @@ export default function DeleteAccount({
           console.log(error);
         });
     }
-    await deleteUser(currentUser)
+    await deleteDoc(accountRef)
       .then(() => {
-        deleteDoc(accountRef);
+        deleteUser(currentUser);
       })
       .catch((error) => {
         console.log(error.code + " " + error.message);

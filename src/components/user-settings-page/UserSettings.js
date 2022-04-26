@@ -55,7 +55,6 @@ export default function UserSettings() {
             setKeyForRemount={setKeyForRemount}
           />
         )}
-
         <UpdateProfileImage account={account} accountRef={accountRef} />
 
         <UpdateUserName account={account} accountRef={accountRef} />
@@ -82,7 +81,13 @@ export default function UserSettings() {
       </>
     );
   } else if (error) {
-    return <><Error /></>;
+    return (
+      <>
+        <Error />
+      </>
+    );
+  } else {
+    return <p>Deleting account..</p>;
   }
 }
 

@@ -1,4 +1,4 @@
-# Project in progress... See "Todos" under the "Issues" tab
+# Project in progress...
 
 
 

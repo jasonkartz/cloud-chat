@@ -143,7 +143,7 @@
     @apply p-1 text-blue-600 rounded dark:text-blue-900 bg-blue-50;
   }
   .profile-back-btn {
-    @apply flex items-center gap-1 text-sm font-bold;
+    @apply flex items-center gap-1 font-bold;
     @apply text-blue-600 hover:text-blue-500 hover:cursor-pointer;
     @apply dark:text-yellow-100 dark:hover:text-yellow-200;
   }
