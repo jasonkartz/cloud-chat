@@ -31,6 +31,7 @@ export default function Profile({
   accountError,
   accountRef,
 }) {
+
   const [openFollowList, setOpenFollowList] = useState(false);
   const [selectFollowList, setSelectFollowList] = useState("following");
 

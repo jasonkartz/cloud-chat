@@ -1,8 +1,5 @@
 import "./index.css";
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
   doc,
   setDoc,
@@ -24,9 +21,8 @@ function App() {
   /* user auth state - displays signin if auth state is false*/
   const [user, userLoading, userError] = useAuthState(auth);
 
-  const [cloudImg, cloudImgError, cloudImgLoading] = useDownloadURL(
-    ref(storage, "gs://chat-tut-d42b0.appspot.com/defaultImage/cloud-fill.png")
-  );
+  const cloudImg =
+    "https://firebasestorage.googleapis.com/v0/b/chat-tut-d42b0.appspot.com/o/defaultImage%2Fcloud-fill.png?alt=media&token=4b7dbe8f-725f-4a8e-a2af-eed08b439550";
 
   const [registerData, setRegisterData] = useState({
     name: "",

@@ -1,3 +1,5 @@
+import defaultPic from "../images/cloud-fill.png";
+import { useState } from "react";
 import Loading from "./Loading";
 import Error from "./Error";
 
@@ -29,7 +31,7 @@ export default function UserDisplay({
         {!account.userName ? user.displayName : account.userName}
         {account.photoURL && (
           <img
-            src={account?.photoURL || cloudImg}
+            src={account.photoURL || cloudImg}
             alt="user"
             className="user-display-image"
             width="30"

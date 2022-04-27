@@ -9,7 +9,6 @@ import {
   serverTimestamp,
   getDoc,
   updateDoc,
-  arrayRemove,
 } from "firebase/firestore";
 import {
   useCollectionData,
@@ -33,26 +32,21 @@ import PrivateChats from "./PrivateChats";
 function Main({ user, userLoading, userError, cloudImg }) {
   const accountRef = doc(db, "accounts", auth.currentUser.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
+  
 
   useEffect(() => {
     async function accountSync() {
       const { uid, displayName, email, photoURL } = auth.currentUser;
-      const docSnap = await getDoc(accountRef);
-
-      if (docSnap) {
-        updateDoc(accountRef, {
-          lastLogin: serverTimestamp(),
-        });
-      } else {
+      if (account) {
         setDoc(accountRef, {
           uid: uid,
           name: displayName,
-          userName: "",
+          userName: account?.userName || "",
           email: email,
           photoURL: photoURL || cloudImg,
           lastLogin: serverTimestamp(),
-          followers: [],
-          following: [],
+          followers: account.followers || [],
+          following: account.following || [],
         });
       }
     }
