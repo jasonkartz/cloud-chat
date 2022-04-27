@@ -1,8 +1,18 @@
 import { useState } from "react";
-import { storage, auth, googleAuth } from "../../backend/firebase-config";
+import { storage, auth, googleAuth, db } from "../../backend/firebase-config";
 import { deleteUser, reauthenticateWithPopup } from "firebase/auth";
-import { deleteDoc } from "firebase/firestore";
+import {
+  deleteDoc,
+  where,
+  query,
+  updateDoc,
+  collection,
+  getDocs,
+  doc,
+  arrayRemove,
+} from "firebase/firestore";
 import { listAll, deleteObject, ref } from "firebase/storage";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export default function DeleteAccount({
   accountRef,
@@ -20,6 +30,42 @@ export default function DeleteAccount({
   const [deleteStatus, setDeleteStatus] = useState("");
 
   const [deleteView, setDeleteView] = useState(false);
+
+  /* clears user from other accounts follow lists */
+  const clearFollows = async () => {
+    const accountsRef = collection(db, "accounts");
+
+    /* checks for all accounts user is following */
+    const followersQ = query(
+      accountsRef,
+      where("followers", "array-contains", uid)
+    );
+    const followersSnap = await getDocs(followersQ);
+
+    /* checks for all accounts following user */
+    const followingQ = query(
+      accountsRef,
+      where("following", "array-contains", uid)
+    );
+    const followingSnap = await getDocs(followingQ);
+
+    /* removes user from other accounts followers list */
+    followersSnap.forEach((account) => {
+      const docRef = doc(db, "accounts", account.id);
+       updateDoc(docRef, {
+        followers: arrayRemove(uid),
+      });
+    });
+
+    /* removes user from other accounts following list */
+    followingSnap.forEach((account) => {
+      const docRef = doc(db, "accounts", account.id);
+       updateDoc(docRef, {
+        following: arrayRemove(uid),
+      });
+    });
+
+  };
 
   const deleteConfirm = async () => {
     setDeleteStatus("Authenticating...");
@@ -66,6 +112,7 @@ export default function DeleteAccount({
   const deleteAccount = async () => {
     setDeleteStatus("Deleting account...");
     const userStorage = ref(storage, "users/" + uid);
+    await clearFollows();
     if (userStorage) {
       await listAll(userStorage)
         .then((res) => {
