@@ -16,6 +16,10 @@ export default function UserSettings({
   account,
   accountLoading,
   accountError,
+  darkMode,
+  setDarkMode,
+  systemTheme,
+  setSystemTheme,
 }) {
   const currentUser = auth.currentUser;
   const { email } = currentUser;
@@ -47,6 +51,32 @@ export default function UserSettings({
   } else if (account) {
     return (
       <>
+        <section className="settings-section settings-section-border">
+          <label>
+            <input
+              type="checkbox"
+              checked={systemTheme}
+              onChange={() => {
+                if (systemTheme === false) {
+                  setSystemTheme(true);
+                  localStorage.systemTheme = "true";
+                  localStorage.removeItem("theme");
+                  if (
+                    window.matchMedia("(prefers-color-scheme: dark)").matches
+                  ) {
+                    setDarkMode(true);
+                  } else {
+                    setDarkMode(false);
+                  }
+                } else {
+                  setSystemTheme(false);
+                  localStorage.removeItem("systemTheme");
+                }
+              }}
+            />{" "}
+            Use system theme
+          </label>
+        </section>
         {providerIdList.length < 2 && (
           <AddSignin
             reauthenticate={reauthenticate}

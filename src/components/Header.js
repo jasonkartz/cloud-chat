@@ -6,6 +6,7 @@ export default function Header({
   chatSelection,
   setDarkMode,
   darkMode,
+  systemTheme,
 }) {
   return (
     <header className={`header`}>
@@ -15,12 +16,21 @@ export default function Header({
         </h1>
         <div className="flex justify-end gap-2">
           {children}
-          <i
-            className={`self-center text-2xl text-blue-50 hover:cursor-pointer hover:text-yellow-200 ri-${
-              darkMode ? "moon" : "sun"
-            }-line`}
-            onClick={() => setDarkMode(!darkMode)}
-          ></i>
+          {!systemTheme && (
+            <i
+              className={`self-center text-2xl text-blue-50 hover:cursor-pointer hover:text-yellow-200 ri-${
+                darkMode ? "moon" : "sun"
+              }-line`}
+              onClick={() => {
+                if (darkMode === true) {
+                  localStorage.theme = "light";
+                } else {
+                  localStorage.theme = "dark";
+                }
+                setDarkMode(!darkMode);
+              }}
+            ></i>
+          )}
           <i
             className={`menu-toggle 
           ${openMenu ? "ri-close-line" : "ri-menu-5-line"} ${

@@ -29,10 +29,18 @@ import UserProfile from "./UserProfile";
 import UserList from "./UserList";
 import PrivateChats from "./PrivateChats";
 
-function Main({ user, userLoading, userError, cloudImg }) {
+function Main({
+  user,
+  userLoading,
+  userError,
+  cloudImg,
+  darkMode,
+  setDarkMode,
+  systemTheme,
+setSystemTheme,
+}) {
   const accountRef = doc(db, "accounts", auth.currentUser.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
-  
 
   useEffect(() => {
     async function accountSync() {
@@ -120,10 +128,6 @@ function Main({ user, userLoading, userError, cloudImg }) {
 
   const [screen, setScreen] = useState("chat");
 
-  /* theme */
-
-  const [darkMode, setDarkMode] = useState(false);
-
   if (userLoading) {
     return <Loading />;
   } else if (userError) {
@@ -140,6 +144,7 @@ function Main({ user, userLoading, userError, cloudImg }) {
               chatSelection={chatSelection}
               darkMode={darkMode}
               setDarkMode={setDarkMode}
+              systemTheme={systemTheme}
             >
               {user && (
                 <UserDisplay
@@ -215,6 +220,10 @@ function Main({ user, userLoading, userError, cloudImg }) {
                   account={account}
                   accountLoading={accountLoading}
                   accountError={accountError}
+                  darkMode={darkMode}
+                  setDarkMode={setDarkMode}
+                  systemTheme={systemTheme}
+                  setSystemTheme={setSystemTheme}
                 />
               )}
             </DropMenu>
