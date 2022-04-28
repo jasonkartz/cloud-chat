@@ -12,7 +12,6 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import { listAll, deleteObject, ref } from "firebase/storage";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export default function DeleteAccount({
   accountRef,
@@ -31,7 +30,7 @@ export default function DeleteAccount({
 
   const [deleteView, setDeleteView] = useState(false);
 
-  /* clears user from other accounts follow lists */
+  /* clears user from other accounts follow lists when user deletes their account */
   const clearFollows = async () => {
     const accountsRef = collection(db, "accounts");
 
@@ -52,7 +51,7 @@ export default function DeleteAccount({
     /* removes user from other accounts followers list */
     followersSnap.forEach((account) => {
       const docRef = doc(db, "accounts", account.id);
-       updateDoc(docRef, {
+      updateDoc(docRef, {
         followers: arrayRemove(uid),
       });
     });
@@ -60,11 +59,10 @@ export default function DeleteAccount({
     /* removes user from other accounts following list */
     followingSnap.forEach((account) => {
       const docRef = doc(db, "accounts", account.id);
-       updateDoc(docRef, {
+      updateDoc(docRef, {
         following: arrayRemove(uid),
       });
     });
-
   };
 
   const deleteConfirm = async () => {
