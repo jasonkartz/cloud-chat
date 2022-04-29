@@ -73,7 +73,7 @@ export default function UserSettings({
                   localStorage.removeItem("systemTheme");
                 }
               }}
-            />{" "}
+            />&nbsp;
             Use system theme
           </label>
         </section>
