@@ -35,7 +35,7 @@ export default function DropMenu({
                     setScreen("chat");
                   }}
                 >
-                  <i className="ri-search-line"></i> <span>Public Chats</span>
+                  <i className="ri-chat-3-line"></i> <span>Public Chats</span>
                 </button>
               </li>
 
@@ -48,7 +48,7 @@ export default function DropMenu({
                   disabled={screen === "private-chats"}
                   onClick={() => setScreen("private-chats")}
                 >
-                  <i className="ri-chat-new-line"></i> <span>Private Chats</span>
+                  <i className="ri-chat-private-line"></i> <span>Private Chats</span>
                 </button>
               </li>
 
@@ -63,7 +63,7 @@ export default function DropMenu({
                     setScreen("users");
                   }}
                 >
-                  <i className="ri-user-search-line"></i>{" "}
+                  <i className="ri-group-line"></i>{" "}
                   <span>Users</span>
                 </button>
               </li>
