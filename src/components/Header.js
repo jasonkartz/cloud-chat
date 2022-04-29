@@ -18,7 +18,7 @@ export default function Header({
           {children}
           {!systemTheme && (
             <i
-              className={`self-center text-2xl text-blue-50 hover:cursor-pointer hover:text-yellow-200 ri-${
+              className={`theme-toggle ri-${
                 darkMode ? "moon" : "sun"
               }-line`}
               onClick={() => {

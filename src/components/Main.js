@@ -37,7 +37,7 @@ function Main({
   darkMode,
   setDarkMode,
   systemTheme,
-setSystemTheme,
+  setSystemTheme,
 }) {
   const accountRef = doc(db, "accounts", auth.currentUser.uid);
   const [account, accountLoading, accountError] = useDocumentData(accountRef);
