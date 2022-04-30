@@ -1,8 +1,7 @@
-# Project in progress...
+# Cloud Chat
+Basic chat app using reactjs, tailwindcss, firebase. 
 
-
-
-
+Features: User authentication, public and private chats, user profiles, user settings, switchable light/dark theme.
 
 
 
