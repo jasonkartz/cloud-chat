@@ -34,14 +34,17 @@
     @apply text-blue-100 bg-blue-600 hover:text-yellow-200;
     @apply dark:bg-blue-700 dark:text-blue-50;
   }
+  body{
+    @apply p-0 m-0;
+  }
 }
 
 @layer components {
   .background {
-    @apply p-4 bg-blue-200 dark:bg-slate-800;
+    @apply min-h-screen bg-blue-200 dark:bg-slate-800 lg:pt-4;
   }
   .main-container {
-    @apply mx-auto max-w-xl h-[95vh] flex flex-col;
+    @apply mx-auto max-w-xl h-screen lg:h-[95vh] flex flex-col;
     @apply bg-blue-300 rounded-lg dark:bg-slate-900 drop-shadow-xl;
   }
   .header {
@@ -53,7 +56,7 @@
     @apply dark:bg-blue-900 dark:border-blue-50;
   }
   .logo {
-    @apply flex gap-1 text-2xl italic font-black tracking-wide select-none;
+    @apply flex gap-1 italic font-black tracking-wide select-none;
     @apply text-blue-100 dark:text-blue-50;
   }
   .main-box {
@@ -87,12 +90,12 @@
     @apply border-blue-400 bg-blue-400/25 border-t-blue-50/50 backdrop-blur-sm;
     @apply dark:bg-slate-400/10 dark:border-blue-900 dark:border-t-blue-50;
   }
-  .drop-menu-selection{
-    @apply p-1 rounded shadow-inner backdrop-blur-sm bg-blue-300/95;
+  .drop-menu-selection {
+    @apply w-[32%] p-1 rounded shadow-inner backdrop-blur-sm bg-blue-300/95;
     @apply dark:bg-blue-900/95;
   }
   .drop-menu-container {
-    @apply w-[65%] p-2 overflow-auto rounded whitespace-nowrap;
+    @apply w-[62%] p-2 overflow-auto rounded whitespace-nowrap;
     @apply shadow-inner bg-blue-300/95 max-h-96 backdrop-blur-sm;
     @apply dark:bg-blue-900/95;
   }
@@ -156,12 +159,12 @@
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:bg-blue-900 dark:hover:bg-blue-800;
   }
   .menu-btn {
-    @apply flex items-center gap-1 transition px-1.5 py-0.5 font-bold w-full;
+    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold w-full;
     @apply text-blue-600 hover:text-blue-500;
     @apply dark:hover:text-yellow-200 dark:text-blue-50;
   }
   .menu-btn-selected {
-    @apply flex items-center gap-1 transition px-1.5 py-0.5 font-bold;
+    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold;
     @apply w-full text-blue-500 border-b border-b-blue-500;
     @apply dark:text-blue-400 dark:border-blue-400;
   }
@@ -175,11 +178,11 @@
     @apply dark:text-blue-50 dark:bg-blue-700 dark:disabled:hover:text-blue-50;
   }
   .menu-toggle {
-    @apply text-3xl transition text-blue-50;
+    @apply text-4xl transition md:text-3xl text-blue-50;
     @apply hover:cursor-pointer hover:text-yellow-200;
   }
   .theme-toggle {
-    @apply self-center text-2xl text-blue-50 hover:cursor-pointer hover:text-yellow-200;
+    @apply self-center text-3xl md:text-2xl text-blue-50 hover:cursor-pointer hover:text-yellow-200;
   }
 
 

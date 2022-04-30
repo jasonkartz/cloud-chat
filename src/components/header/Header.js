@@ -10,9 +10,9 @@ export default function Header({
 }) {
   return (
     <header className={`header`}>
-      <div className="flex justify-between px-2 py-1 items center">
+      <div className="flex items-center justify-between px-2 py-1">
         <h1 className="logo">
-          <i className="ri-cloud-fill"></i>CloudChat
+          <i className="text-2xl ri-cloud-fill"></i><span className="self-center md:text-2xl">CloudChat</span>
         </h1>
         <div className="flex justify-end gap-2">
           {children}
