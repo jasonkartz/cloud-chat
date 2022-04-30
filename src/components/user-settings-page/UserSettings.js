@@ -16,7 +16,6 @@ export default function UserSettings({
   account,
   accountLoading,
   accountError,
-  darkMode,
   setDarkMode,
   systemTheme,
   setSystemTheme,
@@ -120,9 +119,3 @@ export default function UserSettings({
     return <Loading />;
   }
 }
-
-/*
-todo:
-- password reset email link (ie. "forgot password")
-- confirmation email for making changes in settings / account deletion
-*/

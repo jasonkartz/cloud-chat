@@ -3,9 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
   doc,
   setDoc,
-  getDoc,
   serverTimestamp,
-  updateDoc,
 } from "firebase/firestore";
 import { ref } from "firebase/storage";
 import { auth, db, storage } from "./backend/firebase-config";

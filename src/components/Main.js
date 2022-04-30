@@ -7,8 +7,6 @@ import {
   orderBy,
   limitToLast,
   serverTimestamp,
-  getDoc,
-  updateDoc,
 } from "firebase/firestore";
 import {
   useCollectionData,
@@ -220,7 +218,6 @@ function Main({
                   account={account}
                   accountLoading={accountLoading}
                   accountError={accountError}
-                  darkMode={darkMode}
                   setDarkMode={setDarkMode}
                   systemTheme={systemTheme}
                   setSystemTheme={setSystemTheme}

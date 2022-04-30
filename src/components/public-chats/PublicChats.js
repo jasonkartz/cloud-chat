@@ -73,5 +73,3 @@ export default function PublicChats({
     );
   }
 }
-
-// snapshot._snapshot.docChanges[index].doc.key.path.segments[6]
