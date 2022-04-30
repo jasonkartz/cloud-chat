@@ -14,20 +14,20 @@ import {
   useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
-import Error from "./Error";
-import Loading from "./Loading";
+import Error from "./loading-error-display/Error";
+import Loading from "./loading-error-display/Loading";
 import DropMenu from "./DropMenu";
 import { useState, useEffect, useRef } from "react";
-import Header from "./Header";
-import UserDisplay from "./UserDisplay";
-import MessageForm from "./MessageForm";
-import ChatMessage from "./ChatMessage";
-import PublicChats from "./PublicChats";
+import Header from "./header/Header";
+import UserDisplay from "./header/UserDisplay";
+import MessageForm from "./messaging/MessageForm";
+import ChatMessage from "./messaging/ChatMessage"
+import PublicChats from "./public-chats/PublicChats";
 import UserSettings from "./user-settings-page/UserSettings";
-import CreateChat from "./CreateChat";
-import UserProfile from "./UserProfile";
-import UserList from "./UserList";
-import PrivateChats from "./PrivateChats";
+import CreateChat from "./public-chats/CreateChat";
+import UserProfile from "./users/UserProfile";
+import UserList from "./users/UserList";
+import PrivateChats from "./private-chats/PrivateChats";
 
 function Main({
   user,

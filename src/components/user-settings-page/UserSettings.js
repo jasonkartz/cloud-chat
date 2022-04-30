@@ -8,8 +8,8 @@ import UpdateEmail from "./UpdateEmail";
 import UpdatePassword from "./UpdatePassword";
 import DeleteAccount from "./DeleteAccount";
 import AddSignin from "./AddSignin";
-import Error from "../Error";
-import Loading from "../Loading";
+import Error from "../loading-error-display/Error";
+import Loading from "../loading-error-display/Loading";
 
 export default function UserSettings({
   accountRef,

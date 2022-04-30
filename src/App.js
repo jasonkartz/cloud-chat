@@ -12,8 +12,8 @@ import { auth, db, storage } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDownloadURL } from "react-firebase-hooks/storage";
 import { useState, useEffect } from "react";
-import Loading from "./components/Loading";
-import Error from "./components/Error";
+import Loading from "./components/loading-error-display/Loading";
+import Error from "./components/loading-error-display/Error";
 import Main from "./components/Main";
 import SignIn from "./components/SignIn";
 
