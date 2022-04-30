@@ -1,12 +1,13 @@
-### Cloud Chat
+## Cloud Chat
 Basic chat app using reactjs, tailwindcss, firebase. 
 
 Features: User authentication, public and private chats, user profiles, user settings, switchable light/dark theme.
 
 
-###
 
-### Getting Started with Create React App
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
