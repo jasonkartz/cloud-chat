@@ -29,7 +29,6 @@ export default function DeleteAccount({
 
   const [deleteForm, setDeleteForm] = useState("");
   const [passwordForm, setPasswordForm] = useState("");
-  console.log(passwordForm);
 
   const [deleteStatus, setDeleteStatus] = useState("");
 
