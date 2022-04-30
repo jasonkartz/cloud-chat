@@ -1,14 +1,15 @@
-export default function MessageForm(props) {
+export default function MessageForm({ formValue, setFormValue, sendMessage }) {
+
   return (
-    <form onSubmit={props.sendMessage} className="message-form">
+    <form onSubmit={sendMessage} className="message-form">
       <input
         type="text"
         className="text-input message-input"
         placeholder="Say something nice"
-        value={props.formValue}
-        onChange={(e) => props.setFormValue(e.target.value)}
+        value={formValue}
+        onChange={(e) => setFormValue(e.target.value)}
       ></input>
-      <button type="submit" className="message-btn" disabled={!props.formValue}>
+      <button type="submit" className="message-btn" disabled={!formValue}>
         <i className="ri-send-plane-fill"></i>
       </button>
     </form>

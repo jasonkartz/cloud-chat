@@ -1,4 +1,5 @@
 import { auth, db } from "../backend/firebase-config";
+import Filter from "bad-words";
 import {
   collection,
   setDoc,
@@ -94,6 +95,9 @@ function Main({
     }
   );
 
+  /* bad-words filter */
+  const swearFilter = new Filter();
+  
   /* message form */
   const [formValue, setFormValue] = useState("");
 
@@ -103,7 +107,7 @@ function Main({
     const { uid } = auth.currentUser;
     const newMessageRef = doc(messagesRef);
     await setDoc(newMessageRef, {
-      text: formValue,
+      text: swearFilter.clean(formValue),
       createdAt: serverTimestamp(),
       uid,
       messageID: newMessageRef.id,
