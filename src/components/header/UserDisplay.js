@@ -11,7 +11,6 @@ export default function UserDisplay({
   accountError,
   cloudImg,
 }) {
-
   if (accountLoading) {
     return <Loading />;
   } else if (accountError) {
@@ -39,7 +38,16 @@ export default function UserDisplay({
     );
   } else {
     return (
-      <i className="text-2xl text-blue-900 ri-close-circle-line dark:text-blue-50"></i>
+      <div
+        className="user-display-container"
+        onClick={() => {
+          setAccountSelection(user.uid);
+          setOpenMenu(true);
+          setScreen("profile");
+        }}
+      >
+        <i className="text-xl text-blue-100 hover:text-yellow-200 ri-user-line dark:text-blue-50"></i>
+      </div>
     );
   }
 }

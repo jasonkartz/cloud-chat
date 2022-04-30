@@ -25,6 +25,7 @@ export default function PrivateChats({ user, setChatSelection, setOpenMenu }) {
   } else {
     return (
       <ul>
+        {privateChats.length === 0 && <p>Go find some users to message!</p>}
         {privateChats.map((chat, index) => {
           return (
             <PrivateChatUser

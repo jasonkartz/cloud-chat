@@ -19,7 +19,7 @@ import { useState, useEffect, useRef } from "react";
 import Header from "./header/Header";
 import UserDisplay from "./header/UserDisplay";
 import MessageForm from "./messaging/MessageForm";
-import ChatMessage from "./messaging/ChatMessage"
+import ChatMessage from "./messaging/ChatMessage";
 import PublicChats from "./public-chats/PublicChats";
 import UserSettings from "./user-settings-page/UserSettings";
 import CreateChat from "./public-chats/CreateChat";
@@ -43,18 +43,17 @@ function Main({
   useEffect(() => {
     async function accountSync() {
       const { uid, displayName, email, photoURL } = auth.currentUser;
-      if (account) {
-        setDoc(accountRef, {
-          uid: uid,
-          name: displayName,
-          userName: account?.userName || "",
-          email: email,
-          photoURL: photoURL || cloudImg,
-          lastLogin: serverTimestamp(),
-          followers: account.followers || [],
-          following: account.following || [],
-        });
-      }
+
+      await setDoc(accountRef, {
+        uid: uid,
+        name: displayName,
+        userName: account?.userName || "",
+        email: email,
+        photoURL: photoURL || cloudImg,
+        lastLogin: serverTimestamp(),
+        followers: account?.followers || [],
+        following: account?.following || [],
+      });
     }
     accountSync();
   }, []);

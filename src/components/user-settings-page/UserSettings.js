@@ -104,7 +104,6 @@ export default function UserSettings({
         <DeleteAccount
           account={account}
           accountRef={accountRef}
-          reauthenticate={reauthenticate}
           providerIdList={providerIdList}
         />
       </>

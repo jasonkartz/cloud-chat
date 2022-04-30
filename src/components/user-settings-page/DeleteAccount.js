@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { storage, auth, googleAuth, db } from "../../backend/firebase-config";
-import { deleteUser, reauthenticateWithPopup } from "firebase/auth";
+import {
+  deleteUser,
+  reauthenticateWithPopup,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from "firebase/auth";
 import {
   deleteDoc,
   where,
@@ -16,15 +21,15 @@ import { listAll, deleteObject, ref } from "firebase/storage";
 export default function DeleteAccount({
   accountRef,
   providerIdList,
-  reauthenticate,
 }) {
   const currentUser = auth.currentUser;
-  const { uid } = currentUser;
+  const { uid, email } = currentUser;
 
   const [display, setDisplay] = useState(false);
 
   const [deleteForm, setDeleteForm] = useState("");
   const [passwordForm, setPasswordForm] = useState("");
+  console.log(passwordForm);
 
   const [deleteStatus, setDeleteStatus] = useState("");
 
@@ -86,7 +91,8 @@ export default function DeleteAccount({
     };
 
     if (providerIdList.includes("password")) {
-      await reauthenticate(passwordForm)
+      const credential = EmailAuthProvider.credential(email, passwordForm);
+      await reauthenticateWithCredential(currentUser, credential)
         .then(() => {
           deleteCheck();
         })
@@ -165,14 +171,16 @@ export default function DeleteAccount({
                     type="password"
                     placeholder="Enter your password"
                     className="text-input"
-                    value={passwordForm.delete}
-                    onChange={(e) => setPasswordForm(e.target.value)}
+                    value={passwordForm}
+                    onChange={(e) => {
+                      setPasswordForm(e.target.value);
+                    }}
                   />
                   <button
                     type="submit"
                     className="btn"
                     disabled={!deleteForm || !passwordForm}
-                    onClick={deleteConfirm}
+                    onClick={() => deleteConfirm()}
                   >
                     Delete Account
                   </button>
