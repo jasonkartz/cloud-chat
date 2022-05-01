@@ -19,7 +19,8 @@ export default function SignIn({
         <header className={`header`}>
           <div className="flex justify-between px-2 py-1 items center">
             <h1 className="logo">
-              <i className="ri-cloud-fill"></i>CloudChat
+              <i className="text-3xl ri-cloud-fill"></i>
+              <span className="self-center text-2xl">CloudChat</span>
             </h1>
           </div>
         </header>
@@ -129,7 +130,10 @@ export default function SignIn({
                     Sign Up
                   </button>
 
-                  <button className="mb-3 btn" onClick={() => setSignUpView(false)}>
+                  <button
+                    className="mb-3 btn"
+                    onClick={() => setSignUpView(false)}
+                  >
                     Have an account?
                   </button>
                 </div>

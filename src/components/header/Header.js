@@ -12,15 +12,14 @@ export default function Header({
     <header className={`header`}>
       <div className="flex items-center justify-between px-2 py-1">
         <h1 className="logo">
-          <i className="text-2xl ri-cloud-fill"></i><span className="self-center md:text-2xl">CloudChat</span>
+          <i className="text-3xl ri-cloud-fill"></i>
+          <span className="self-center text-2xl">CloudChat</span>
         </h1>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-4">
           {children}
           {!systemTheme && (
             <i
-              className={`theme-toggle ri-${
-                darkMode ? "moon" : "sun"
-              }-line`}
+              className={`theme-toggle ri-${darkMode ? "moon" : "sun"}-line`}
               onClick={() => {
                 if (darkMode === true) {
                   localStorage.theme = "light";

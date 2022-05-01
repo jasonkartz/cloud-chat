@@ -40,22 +40,20 @@
   }
   .main-container {
     @apply flex flex-col h-full max-w-xl mx-auto;
-    @apply bg-fixed bg-blue-300 rounded md:rounded-lg drop-shadow-xl dark:bg-slate-900;
+    @apply bg-blue-300 rounded md:rounded-lg drop-shadow-xl dark:bg-slate-900;
   }
   .header {
     @apply fixed w-[100%] flex flex-col bg-blue-400 md:rounded-t-lg dark:bg-blue-900 z-20;
   }
   .room-name-heading {
-    @apply text-center overflow-x-auto overflow-y-clip px-2 border-t-2 pb-1 font-medium whitespace-nowrap w-[100%];
+    @apply px-2 pb-1 overflow-x-auto text-center border-t-2 overflow-y-clip;
+    @apply font-medium whitespace-nowrap w-[100%];
     @apply bg-blue-400 text-blue-50 border-blue-50/50;
     @apply dark:bg-blue-900 dark:border-blue-50;
   }
   .logo {
     @apply flex gap-1 italic font-black tracking-wide select-none;
     @apply text-blue-100 dark:text-blue-50;
-  }
-  .chat-box {
-    @apply flex flex-col gap-3 px-3 pt-8 pb-2 mt-16 overflow-y-auto;
   }
   .heading {
     @apply text-lg font-black tracking-wide text-blue-600 select-none dark:text-blue-50;
@@ -110,9 +108,13 @@
     @apply text-blue-900 hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600;
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:hover:bg-blue-50/10;
   }
+  .chat-box {
+    @apply flex flex-col gap-3 px-3 pt-8 pb-2 mt-16 overflow-y-auto;
+    @apply bg-fixed bg-blue-300 dark:bg-slate-900;
+  }
   .chat-text-bubble {
     @apply px-1.5 pb-0.5 rounded hover:cursor-pointer select-none;
-    @apply bg-blue-100 text-slate-900 hover:bg-blue-50;
+    @apply text-lg bg-blue-100 text-slate-900 hover:bg-blue-50;
     @apply dark:bg-blue-900 dark:text-blue-50 dark:hover:bg-blue-800;
   }
   .chat-info-text {

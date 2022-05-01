@@ -25,7 +25,6 @@ export default function UserDisplay({
           setScreen("profile");
         }}
       >
-        {!account.userName ? user.displayName : account.userName}
         {account.photoURL && (
           <img
             src={account.photoURL || cloudImg}
