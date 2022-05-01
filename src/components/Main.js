@@ -209,7 +209,7 @@ function Main({
               />
             )}
           </DropMenu>
-          <main className="chat-box" onClick={() => setOpenMenu(false)}>
+          <main className="chat-box" onClick={() => openMenu && setOpenMenu(false)}>
             <>
               {messagesLoading && <Loading />}
               {messagesError && (
