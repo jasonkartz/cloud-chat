@@ -11,7 +11,6 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import { ref } from "firebase/storage";
 import { signInWithPopup } from "firebase/auth";
 import { auth, db, googleAuth } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";

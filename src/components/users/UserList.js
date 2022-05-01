@@ -1,24 +1,12 @@
 import defaultPic from "../../images/cloud-fill.png";
-import {
-  useCollectionData,
-} from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import Error from "../loading-error-display/Error";
 import Loading from "../loading-error-display/Loading";
-import {
-  collection,
-  orderBy,
-  query,
-  limitToLast,
-} from "firebase/firestore";
-import { useState, } from "react";
+import { collection, orderBy, query, limitToLast } from "firebase/firestore";
+import { useState } from "react";
 import { db } from "../../backend/firebase-config";
 
-export default function UserList({
-  user,
-  setAccountSelection,
-  setScreen,
-}) {
-
+export default function UserList({ user, setAccountSelection, setScreen }) {
   const [usersLimit, setUsersLimit] = useState(20);
 
   const accountsRef = collection(db, "accounts");
@@ -27,7 +15,7 @@ export default function UserList({
     orderBy("name"),
     limitToLast(usersLimit)
   );
-  const [accounts, loading, error, snapshot] = useCollectionData(accountsQ);
+  const [accounts, loading, error] = useCollectionData(accountsQ);
 
   if (loading) {
     return <Loading />;
@@ -50,8 +38,7 @@ export default function UserList({
                 <img
                   src={account.photoURL || defaultPic}
                   alt="user"
-                  width="25"
-                  className="self-center rounded"
+                  className="self-center profile-image size-list"
                 />
                 <span className="flex flex-col">
                   <p>{account.userName || account.name} </p>

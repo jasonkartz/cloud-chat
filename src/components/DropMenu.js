@@ -27,8 +27,8 @@ export default function DropMenu({
               {/* public chats */}
               <li>
                 <button
-                  className={`${
-                    screen === "chat" ? "menu-btn-selected" : "menu-btn "
+                  className={`menu-btn ${
+                    screen === "chat" ? "menu-btn-selected" : "menu-btn-normal"
                   }`}
                   disabled={screen === "chat"}
                   onClick={() => {
@@ -42,8 +42,8 @@ export default function DropMenu({
               {/* private chats */}
               <li>
               <button
-                  className={`${
-                    screen === "private-chats" ? "menu-btn-selected" : "menu-btn "
+                  className={`menu-btn ${
+                    screen === "private-chats" ? "menu-btn-selected" : "menu-btn-normal"
                   }`}
                   disabled={screen === "private-chats"}
                   onClick={() => setScreen("private-chats")}
@@ -55,8 +55,8 @@ export default function DropMenu({
               {/* user search */}
               <li>
                 <button
-                  className={`${
-                    screen === "users" ? "menu-btn-selected" : "menu-btn "
+                  className={`menu-btn ${
+                    screen === "users" ? "menu-btn-selected" : "menu-btn-normal"
                   }`}
                   disabled={screen === "users"}
                   onClick={() => {
@@ -71,10 +71,10 @@ export default function DropMenu({
               {/* profile */}
               <li>
                 <button
-                  className={`${
+                  className={`menu-btn ${
                     screen === "profile" && accountSelection === user.uid
                       ? "menu-btn-selected"
-                      : "menu-btn "
+                      : "menu-btn-normal"
                   }`}
                   disabled={
                     screen === "profile" && accountSelection === user.uid
@@ -91,8 +91,8 @@ export default function DropMenu({
               {/* settings */}
               <li>
                 <button
-                  className={`${
-                    screen === "settings" ? "menu-btn-selected" : "menu-btn "
+                  className={`menu-btn ${
+                    screen === "settings" ? "menu-btn-selected" : "menu-btn-normal"
                   }`}
                   disabled={screen === "settings"}
                   onClick={() => {
@@ -105,7 +105,7 @@ export default function DropMenu({
               {/* sign out */}
               <li>
                 <button
-                  className="menu-btn"
+                  className="menu-btn menu-btn-normal"
                   onClick={() => {
                     signOut(auth);
                     setOpenMenu(false);

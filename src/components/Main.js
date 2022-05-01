@@ -8,7 +8,6 @@ import {
   orderBy,
   limitToLast,
   serverTimestamp,
-  getDoc,
 } from "firebase/firestore";
 import {
   useCollectionData,
@@ -210,7 +209,7 @@ function Main({
               />
             )}
           </DropMenu>
-          <main className="chat-box">
+          <main className="chat-box" onClick={() => setOpenMenu(false)}>
             <>
               {messagesLoading && <Loading />}
               {messagesError && (

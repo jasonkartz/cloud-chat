@@ -40,8 +40,7 @@ export default function FollowList({
                   <img
                     src={account.photoURL || defaultPic}
                     alt="user"
-                    width="25"
-                    className="self-center rounded"
+                    className="self-center profile-image size-list"
                   />
                   <span className="flex flex-col">
                     <p>{account.userName || account.name} </p>

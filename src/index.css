@@ -78,17 +78,20 @@
   .signin-section {
     @apply flex flex-col items-center gap-2 p-2 text-blue-600 dark:text-blue-50;
   }
+  .text-input-signin-width {
+    @apply w-[50%];
+  }
   .drop-menu {
     @apply fixed z-20 w-full p-2 border-2 rounded-b-lg top-[76px] md:top-[73px] drop-shadow;
     @apply border-blue-400 bg-blue-400/25 border-t-blue-50/50 backdrop-blur-sm;
     @apply dark:bg-slate-400/10 dark:border-blue-900 dark:border-t-blue-50;
   }
   .drop-menu-selection {
-    @apply w-[36%] p-1 rounded shadow-inner backdrop-blur-sm bg-blue-300/95;
+    @apply w-[40%] p-1 rounded shadow-inner backdrop-blur-sm bg-blue-300/95;
     @apply dark:bg-blue-900/95;
   }
   .drop-menu-container {
-    @apply w-[62%] p-1 overflow-auto rounded whitespace-nowrap;
+    @apply w-[55%] p-1 overflow-auto rounded whitespace-nowrap;
     @apply shadow-inner bg-blue-300/95 max-h-96 backdrop-blur-sm;
     @apply dark:bg-blue-900/95;
   }
@@ -101,11 +104,11 @@
   }
   .user-list-display {
     @apply flex gap-2 p-1 border-b border-blue-200;
-    @apply text-blue-900 hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600;
+    @apply text-lg text-blue-900 hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600;
     @apply dark:border-blue-50 dark:hover:bg-blue-50/10 dark:hover:text-yellow-200 dark:text-blue-50;
   }
   .chat-list-display {
-    @apply text-blue-900 hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600;
+    @apply text-lg text-blue-900 hover:cursor-pointer hover:bg-blue-50/50 hover:text-blue-600;
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:hover:bg-blue-50/10;
   }
   .chat-box {
@@ -120,11 +123,6 @@
   .chat-info-text {
     @apply text-blue-900 select-none dark:text-blue-50 hover:cursor-default;
   }
-
-  .chat-image {
-    @apply rounded h-[45px] w-[45px] object-cover;
-    @apply hover:cursor-pointer hover:outline hover:outline-yellow-200;
-  }
   
   /* Text Inputs */
   .text-input {
@@ -135,11 +133,12 @@
   }
 
     /* images */
-  .text-input-signin-width {
-    @apply w-[50%];
+  .chat-image {
+    @apply rounded h-[45px] w-[45px] object-cover;
+    @apply hover:cursor-pointer hover:outline hover:outline-yellow-200;
   }
   .user-display-image {
-    @apply object-cover h-[30px] w-[30px] rounded-full;
+    @apply object-cover h-[35px] w-[35px] rounded-full;
   }
   .profile-image {
     @apply object-cover rounded;
@@ -148,7 +147,10 @@
     @apply h-[100px] w-[100px];
   }
   .size-eighty {
-    @apply h-[80px] w-[80px]
+    @apply h-[80px] w-[80px];
+  }
+  .size-list {
+    @apply h-[40px] w-[40px];
   }
 
   /* buttons */
@@ -172,13 +174,14 @@
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:bg-blue-900 dark:hover:bg-blue-800;
   }
   .menu-btn {
-    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold w-full text-sm md:text-base;
+    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold w-full;
+  }
+  .menu-btn-normal {
     @apply text-blue-600 hover:text-blue-500;
     @apply dark:hover:text-yellow-200 dark:text-blue-50;
   }
   .menu-btn-selected {
-    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold text-sm md:text-base;
-    @apply w-full text-blue-500 border-b border-b-blue-500;
+    @apply text-blue-500 border-b border-b-blue-500;
     @apply dark:text-blue-400 dark:border-blue-400;
   }
   .menu-btn i {
