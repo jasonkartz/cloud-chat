@@ -27,7 +27,7 @@ export default function SignIn({
           /* Sign In */
           !signUpView && (
             <>
-              <section className={`signin-section`}>
+              <section className={`signin-section mt-8`}>
                 <h2 className="heading">Sign In</h2>
 
                 <input
@@ -48,7 +48,7 @@ export default function SignIn({
                     setSignInData({ ...signInData, password: e.target.value })
                   }
                 />
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-4">
                   <button className="btn" onClick={signin}>
                     Sign in
                   </button>
@@ -66,7 +66,7 @@ export default function SignIn({
           /* Sign Up */
           signUpView && (
             <>
-              <section className={`signin-section`}>
+              <section className={`signin-section mt-8`}>
                 <h2 className="heading">Sign Up</h2>
 
                 <input
@@ -123,12 +123,13 @@ export default function SignIn({
                     })
                   }
                 />
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-4">
+                  <p>{registerMessage}</p>
                   <button className="btn" onClick={registerUser}>
                     Sign Up
                   </button>
-                  <p>{registerMessage}</p>
-                  <button className="btn" onClick={() => setSignUpView(false)}>
+
+                  <button className="mb-3 btn" onClick={() => setSignUpView(false)}>
                     Have an account?
                   </button>
                 </div>

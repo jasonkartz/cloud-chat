@@ -36,11 +36,11 @@
 
 @layer components {
   .background {
-    @apply h-screen bg-blue-200 dark:bg-slate-800 lg:pt-4;
+    @apply h-screen bg-fixed bg-blue-200 dark:bg-slate-800 lg:pt-4;
   }
   .main-container {
     @apply flex flex-col h-full max-w-xl mx-auto;
-    @apply bg-blue-300 md:rounded-lg dark:bg-slate-900 drop-shadow-xl;
+    @apply bg-fixed bg-blue-300 md:rounded-lg dark:bg-slate-900 drop-shadow-xl;
   }
   .header {
     @apply fixed w-[100%] flex flex-col bg-blue-400 md:rounded-t-lg dark:bg-blue-900;
