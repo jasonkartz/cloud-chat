@@ -20,8 +20,8 @@ export default function UserList({ user, setAccountSelection, setScreen }) {
   if (loading) {
     return <Loading />;
   } else if (error) {
-    return <Error />;
-  } else {
+    return <Error error={error} content={"accounts"} />;
+  } else if (accounts) {
     return (
       <ul>
         {accounts.map((account, index) => {
@@ -60,5 +60,7 @@ export default function UserList({ user, setAccountSelection, setScreen }) {
         )}
       </ul>
     );
+  } else {
+    return <Error content={"accounts"} />;
   }
 }

@@ -19,7 +19,7 @@ export default function PublicChats({
 }) {
   const publicChatsRef = collection(db, "publicChats");
   const publicChatsQ = query(publicChatsRef, orderBy("name"), limitToLast(25));
-  const [publicChats, loading, error, snapshot] =
+  const [publicChats, loading, error] =
     useCollectionData(publicChatsQ);
 
   if (loading) {
@@ -31,10 +31,10 @@ export default function PublicChats({
   } else if (error) {
     return (
       <>
-        <Error />
+        <Error error={error} content={"chats"}/>
       </>
     );
-  } else {
+  } else if (publicChats) {
     return (
       <>
         <section className="settings-section" >{children}</section>
@@ -71,5 +71,7 @@ export default function PublicChats({
         </ul>
       </>
     );
+  } else {
+    return <Error />
   }
 }

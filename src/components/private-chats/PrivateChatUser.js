@@ -1,4 +1,5 @@
 import defaultPic from "../../images/cloud-fill.png";
+import noUserPic from "../../images/cloud-off-fill-light.png";
 import { db } from "../../backend/firebase-config";
 import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
@@ -18,7 +19,7 @@ export default function PrivateChatUser({
     return <Loading />;
   } else if (error) {
     return <Error error={error} content={"user"} />;
-  } else {
+  } else if (account) {
     return (
       <li
         className="user-list-display"
@@ -39,6 +40,19 @@ export default function PrivateChatUser({
         <span className="flex flex-col">
           <p>{account.userName || account.name} </p>
           <p className="text-sm">{account.userName && account.name}</p>
+        </span>
+      </li>
+    );
+  } else {
+    return (
+      <li className="user-list-display-error">
+        <img
+          src={noUserPic}
+          alt="user"
+          className="self-center profile-image size-list"
+        />
+        <span className="flex flex-col">
+          <p>Deleted account</p>
         </span>
       </li>
     );

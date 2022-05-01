@@ -139,8 +139,10 @@ export default function Profile({
   if (selectedAccountLoading || accountLoading) {
     return <Loading />;
   } else if (selectedAccountError || accountError) {
-    return <Error />;
-  } else {
+    return (
+      <Error error={selectedAccountError || accountError} content={"account"} />
+    );
+  } else if (account || selectedAccount) {
     const followCheck = account.following.includes(selectedAccount.uid);
     const followBackCheck = selectedAccount.following.includes(account.uid);
 
@@ -193,7 +195,7 @@ export default function Profile({
         </section>
 
         {/* Follower/Following Screen */}
-        
+
         {openFollowList && (
           <FollowList
             selectFollowList={selectFollowList}
@@ -208,5 +210,7 @@ export default function Profile({
         )}
       </>
     );
+  } else {
+    return <Error content={"account"} />;
   }
 }

@@ -36,14 +36,7 @@ export default function UserDisplay({
     );
   } else {
     return (
-      <div
-        className="user-display-container"
-        onClick={() => {
-          setAccountSelection(user.uid);
-          setOpenMenu(true);
-          setScreen("profile");
-        }}
-      >
+      <div className="user-display-container">
         <i className="text-xl text-red-500 hover:text-yellow-200 ri-error-warning-line"></i>
       </div>
     );
