@@ -30,8 +30,7 @@ export default function ChatMessage({
         <img
           src={userImage}
           alt="user"
-          width="45"
-          className={`rounded hover:cursor-pointer hover:outline hover:outline-yellow-200`}
+          className={`chat-image`}
           onClick={() => {
             setAccountSelection(uid);
             setScreen("profile");
@@ -67,7 +66,7 @@ export default function ChatMessage({
             src={defaultPic}
             alt="user"
             width="45"
-            className={`rounded animate-pulse`}
+            className={`rounded animate-pulse object-contain`}
           />
           <div
             className={`flex flex-col p-1 gap-1 ${

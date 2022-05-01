@@ -31,7 +31,6 @@ export default function UserDisplay({
             src={account.photoURL || cloudImg}
             alt="user"
             className="user-display-image"
-            width="30"
           />
         )}
       </div>

@@ -40,8 +40,7 @@ export default function DefaultScreen({
       <img
         src={selectedAccount.photoURL || defaultPic}
         alt="user"
-        width="100"
-        className="rounded"
+        className="profile-image size-one-hundred"
       />
 
       {selectedAccount.uid !== user.uid && (

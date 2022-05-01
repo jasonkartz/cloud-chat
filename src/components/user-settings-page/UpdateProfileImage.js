@@ -81,11 +81,10 @@ export default function UpdateProfileImage({ account, accountRef }) {
             src={account.photoURL || defaultPic}
             alt="user"
             width="80"
-            className="rounded"
+            className="profile-image size-eighty"
           />
 
           <input type="file" onChange={handleImage} />
-          {file && <div>File selected: {file.name}</div>}
           <button
             type="submit"
             className={`btn`}
