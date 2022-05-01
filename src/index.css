@@ -40,10 +40,10 @@
   }
   .main-container {
     @apply flex flex-col h-full max-w-xl mx-auto;
-    @apply bg-fixed bg-blue-300 md:rounded-lg dark:bg-slate-900 drop-shadow-xl;
+    @apply bg-fixed bg-blue-300 rounded md:rounded-lg drop-shadow-xl dark:bg-slate-900;
   }
   .header {
-    @apply fixed w-[100%] flex flex-col bg-blue-400 md:rounded-t-lg dark:bg-blue-900;
+    @apply fixed w-[100%] flex flex-col bg-blue-400 md:rounded-t-lg dark:bg-blue-900 z-20;
   }
   .room-name-heading {
     @apply text-center overflow-x-auto overflow-y-clip px-2 border-t-2 pb-1 font-medium whitespace-nowrap w-[100%];
@@ -54,8 +54,8 @@
     @apply flex gap-1 italic font-black tracking-wide select-none;
     @apply text-blue-100 dark:text-blue-50;
   }
-  .main-box {
-    @apply flex flex-col gap-3 px-3 py-2 overflow-y-auto;
+  .chat-box {
+    @apply flex flex-col gap-3 px-3 py-3 mt-16 overflow-y-auto;
   }
   .heading {
     @apply text-lg font-black tracking-wide text-blue-600 select-none dark:text-blue-50;

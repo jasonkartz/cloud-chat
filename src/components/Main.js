@@ -210,7 +210,7 @@ function Main({
               />
             )}
           </DropMenu>
-          <main className="main-box">
+          <main className="chat-box">
             <>
               {messagesLoading && <Loading />}
               {messagesError && (
