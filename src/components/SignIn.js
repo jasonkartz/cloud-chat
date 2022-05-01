@@ -1,13 +1,3 @@
-import {
-  signInWithPopup,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth, googleAuth, db } from "../backend/firebase-config";
-import {
-  doc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
 import { useState } from "react";
 
 export default function SignIn({
@@ -15,38 +5,14 @@ export default function SignIn({
   registerData,
   registerMessage,
   registerUser,
+  signInWithGoogle,
+  signin,
+  signInData,
+  setSignInData,
+  signinMessage,
 }) {
   const [signUpView, setSignUpView] = useState(false);
 
-  const [signInData, setSignInData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [signinMessage, setSigninMessage] = useState("");
-
-  const signin = async () => {
-    const { email, password } = signInData;
-
-    setSigninMessage("Signing in...");
-    await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        if (userCredential.user) {
-          const accountRef = doc(db, "accounts", auth.currentUser.uid);
-          updateDoc(accountRef, {
-            lastLogin: serverTimestamp(),
-          });
-        }
-      })
-      .catch((error) => {
-        setSigninMessage(error.code + " " + error.message);
-        setTimeout(() => setSigninMessage(""), 5000);
-      });
-  };
-
-  const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleAuth);
-  };
   return (
     <div className="background">
       <div className="main-container">

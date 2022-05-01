@@ -34,21 +34,19 @@
     @apply text-blue-100 bg-blue-600 hover:text-yellow-200;
     @apply dark:bg-blue-700 dark:text-blue-50;
   }
-  body{
-    @apply p-0 m-0;
-  }
+
 }
 
 @layer components {
   .background {
-    @apply min-h-screen bg-blue-200 dark:bg-slate-800 lg:pt-4;
+    @apply h-screen bg-blue-200 dark:bg-slate-800 lg:pt-4;
   }
   .main-container {
     @apply mx-auto max-w-xl h-screen lg:h-[95vh] flex flex-col;
-    @apply bg-blue-300 rounded-lg dark:bg-slate-900 drop-shadow-xl;
+    @apply bg-blue-300 md:rounded-lg dark:bg-slate-900 drop-shadow-xl;
   }
   .header {
-    @apply flex flex-col bg-blue-400 rounded-t-lg dark:bg-blue-900;
+    @apply fixed w-[100%] flex flex-col bg-blue-400 md:rounded-t-lg dark:bg-blue-900;
   }
   .room-name-heading {
     @apply text-center overflow-x-auto overflow-y-clip px-2 border-t-2 pb-1 font-medium whitespace-nowrap w-[100%];
@@ -86,12 +84,12 @@
     @apply flex flex-col items-center gap-2 p-2 text-blue-600 dark:text-blue-50;
   }
   .drop-menu {
-    @apply fixed z-20 w-full p-4 border-2 rounded-b-lg drop-shadow;
+    @apply fixed z-20 w-full p-4 border-2 rounded-b-lg top-[76px] md:top-[73px] drop-shadow;
     @apply border-blue-400 bg-blue-400/25 border-t-blue-50/50 backdrop-blur-sm;
     @apply dark:bg-slate-400/10 dark:border-blue-900 dark:border-t-blue-50;
   }
   .drop-menu-selection {
-    @apply w-[32%] p-1 rounded shadow-inner backdrop-blur-sm bg-blue-300/95;
+    @apply w-[35%] p-1 rounded shadow-inner backdrop-blur-sm bg-blue-300/95;
     @apply dark:bg-blue-900/95;
   }
   .drop-menu-container {
@@ -159,12 +157,12 @@
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:bg-blue-900 dark:hover:bg-blue-800;
   }
   .menu-btn {
-    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold w-full;
+    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold w-full text-sm md:text-base;
     @apply text-blue-600 hover:text-blue-500;
     @apply dark:hover:text-yellow-200 dark:text-blue-50;
   }
   .menu-btn-selected {
-    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold;
+    @apply flex items-center gap-1 transition px-1.5 py-2 font-bold text-sm md:text-base;
     @apply w-full text-blue-500 border-b border-b-blue-500;
     @apply dark:text-blue-400 dark:border-blue-400;
   }

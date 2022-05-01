@@ -1,14 +1,20 @@
 import "./index.css";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {
   doc,
   setDoc,
   serverTimestamp,
+  getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { ref } from "firebase/storage";
-import { auth, db, storage } from "./backend/firebase-config";
+import { signInWithPopup } from "firebase/auth";
+import { auth, db, googleAuth } from "./backend/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDownloadURL } from "react-firebase-hooks/storage";
 import { useState, useEffect } from "react";
 import Loading from "./components/loading-error-display/Loading";
 import Error from "./components/loading-error-display/Error";
@@ -19,31 +25,71 @@ function App() {
   /* user auth state - displays signin if auth state is false*/
   const [user, userLoading, userError] = useAuthState(auth);
 
-  /* theme */
+  /* signin with Google */
+  const signInWithGoogle = async () => {
+    await signInWithPopup(auth, googleAuth).then(async () => {
+      const { uid, displayName, email, photoURL } = auth.currentUser;
+      const accountRef = doc(db, "accounts", auth.currentUser.uid);
+      const docSnap = await getDoc(accountRef);
 
-  const [darkMode, setDarkMode] = useState(false);
-  const [systemTheme, setSystemTheme] = useState(false);
+      try {
+        if (docSnap.exists()) {
+          updateDoc(accountRef, {
+            lastLogin: serverTimestamp(),
+          });
+        } else {
+          setDoc(accountRef, {
+            uid: uid,
+            name: displayName,
+            userName: "",
+            email: email,
+            photoURL: photoURL || cloudImg,
+            lastLogin: serverTimestamp(),
+            followers: [],
+            following: [],
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
 
-  useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      setDarkMode(true);
-    } else {
-      setDarkMode(false);
-    }
+  /* sign in with email and password */
 
-    if (localStorage.systemTheme) {
-      setSystemTheme(true);
-    } else {
-      setSystemTheme(false)
-    }
-  }, []);
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const cloudImg =
-    "https://firebasestorage.googleapis.com/v0/b/chat-tut-d42b0.appspot.com/o/defaultImage%2Fcloud-fill.png?alt=media&token=4b7dbe8f-725f-4a8e-a2af-eed08b439550";
+  const [signinMessage, setSigninMessage] = useState("");
+
+  const signin = async () => {
+    const { email, password } = signInData;
+
+    setSigninMessage("Verifying...");
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        if (userCredential.user) {
+          setSigninMessage("Signing in...");
+          const accountRef = doc(db, "accounts", auth.currentUser.uid);
+          updateDoc(accountRef, {
+            lastLogin: serverTimestamp(),
+          });
+          setSigninMessage("");
+          setSignInData({
+            email: "",
+            password: "",
+          });
+        }
+      })
+      .catch((error) => {
+        setSigninMessage(error.code + " " + error.message);
+        setTimeout(() => setSigninMessage(""), 5000);
+      });
+  };
+
+  /* registration */
 
   const [registerData, setRegisterData] = useState({
     name: "",
@@ -76,6 +122,13 @@ function App() {
                   following: [],
                   followers: [],
                 });
+                setRegisterData({
+                  name: "",
+                  email: "",
+                  username: "",
+                  password: "",
+                  passwordCheck: "",
+                });
               }
             );
           }
@@ -94,6 +147,32 @@ function App() {
       setTimeout(() => setRegisterMessage(""), 5000);
     }
   };
+
+  /* theme */
+
+  const [darkMode, setDarkMode] = useState(false);
+  const [systemTheme, setSystemTheme] = useState(false);
+
+  useEffect(() => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      setDarkMode(true);
+    } else {
+      setDarkMode(false);
+    }
+
+    if (localStorage.systemTheme) {
+      setSystemTheme(true);
+    } else {
+      setSystemTheme(false);
+    }
+  }, []);
+
+  const cloudImg =
+    "https://firebasestorage.googleapis.com/v0/b/chat-tut-d42b0.appspot.com/o/defaultImage%2Fcloud-fill.png?alt=media&token=4b7dbe8f-725f-4a8e-a2af-eed08b439550";
 
   if (userLoading) {
     return <Loading />;
@@ -116,11 +195,17 @@ function App() {
         )}
         {user === null && (
           <SignIn
+            signInWithGoogle={signInWithGoogle}
             setRegisterData={setRegisterData}
             registerData={registerData}
             registerMessage={registerMessage}
             setRegisterMessage={setRegisterMessage}
             registerUser={registerUser}
+            signin={signin}
+            signInData={signInData}
+            setSignInData={setSignInData}
+            signinMessage={signinMessage}
+            setSigninMessage={setSigninMessage}
           />
         )}
       </div>

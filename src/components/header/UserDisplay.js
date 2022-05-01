@@ -46,7 +46,7 @@ export default function UserDisplay({
           setScreen("profile");
         }}
       >
-        <i className="text-xl text-blue-100 hover:text-yellow-200 ri-user-line dark:text-blue-50"></i>
+        <i className="text-xl text-red-500 hover:text-yellow-200 ri-error-warning-line"></i>
       </div>
     );
   }
