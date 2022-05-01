@@ -55,7 +55,7 @@
     @apply text-blue-100 dark:text-blue-50;
   }
   .chat-box {
-    @apply flex flex-col gap-3 px-3 py-3 mt-16 overflow-y-auto;
+    @apply flex flex-col gap-3 px-3 pt-8 pb-2 mt-16 overflow-y-auto;
   }
   .heading {
     @apply text-lg font-black tracking-wide text-blue-600 select-none dark:text-blue-50;
