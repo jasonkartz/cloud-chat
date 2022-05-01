@@ -39,11 +39,11 @@
     @apply h-screen bg-fixed bg-blue-200 dark:bg-slate-800 lg:pt-4;
   }
   .main-container {
-    @apply flex flex-col h-full max-w-xl mx-auto;
-    @apply bg-blue-300 rounded md:rounded-lg drop-shadow-xl dark:bg-slate-900;
+    @apply flex flex-col h-full mx-auto lg:max-w-xl;
+    @apply bg-blue-300 rounded lg:rounded-lg drop-shadow-xl dark:bg-slate-900;
   }
   .header {
-    @apply fixed w-[100%] flex flex-col bg-blue-400 md:rounded-t-lg dark:bg-blue-900 z-20;
+    @apply fixed w-[100%] flex flex-col bg-blue-400 lg:rounded-t-lg dark:bg-blue-900 z-20;
   }
   .room-name-heading {
     @apply px-2 pb-1 overflow-x-auto text-center border-t-2 overflow-y-clip;
@@ -76,13 +76,14 @@
     @apply border-b-2 border-blue-200;
   }
   .signin-section {
-    @apply flex flex-col items-center gap-2 p-2 text-blue-600 dark:text-blue-50;
+    @apply flex flex-col items-center gap-3 p-2 text-blue-600 dark:text-blue-50 w-[80%] self-center;
   }
   .text-input-signin-width {
     @apply w-[50%];
   }
   .drop-menu {
-    @apply fixed z-20 w-full p-2 border-2 rounded-b-lg top-[76px] md:top-[73px] drop-shadow;
+    @apply fixed z-20 flex justify-between w-full p-2 border-2 rounded-b-lg drop-shadow;
+    @apply top-[76px] md:top-[73px] ;
     @apply border-blue-400 bg-blue-400/25 border-t-blue-50/50 backdrop-blur-sm;
     @apply dark:bg-slate-400/10 dark:border-blue-900 dark:border-t-blue-50;
   }
@@ -112,7 +113,7 @@
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:hover:bg-blue-50/10;
   }
   .chat-box {
-    @apply flex flex-col gap-3 px-3 pt-8 pb-2 mt-16 overflow-y-auto;
+    @apply flex flex-col gap-3 px-3 pt-24 pb-2 mt-2 overflow-y-auto rounded;
     @apply bg-fixed bg-blue-300 dark:bg-slate-900;
   }
   .chat-text-bubble {
@@ -155,7 +156,7 @@
 
   /* buttons */
   .btn {
-    @apply transition px-1.5 py-1 font-bold rounded drop-shadow active:drop-shadow-sm cursor-pointer;
+    @apply transition px-2 py-1.5 font-bold rounded drop-shadow active:drop-shadow-sm cursor-pointer;
     @apply text-blue-100 bg-blue-600 hover:text-yellow-200;
     @apply disabled:opacity-50 disabled:drop-shadow-none disabled:hover:text-blue-100 disabled:cursor-default;
     @apply dark:bg-blue-700 dark:text-blue-50 dark:hover:text-yellow-200 dark:disabled:hover:text-blue-50;
@@ -164,12 +165,12 @@
     @apply p-1 text-blue-600 rounded dark:text-blue-900 bg-blue-50;
   }
   .profile-back-btn {
-    @apply flex items-center gap-1 font-bold;
+    @apply flex items-center gap-1 text-lg font-bold;
     @apply text-blue-600 hover:text-blue-500 hover:cursor-pointer;
     @apply dark:text-yellow-100 dark:hover:text-yellow-200;
   }
   .load-more-btn {
-    @apply px-2 py-1 mx-auto mt-2 text-sm rounded-full shadow active:shadow-none;
+    @apply px-2 py-1 mx-auto text-sm rounded-full shadow active:shadow-none;
     @apply text-blue-700 bg-blue-200 hover:bg-yellow-100;
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:bg-blue-900 dark:hover:bg-blue-800;
   }
@@ -203,7 +204,7 @@
 
 
   ::-webkit-scrollbar {
-    @apply w-2 h-2;
+    @apply w-3 h-2 md:w-2;
   }
   ::-webkit-scrollbar-track {
     @apply bg-none;
@@ -220,11 +221,11 @@
   .m-fadeOut {
     visibility: hidden;
     opacity: 0;
-    transition: visibility 200ms cubic-bezier(0.61, 1, 0.88, 1) 0ms, opacity 200ms;
+    transition: visibility 100ms cubic-bezier(0.61, 1, 0.88, 1) 0ms, opacity 100ms;
   }
   .m-fadeIn {
     visibility: visible;
     opacity: 1;
-    transition: visibility 200ms cubic-bezier(0.61, 1, 0.88, 1) 0ms, opacity 200ms;
+    transition: visibility 100ms cubic-bezier(0.61, 1, 0.88, 1) 0ms, opacity 100ms;
   }
 }

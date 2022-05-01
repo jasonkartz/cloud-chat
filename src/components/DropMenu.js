@@ -16,7 +16,7 @@ export default function DropMenu({
       <>
         <nav className={`select-none`}>
           <div
-            className={`drop-menu flex justify-between visibility-transition ${
+            className={`drop-menu visibility-transition ${
               openMenu ? "m-fadeIn" : "m-fadeOut"
             }`}
           >

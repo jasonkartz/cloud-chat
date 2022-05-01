@@ -245,7 +245,7 @@ function Main({
                 </>
               )}
 
-              <div className="mt-16" ref={dummy}></div>
+              <div className="mt-20" ref={dummy}></div>
             </>
           </main>
           {user && (

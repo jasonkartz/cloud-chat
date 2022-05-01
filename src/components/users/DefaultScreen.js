@@ -50,21 +50,20 @@ export default function DefaultScreen({
             onClick={followCheck ? unFollowUser : followUser}
           >
             <i
-              className={`ri-user-${followCheck ? "unfollow" : "follow"}-line`}
+              className={`ri-user-${followCheck ? "unfollow" : "follow"}-line text-2xl`}
             ></i>
-            <span>{followCheck ? "Unfollow" : "Follow"}</span>
           </button>
           <button
             className="flex items-center gap-1 btn"
             onClick={() => sendMessage()}
           >
-            <i className={`ri-chat-2-line`}></i>
+            <i className={`ri-chat-2-line text-2xl`}></i>
             <span>Message</span>
           </button>
         </div>
       )}
       <p className="text-sm">
-        Last Login:{" "}
+        Last Login:<br />
         {selectedAccount.lastLogin &&
           selectedAccount.lastLogin.toDate().toLocaleString()}
       </p>

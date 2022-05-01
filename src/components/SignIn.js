@@ -28,7 +28,7 @@ export default function SignIn({
           /* Sign In */
           !signUpView && (
             <>
-              <section className={`signin-section mt-8`}>
+              <section className={`signin-section mt-10`}>
                 <h2 className="heading">Sign In</h2>
 
                 <input
@@ -49,7 +49,7 @@ export default function SignIn({
                     setSignInData({ ...signInData, password: e.target.value })
                   }
                 />
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 mt-3">
                   <button className="btn" onClick={signin}>
                     Sign in
                   </button>
@@ -67,7 +67,7 @@ export default function SignIn({
           /* Sign Up */
           signUpView && (
             <>
-              <section className={`signin-section mt-8`}>
+              <section className={`signin-section mt-10`}>
                 <h2 className="heading">Sign Up</h2>
 
                 <input
