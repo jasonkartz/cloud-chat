@@ -14,7 +14,6 @@ export default function SignIn({
   const [signUpView, setSignUpView] = useState(false);
 
   return (
-    <div className="background">
       <div className="main-container">
         <header className={`header`}>
           <div className="flex justify-between px-2 py-1 items center">
@@ -147,6 +146,5 @@ export default function SignIn({
           <span className="align-top">Sign in with Google</span>
         </button>
       </div>
-    </div>
   );
 }

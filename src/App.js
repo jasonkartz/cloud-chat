@@ -159,7 +159,11 @@ function App() {
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       setDarkMode(true);
+      document.body.classList.remove('bg-blue-200')
+      document.body.classList.add('bg-slate-800')
     } else {
+      document.body.classList.remove('bg-slate-800')
+      document.body.classList.add('bg-blue-200')
       setDarkMode(false);
     }
 

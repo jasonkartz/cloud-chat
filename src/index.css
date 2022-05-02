@@ -31,15 +31,11 @@
     @apply text-blue-100 bg-blue-600 hover:text-yellow-200;
     @apply dark:bg-blue-700 dark:text-blue-50;
   }
-
 }
 
 @layer components {
-  .background {
-    @apply h-screen bg-fixed bg-blue-200 dark:bg-slate-800 lg:pt-4;
-  }
   .main-container {
-    @apply flex flex-col h-full mx-auto lg:max-w-xl;
+    @apply flex flex-col h-screen mx-auto bg-fixed lg:max-w-xl;
     @apply bg-blue-300 rounded lg:rounded-lg drop-shadow-xl dark:bg-slate-900;
   }
   .header {
@@ -116,7 +112,7 @@
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:hover:bg-blue-50/10;
   }
   .chat-box {
-    @apply flex flex-col h-full gap-3 px-3 overflow-y-auto rounded pt-36 pb-28;
+    @apply flex flex-col h-full gap-3 px-3 mt-2 overflow-y-auto rounded pt-36 pb-28;
     @apply bg-fixed bg-blue-300 dark:bg-slate-900;
   }
   .chat-text-bubble {

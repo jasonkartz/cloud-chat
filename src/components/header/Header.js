@@ -23,8 +23,12 @@ export default function Header({
               onClick={() => {
                 if (darkMode === true) {
                   localStorage.theme = "light";
+                  document.body.classList.remove("bg-slate-800");
+                  document.body.classList.add("bg-blue-200");
                 } else {
                   localStorage.theme = "dark";
+                  document.body.classList.remove("bg-blue-200");
+                  document.body.classList.add("bg-slate-800");
                 }
                 setDarkMode(!darkMode);
               }}

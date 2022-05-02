@@ -118,7 +118,6 @@ function Main({
     return <Error error={userError} content={"user"} />;
   } else {
     return (
-      <div className="background">
         <div className={`main-container`}>
           <Header
             user={user}
@@ -262,7 +261,6 @@ function Main({
             />
           )}
         </div>
-      </div>
     );
   }
 }
