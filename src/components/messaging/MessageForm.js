@@ -1,7 +1,12 @@
-export default function MessageForm({ formValue, setFormValue, sendMessage }) {
-
+export default function MessageForm({
+  formValue,
+  setFormValue,
+  sendMessage,
+  openMenu,
+  setOpenMenu,
+}) {
   return (
-    <form onSubmit={sendMessage} className="message-form">
+    <form onSubmit={sendMessage} className="message-form" onClick={() => openMenu && setOpenMenu(false)}>
       <input
         type="text"
         className="text-input message-input"

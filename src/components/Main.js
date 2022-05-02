@@ -209,16 +209,19 @@ function Main({
               />
             )}
           </DropMenu>
-          <main className="chat-box" onClick={() => openMenu && setOpenMenu(false)}>
+          <main
+            className="chat-box"
+            onClick={() => openMenu && setOpenMenu(false)}
+          >
             <>
-              {messagesLoading && <Loading />}
-              {messagesError && (
+              {messagesLoading ? (
+                <Loading />
+              ) : messagesError ? (
                 <Error
                   error={messagesError}
                   content={"messages. Try refreshing your browser."}
                 />
-              )}
-              {messages && (
+              ) : messages ? (
                 <>
                   {messages.length === messagesLimit && (
                     <button
@@ -243,9 +246,10 @@ function Main({
                     );
                   })}
                 </>
+              ) : (
+                <Error content={"messages"} />
               )}
-
-              <div className="mt-20" ref={dummy}></div>
+              <div ref={dummy}></div>
             </>
           </main>
           {user && (
@@ -253,6 +257,8 @@ function Main({
               sendMessage={sendMessage}
               formValue={formValue}
               setFormValue={setFormValue}
+              openMenu={openMenu}
+              setOpenMenu={setOpenMenu}
             />
           )}
         </div>

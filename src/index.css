@@ -116,7 +116,7 @@
     @apply dark:text-blue-50 dark:hover:text-yellow-200 dark:hover:bg-blue-50/10;
   }
   .chat-box {
-    @apply flex flex-col gap-3 px-3 pt-24 pb-2 mt-2 overflow-y-auto rounded;
+    @apply flex flex-col h-full gap-3 px-3 overflow-y-auto rounded pt-36 pb-28;
     @apply bg-fixed bg-blue-300 dark:bg-slate-900;
   }
   .chat-text-bubble {
