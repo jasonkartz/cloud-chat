@@ -44,16 +44,22 @@ export default function CreateChat({
     return (
       <>
         <h2 className="heading">Create a chat</h2>
-        <input
-          type="text"
-          placeholder="Enter room name / topic"
-          className="text-input"
-          value={createChatName}
-          onChange={(e) => setCreateChatName(e.target.value)}
-        />
-        <button className="btn" onClick={createRoom} disabled={!createChatName}>
-          Create Chat
-        </button>
+        <div class="flex gap-2 w-full">
+          <input
+            type="text"
+            placeholder="name / topic"
+            className="text-input"
+            value={createChatName}
+            onChange={(e) => setCreateChatName(e.target.value)}
+          />
+          <button
+            className="font-light btn"
+            onClick={createRoom}
+            disabled={!createChatName}
+          >
+            <i className="text-2xl ri-add-box-line"></i>
+          </button>
+        </div>
         <p>{createChatStatus}</p>
       </>
     );

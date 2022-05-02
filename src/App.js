@@ -159,11 +159,11 @@ function App() {
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       setDarkMode(true);
-      document.body.classList.remove('bg-blue-200')
-      document.body.classList.add('bg-slate-800')
+      document.body.classList.remove("bg-blue-300", "lg:bg-blue-200");
+      document.body.classList.add("bg-slate-900", "lg:bg-slate-800");
     } else {
-      document.body.classList.remove('bg-slate-800')
-      document.body.classList.add('bg-blue-200')
+      document.body.classList.remove("bg-slate-900", "lg:bg-slate-800");
+      document.body.classList.add("bg-blue-300", "lg:bg-blue-200");
       setDarkMode(false);
     }
 
